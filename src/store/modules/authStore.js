@@ -1,10 +1,11 @@
 const authStore={
+    namespaced:true,
     state:{
         username:null,
         userEmail:''
         
     },
-    gettters:{
+    getters:{
         USERNAME(state){
             return state.username;
         },

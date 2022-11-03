@@ -1,13 +1,11 @@
 <template>
   <div id="app">
-    <appNav v-if="showNav"></appNav>
     <router-view />
   </div>
 </template>
 
 <script>
-import { getDoc, doc } from '@firebase/firestore'
-import { auth, firestore } from './firebase/firebase.js'
+import { mapGetters } from 'vuex'
 import appNav from './components/appNav.vue'
 export default {
   components: {
@@ -15,34 +13,49 @@ export default {
   },
   data() {
     return {
-      showNav: true
+      showNav: true,
+
     }
   },
   beforeMount() {
+   
+  },
+  created(){
 
   },
-  beforeCreate() {
-    auth.onAuthStateChanged((user) => {
-      const userFirestore = doc(firestore, 'users', user.uid)
-      getDoc(userFirestore)
-        .then((user) => {
-          this.$store.dispatch('setUser', user.data())
-        })
+  computed:{
+    ...mapGetters({
+      lightMode:'LIGHTMODE'
     })
-
   },
+  
   watch: {
-    $route: {
-      handler() {
-        // check if route is authentication route
-        if (this.$route.name == 'logIn' || this.$route.name == 'signUp') {
-          this.showNav = false;
+    lightMode:{
+      immediate:true,
+      handler(lightMode){
+        if(lightMode){
+          let style=document.documentElement.style
+           style.setProperty('--primary', 'white');
+           style.setProperty('--secondary', 'rgb(218, 224, 230)');
+           style.setProperty('--brandcolor', 'hsl(35deg 84% 50%)');
+           style.setProperty('--exception', 'black');
+           style.setProperty('--textcolorimportant', 'black');
+           style.setProperty('--contenttext', 'black');
+           style.setProperty('--textcolornotimportant', '#818384'); 
+           style.setProperty('--boxshadow', '0px 1px 2px 1px #d1d1d1');
         }
-        console.log('route changed')
-
-      },
-      immediate: true
-
+        else{
+           let style=document.documentElement.style
+           style.setProperty('--primary', '#191c29');
+           style.setProperty('--secondary', '#212534');
+           style.setProperty('--brandcolor', 'hsl(35deg 84% 50%)');
+           style.setProperty('--exception', 'white');
+           style.setProperty('--textcolorimportant', 'white');
+           style.setProperty('--contenttext', 'gainsboro');
+           style.setProperty('--textcolornotimportant', '#818384');
+           style.setProperty('--boxshadow', '0px 1px 7px 1px #0000009e'); 
+        }
+      }
     }
   }
 }

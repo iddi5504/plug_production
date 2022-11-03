@@ -1,22 +1,32 @@
-import signUp from '../views/signUp.vue'
-import logIn from '../views/logIn.vue'
+import signUp from '../components/signUp.vue'
+import logIn from '../components/logIn.vue'
 import homePage from '../views/homePage.vue'
+import auth from '../views/authPage.vue'
 
 const routes = [
-    {
-      path: '/',
-      name: 'signUp',
-      component: signUp
-    },
-    {
-      path: '/logIn',
-      name: 'logIn',
-      component:logIn
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component:homePage
-    }
-  ]
+  {
+    path: '/home',
+    name: 'home',
+    component: homePage
+  },
+  {
+    path: '/',
+    name: 'auth',
+    component: auth,
+    children: [
+      {
+        path: '/signUp',
+        name: 'signUp',
+        component: signUp
+      },
+      {
+        path: '/login',
+        name: 'logIn',
+        component: logIn
+      }
+
+    ]
+  }
+
+]
 export default routes

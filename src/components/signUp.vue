@@ -1,36 +1,36 @@
 <template>
     <div class="signup-body mh-10 mw-80 d-flex flex-column justify-content-around align-items-center w-100">
         <div class="legend h1">
-            Create an iClass account
+            <div class="brand-name">Plug</div>
+            <div>Discovered a really good song? Why not recommend it to others</div>
         </div>
         <div class="info ">
             <label for="username">Username</label>
             <div style="position:relative;">
                 <input @keyup.enter="signUp" v-model.lazy="username" type="text" id="username">
-                <i class="bi bi-person"></i>
             </div>
         </div>
         <div class="info ">
             <label for="username">Email</label>
             <div style="position:relative;">
-                <input @keyup.enter="signUp" v-model.lazy="email" type="text" id="username">
-                <i class="bi bi-envelope"></i>
+                <input @keyup.enter="signUp" v-model.lazy="email" type="text" id="email">
             </div>
         </div>
 
         <div class="info ">
             <label for="password">Password</label>
             <div style="position:relative;">
-                <input v-model.lazy="password" type="password" id="text">
-                <i class="bi bi-lock"></i>
+                <input v-model.lazy="password" type="password" id="password">
             </div>
         </div>
-        <div class="text-center note  ">
+        <!-- <div class="text-center note  ">
             Password must be more than six characters long in length
-        </div>
+        </div> -->
 
-        <button @click="signUp" class="m-2">Sign Up</button>
-
+        <button @click="signUp" class="authenticate-button" >Sign Up</button>
+        <!-- sign up with google -->
+        <button @click="signUp" class="google">Sign up with Google</button>
+        
 
         <h5  class="text-center p-2">
             <div>
@@ -70,7 +70,7 @@ export default {
                         username:this.username
                     })
                     .then(()=>{
-                        this.$router.push({name:'home'});
+                        this.$router.replace({name:'home'});
                     })
                 })
             }
@@ -91,13 +91,16 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
     justify-content: center;
     align-items: center;
     background: var(--primary);
-    color: white;
+    color: var(--textcolorimportant);
     border-radius: 10px;
     padding: 13px 5px;
+    @media only screen and (min-width:700px){
+        gap: 1px;
+    }
     font-size: 1.3rem;
     .note{
         max-width: 37ch;
@@ -105,16 +108,43 @@ export default {
     .info{
         text-align: left;
         width: 100%;
-        max-width: 348px;
+        max-width: 358px;
+        @media only screen and (min-width:700px){
+            max-width: 316px;
+        }
+        #password{
+             background-image: url('../assets/padlock.png');
+            background-repeat: no-repeat;
+            background-size: 25px;
+            background-position: 5px center;
+        }
+        #email{
+             background-image: url('../assets/mail.png');
+            background-repeat: no-repeat;
+            background-size: 25px;
+            background-position: 5px center;
+            
+        }
+        #username{
+             background-image: url('../assets/user.png');
+            background-repeat: no-repeat;
+            background-size: 25px;
+            background-position: 5px center;
+        }
     }
     label{
         font-size: 1.6rem;
         padding: 10px;
         @media only screen and (min-width:700px){
-            font-size: 1.4em;
+            font-size: 1rem;
         }
     }
     .legend{
+        font-size: 1rem;
+        font-weight: 500;
+        max-width: 44ch;
+        padding: 12px;
+        .brand-name{
         font-weight: 600;
         padding: 1.2rem 10px;
         color: var(--brandcolor);
@@ -123,12 +153,13 @@ export default {
         @media only screen and (min-width:700px){
             font-size: 1.7em;
         }
+        }
+        
     }
     input {
-        height: 42px;
         width: 100%;
         box-sizing: border-box;
-        padding: 4px;
+        padding: 10px 4px 10px 41px;
         margin: 5px;
         border: none;
         font-size: 23px;
@@ -138,6 +169,7 @@ export default {
         background: var(--secondary);
         outline: none;
         transition: all 0.5s ease;
+        font-size: 1rem;
 
         &::placeholder {
             color: var(--textColor);
@@ -156,16 +188,41 @@ export default {
         }
     }
 
-    button {
-        padding: 10px;
+    .authenticate-button {
+        padding: 6px;
         border: none;
         box-shadow: 0px 0px 4px black;
         border-radius: 4px;
-        font-size: 20px;
+        font-size: 1rem;
         background: var(--brandcolor);
         font-weight: 700;
         color: black;
-        margin: 10px;
+        margin: 3px;
+        width: 100%;
+        max-width: 316px;
+        cursor:pointer;
+        &:hover{
+        background-color: var(--brandcolor);
+
+        }
+    }
+    
+    .google{
+        margin: 7px;
+        width: 100%;
+        max-width: 316px;
+        background-image: url(http://localhost:8080/img/google.aa4f9068.png);
+        background-repeat: no-repeat;
+        background-size: 25px;
+        background-position: 5px center;
+        border-radius: 13px;
+        padding: 10px;
+        background-color: ghostwhite;
+        cursor:pointer;
+        &:hover{
+        background-color: white;
+
+        }
     }
 
     @media only screen and (min-width: 700px){
