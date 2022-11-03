@@ -91,7 +91,7 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
     align-items: center;
     background: var(--primary);
