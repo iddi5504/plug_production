@@ -146,7 +146,7 @@ export default {
         padding: 12px;
         .brand-name{
         font-weight: 600;
-        padding: 1.2rem 10px;
+        padding: 11px 10px;
         color: var(--brandcolor);
         font-size: 2rem;
         line-height: 28px;

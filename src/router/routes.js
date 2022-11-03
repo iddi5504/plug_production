@@ -15,7 +15,7 @@ const routes = [
     component: auth,
     children: [
       {
-        path: '/signUp',
+        path: '/',
         name: 'signUp',
         component: signUp
       },
