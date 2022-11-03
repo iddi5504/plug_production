@@ -91,15 +91,21 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 15px;
     justify-content: center;
     align-items: center;
     background: var(--primary);
     color: var(--textcolorimportant);
-    border-radius: 10px;
+    border-radius: none;
     padding: 13px 5px;
-    @media only screen and (min-width:700px){
+    @media only screen and (min-width: 500px){
+        max-width: 500px;
+        height: initial;
+        font-size: 1rem;
         gap: 1px;
+        border-radius: 10px;
+
+        
     }
     font-size: 1.3rem;
     .note{
@@ -109,7 +115,7 @@ export default {
         text-align: left;
         width: 100%;
         max-width: 358px;
-        @media only screen and (min-width:700px){
+        @media only screen and (min-width:500px){
             max-width: 316px;
         }
         #password{
@@ -133,9 +139,9 @@ export default {
         }
     }
     label{
-        font-size: 1.6rem;
+        font-size: 1.1rem;
         padding: 10px;
-        @media only screen and (min-width:700px){
+        @media only screen and (min-width:500px){
             font-size: 1rem;
         }
     }
@@ -150,7 +156,7 @@ export default {
         color: var(--brandcolor);
         font-size: 2rem;
         line-height: 28px;
-        @media only screen and (min-width:700px){
+        @media only screen and (min-width:500px){
             font-size: 1.7em;
         }
         }
@@ -208,10 +214,12 @@ export default {
     }
     
     .google{
+        color:black;
+        font-size: 1rem;
         margin: 7px;
         width: 100%;
         max-width: 316px;
-        background-image: url(http://localhost:8080/img/google.aa4f9068.png);
+        background-image: url('../assets/google.png');
         background-repeat: no-repeat;
         background-size: 25px;
         background-position: 5px center;
@@ -225,12 +233,6 @@ export default {
         }
     }
 
-    @media only screen and (min-width: 700px){
-        max-width: 500px;
-        height: initial;
-        font-size: 1rem;
 
-        
-    }
 }
 </style>
