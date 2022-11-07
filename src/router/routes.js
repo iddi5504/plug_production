@@ -5,17 +5,23 @@ import auth from '../views/authPage.vue'
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
-    component: homePage
+    component: homePage,
+    children: [
+      // {
+      //   path: '',
+      //   name: 'home',
+      //   component: signUp
+      // },
+    ]
   },
   {
-    path: '/',
-    name: 'auth',
+    path: '/auth',
     component: auth,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'signUp',
         component: signUp
       },

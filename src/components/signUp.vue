@@ -118,14 +118,15 @@ export default {
         @media only screen and (min-width:500px){
             max-width: 316px;
         }
+       
         #password{
-             background-image: url('../assets/padlock.png');
+             background-image: url('../assets/password.svg');
             background-repeat: no-repeat;
             background-size: 25px;
             background-position: 5px center;
         }
         #email{
-             background-image: url('../assets/mail.png');
+             background-image: url('../assets/email.svg');
             background-repeat: no-repeat;
             background-size: 25px;
             background-position: 5px center;

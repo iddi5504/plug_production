@@ -2,16 +2,15 @@
     <div>
         <!-- nav bar -->
         <div ref="navbar" id="navbar">
-            <div style="flex: 1; padding: 0 0 0 8px">
+            <div v-if="isAuthenticated" style="flex: 1; padding: 0 0 0 8px">
                 <div style="display: flex; justify-content: space-between">
-                    <button style="background-color: transparent; border: 0px" @click="showmodal_">
-                        <a style=" font-size: 26px" type="button"><i class="fa fa-compass navicon"></i></a>
+                    <button style="background-color: transparent; border: 0px" @click="toggleModal">
+                        <i class="fa fa-compass navicon"></i>
                     </button>
 
                     <div id="searchbar">
                         <input ref="input" type="text" id="searchinput" placeholder="Search Recommendhub"
                             @click="search" />
-
                     </div>
                 </div>
             </div>
@@ -24,81 +23,64 @@
             </div>
 
             <!--largescreens-->
-            <div id="navbariconslargescreens" style="flex: 1; ">
-                <div style="padding: 0px; margin: 0px" class="container">
-                    <ul ref="icons" id="baroptionscontainer" class="nav justify-content-end">
-                        <div id="baroptioincontent">
+            <div v-if="isAuthenticated" id="navbariconslargescreens" style="flex: 1; ">
+               
+                    <ul ref="icons"  class="nav-bar-side-buttons">
                             <li class="nav-item">
-                                <router-link to="/feed">
-                                    <a type="button" id="homebutton" class="nav-link">
-                                        <i class="bi bi-house navicon"></i>
-                                    </a>
-                                </router-link>
+                                <i class="bi bi-house navicon" id="homebutton"></i>
                             </li>
                             <li class="nav-item">
-                                <a type="button" @click="showrecommendialogue_" class="nav-link">
-
-                                    <i class="bi bi-plus-square navicon"></i>
-                                </a>
+                                <i @click="showrecommendialogue_" class="bi bi-plus-square navicon"></i>
                             </li>
                             <li class="nav-item" style="position: relative">
-                                <a type="button" @click="shownotification_" class="nav-link">
-                                    <i class="bi bi-bell-fill navicon"></i>
-                                    <i class="numberofnotificationslargescreen">{{
-                                            numberofnotifications
-                                    }}</i>
-                                </a>
+                                <i @click="shownotification_" class="bi bi-bell-fill navicon"></i>
+                                <i class="number-of-notifications">41</i>
                             </li>
 
-                            <li id="largescreendropdownbutton" class="nav-item">
-                                <div class="nav-link d-flex flex-direction-row align-items-center" type="button"
-                                    @click="shownavoptions = !shownavoptions">
-                                    <a><i class="fa-solid fa-user" style="color:white;"></i></a>
-
-                                    <small id="username">iddi</small>
-                                </div>
+                            <li class="largescreendropdownbutton" @click="shownavoptions = !shownavoptions">
+                                    <img src="../assets/gadget.jpg" class="profile-pic" alt="">
+                                    <small id="username">{{username}}</small>
                             </li>
-
-                        </div>
                     </ul>
-                </div>
             </div>
             <!--smallscreenutitlities-->
 
-            <div style="flex: 1" id="small-screen-nav-icons">
+            <div v-if="isAuthenticated" style="flex: 1" id="small-screen-nav-icons">
                 <div class="container">
-                    <button style="background-color: inherit; border: 0px" @click="showrecommendialogue_">
+                    <button class="nav-buttons" @click="showrecommendialogue_">
                         <i class="bi bi-plus-square navicon"></i>
                     </button>
-                    <div style="padding: 0px; position: relative; padding: 0px; position: relative; width: 37px; margin: 0px;" class="container">
-                        <router-link to="/notification">
-                            <button @click="mobilenotification_" style="background-color: inherit; border: 0px">
-                                <i class="bi bi-bell navicon"></i>
-                                <i class="numberofnotificationssmallscreen">{{
-                                        numberofnotifications
-                                }}</i>
-                            </button>
-                        </router-link>
+                    <div class="notification-button">
+                        <button @click="mobilenotification_" class="nav-buttons">
+                            <i class="bi bi-bell navicon"></i>
+                            <i class="numberofnotificationssmallscreen">12</i>
+                        </button>
                     </div>
 
-                    <button id="listdropdown" style="background-color: inherit; border: 0px"
-                        @click="shownavoptions = !shownavoptions">
+                    <button id="listdropdown" class="nav-buttons" @click="shownavoptions = !shownavoptions">
                         <i class="bi bi-list navicon"></i>
                     </button>
                 </div>
             </div>
+
+            <!-- authenticate -->
+            <div v-if="!isAuthenticated" class="authenticate">
+                <button class="auth-button" @click="$router.push({name: 'logIn'})">Log In</button>
+                <button class="auth-button" @click="$router.push({name: 'signUp'})">Sign Up</button>
+            </div>
+            
             <!--options-->
             <transition name="showoptions_">
                 <ul v-show="shownavoptions" id="dropdownlist" class="nav justify-content-end">
                     <li class="nav-item navitems">
-                        <router-link style="flex-direction: column;"  to="/profile">
+                        <router-link style="flex-direction: column;" to="/profile">
                             <div style="display: flex; align-items: center; padding: 2px;">
                                 <img src="../assets/user (1).png" alt="">
                                 <small class="dropdowntext" style="padding-left: 5px">My Profile</small>
                             </div>
                             <div class="user-info-preview">
-                                <small>{{email}}</small>
-                                <small>{{username}}</small>
+                                <small>{{ email }}</small>
+                                <small>{{ username }}</small>
                             </div>
                         </router-link>
 
@@ -153,33 +135,32 @@
 </template>
   
 <script>
+import { signOut } from '@firebase/auth';
+import {auth} from '../firebase/firebase'
 import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
-            shownavoptions: true,
+            shownavoptions: false,
             showrecommendialogue: false,
-            showmodal: false,
             numberofnotifications: "",
             notifications: [],
             user_id: "016796169",
             recommendationalert: false,
             showsearch: false,
             lightModeImg: '',
-            darkModeImg:'',
-            lightIcon:''
-
+            darkModeImg: '',
+            lightIcon: ''
         };
     },
     methods: {
         showrecommendialogue_: function () {
             this.showrecommendialogue = !this.showrecommendialogue;
-           
+
             console.log(this.showrecommendialogue);
         },
-        showmodal_: function () {
-            this.showmodal = !this.showmodal;
-            console.log(this.showmodal);
+        toggleModal() {
+            this.$store.dispatch('modalStore/toggleModal', !this.$store.state.modalStore.showModal);
         },
         shownotification_: function () {
             this.shownotification = !this.shownotification;
@@ -191,15 +172,20 @@ export default {
 
         togglelightmode() {
             this.$store.state.lightMode = !this.$store.state.lightMode
-            if(this.$store.state.lightMode){
-                this.lightIcon='../assets/light-bulb.png'
-            }else{
-                this.lightIcon='../assets/lightbulb.png'
+            console.log("🚀 ~ file: appNav.vue ~ line 192 ~ togglelightmode ~ this.$store.state.lightMode", this.$store.state.lightMode)
+            if (this.$store.state.lightMode) {
+                this.lightIcon = '../assets/light-bulb.png'
+            } else {
+                this.lightIcon = '../assets/lightbulb.png'
             }
         },
 
-        logout: function () {
-            this.$router.push({ name: "signup" })
+        logout () {
+            signOut(auth)
+            .then(()=>{
+                this.$store.dispatch('authStore/cleanUp')
+                this.$router.push({ name: "signUp" })
+            })
         },
         test: function () {
 
@@ -212,13 +198,15 @@ export default {
 
     },
     created() {
-       
+        console.log(this.isAuthenticated)
     },
 
     computed: {
-        ...mapGetters('authStore',{
-            username:'USERNAME',
-            email:'EMAIL'
+        ...mapGetters('authStore', {
+            username: 'USERNAME',
+            email: 'EMAIL',
+            isAuthenticated:'ISAUTHENTICATED'
+            
         })
     },
 
@@ -246,7 +234,8 @@ export default {
     left: 0;
     z-index: 1;
     box-shadow: var(--boxshadow);
-    img{
+
+    img {
         width: 32px;
     }
 
@@ -260,6 +249,19 @@ export default {
             justify-content: end;
             gap: 7px
         }
+
+        .nav-buttons {
+            border: none;
+            color: var(--textcolorimportant);
+            background-color: transparent;
+        }
+
+        .notification-button {
+            padding: 0px;
+            position: relative;
+            width: 37px;
+            margin: 0px;
+        }
     }
 
     #baroptionscontainer {
@@ -268,13 +270,13 @@ export default {
         justify-content: end;
     }
 
-    #baroptioincontent {
+    .nav-bar-side-buttons {
         display: flex;
-        justify-content: space-around;
-        width: 300px;
+        justify-content: flex-end;
         align-items: center;
         text-decoration: none;
         list-style: none;
+        gap: 35px;
     }
 
     .navicon {
@@ -311,7 +313,7 @@ export default {
             font-size: larger;
             width: 100%;
             max-width: 276px;
-            background-image:url('../assets/loupe.png');
+            background-image: url('../assets/loupe.png');
             background-repeat: no-repeat;
             background-size: 25px;
             background-position: 5px center;
@@ -319,7 +321,7 @@ export default {
     }
 
     #brandname {
-        padding: 0px 3px;
+        padding: 0px 15px;
         margin: 0;
         color: var(--brandcolor);
         font-size: 1.3rem;
@@ -355,8 +357,9 @@ export default {
             background: var(--secondary);
             box-shadow: var(--boxshadow);
             flex-direction: column;
-            cursor:pointer;
-            .user-info-preview{
+            cursor: pointer;
+
+            .user-info-preview {
                 display: flex;
                 flex-direction: column;
                 width: 100%;
@@ -366,6 +369,48 @@ export default {
             }
         }
     }
+    .authenticate{
+        width: 100%;
+        flex: 1;
+        display: flex;
+        justify-content: end;
+        gap: 17px;
+        padding: 5px;
+        @media only screen and (max-width: 600px) {
+            gap:5px;
+        }
+        
+        .auth-button{
+                padding: 6px;
+                border: none;
+                box-shadow: 0px 0px 4px black;
+                border-radius: 4px;
+                font-size: 0.8rem;
+                background: var(--brandcolor);
+                font-weight: 700;
+                color: black;
+                margin: 3px;
+                width: 100%;
+                max-width: 110px;
+
+                @media only screen and (max-width: 600px) {
+                    font-size:1rem;
+                }
+                cursor: pointer;
+                &:first-child{
+                    background: transparent;
+                    color: var(--textcolorimportant);
+                    border:1px solid white;
+                    
+                }
+
+                &:hover {
+                    background-color: var(--brandcolor);
+
+                }
+        }
+    }
+ 
 
 }
 
@@ -374,6 +419,22 @@ export default {
 
 #navbariconslargescreens {
     display: none;
+    .largescreendropdownbutton{
+        display: flex;
+        align-items: center;
+        padding: 3px;
+        border-radius: 4px;
+        background: var(--secondary);
+        margin: 4px;
+        width: 100%;
+        max-width: 100px;
+        justify-content: center;
+        .profile-pic{
+            width: 33px;
+            height: 33px;
+            border-radius: 50%;
+        }
+    }
 }
 
 
@@ -464,17 +525,17 @@ export default {
     font-style: inherit;
 }
 
-.numberofnotificationslargescreen {
-    font-size: 12px;
+.number-of-notifications {
+    font-size: 0.6rem;
     position: absolute;
-    top: 9px;
-    right: -2px;
-    width: 25px;
+    top: 5px;
+    right: -7px;
     border-radius: 9px;
     background-color: var(--brandcolor);
     text-align: center;
     font-style: inherit;
     color: var(--textcolorimportant);
+    padding: 1px 5px;
 }
 
 

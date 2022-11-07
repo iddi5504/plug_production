@@ -6,11 +6,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import appNav from './components/appNav.vue'
 export default {
-  components: {
-    appNav
-  },
+ 
   data() {
     return {
       showNav: true,
@@ -21,7 +18,6 @@ export default {
    
   },
   created(){
-
   },
   computed:{
     ...mapGetters({
