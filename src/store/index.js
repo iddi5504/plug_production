@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {authStore} from './modules/authStore'
 import {modalStore} from './modules/modalStore'
+import {makePostStore} from './modules/makePostStore'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -20,6 +21,7 @@ export default new Vuex.Store({
   },
   modules: {
     authStore,
-    modalStore
+    modalStore,
+    makePostStore
   }
 })

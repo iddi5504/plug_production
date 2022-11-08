@@ -91,7 +91,7 @@
                             </button>
                         </div>
                         <!-- recommenders to follow -->
-                        <div class="recommender-to-follow ">
+                        <div class="recommender-to-follow">
                             <div class="title">Here are some recommender to follow</div>
                             <div class="cards">
                                 <div class="card">
@@ -171,15 +171,18 @@
                                     </div>
 
                                 </div>
-                                <button style="border: 0px; background-color: inherit;"
-                                    class="prev-button-three button">
-                                    <img src="../assets/back.png" alt="" class="button-image" type>
-                                </button>
-                                <button class="next-button-three button">
-                                    <img src="../assets/next.png" alt="" class="button-image">
-                                </button>
                             </div>
+                            <button style="border: 0px; background-color: inherit;"
+                                class="prev-button-three button">
+                                <img src="../assets/back.png" alt="" class="button-image" type>
+                            </button>
+                            <button class="next-button-three button">
+                                <img src="../assets/next.png" alt="" class="button-image">
+                            </button>
                         </div>
+
+                        <!-- empty -->
+                        <div class="empty"></div>
 
                     </div>
 
@@ -245,7 +248,7 @@ export default {
     z-index: 1;
     top: 0px;
     overflow-y: auto;
-    margin-top: calc(50px);
+    margin-top: 48px;
     overflow-x: hidden;
 
     #closesearchsection {
@@ -255,6 +258,9 @@ export default {
         right: 0px;
         top: 1px;
         z-index: 1;
+    }
+    .recommender-to-follow{
+        position: relative;
     }
 
     #discoversection {
@@ -319,7 +325,12 @@ export default {
         }
 
     }
+    .empty{
+        height: 100px;
+        width: 100%;
+        max-width: 100px;
 
+    }
 
 
     .cards {
@@ -584,7 +595,7 @@ export default {
 }
 
 #closesearchsection:hover {
-    color: red;
+    color: red !important;
 }
 
 .slide-enter {

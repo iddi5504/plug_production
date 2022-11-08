@@ -24,30 +24,41 @@
 
             <!--largescreens-->
             <div v-if="isAuthenticated" id="navbariconslargescreens" style="flex: 1; ">
-               
-                    <ul ref="icons"  class="nav-bar-side-buttons">
-                            <li class="nav-item">
-                                <i class="bi bi-house navicon" id="homebutton"></i>
-                            </li>
-                            <li class="nav-item">
-                                <i @click="showrecommendialogue_" class="bi bi-plus-square navicon"></i>
-                            </li>
-                            <li class="nav-item" style="position: relative">
-                                <i @click="shownotification_" class="bi bi-bell-fill navicon"></i>
-                                <i class="number-of-notifications">41</i>
-                            </li>
 
-                            <li class="largescreendropdownbutton" @click="shownavoptions = !shownavoptions">
-                                    <img src="../assets/gadget.jpg" class="profile-pic" alt="">
-                                    <small id="username">{{username}}</small>
-                            </li>
-                    </ul>
+                <ul ref="icons" class="nav-bar-side-buttons">
+                    <li class="nav-item">
+                        <i class="bi bi-house navicon" id="homebutton"></i>
+                    </li>
+                    <li class="nav-item">
+                        <i  @click="toggleMakePost" class="bi bi-plus-square navicon"></i>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="recommend-me">
+                            <i class="bi bi-plus"></i>
+                            <span>recommendMe</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" style="position: relative">
+                        <i @click="shownotification_" class="bi bi-bell-fill navicon"></i>
+                        <i class="number-of-notifications">41</i>
+                    </li>
+
+                    <li class="largescreendropdownbutton" @click="shownavoptions = !shownavoptions">
+                        <img src="../assets/user (1).png" class="profile-pic" alt="">
+                        <small id="username" class="user-name-snippet">{{ usernameSnippet }}</small>
+                        <img src="../assets/down-arrow.png" alt="">
+                    </li>
+                </ul>
             </div>
             <!--smallscreenutitlities-->
 
             <div v-if="isAuthenticated" style="flex: 1" id="small-screen-nav-icons">
                 <div class="container">
-                    <button class="nav-buttons" @click="showrecommendialogue_">
+                    <button type="button" class="recommend-me">
+                        <i class="bi bi-plus"></i>
+                        <span>recommendMe</span>
+                    </button>
+                    <button  @click="toggleMakePost" class="nav-buttons">
                         <i class="bi bi-plus-square navicon"></i>
                     </button>
                     <div class="notification-button">
@@ -65,51 +76,10 @@
 
             <!-- authenticate -->
             <div v-if="!isAuthenticated" class="authenticate">
-                <button class="auth-button" @click="$router.push({name: 'logIn'})">Log In</button>
-                <button class="auth-button" @click="$router.push({name: 'signUp'})">Sign Up</button>
+                <button class="auth-button" @click="$router.push({ name: 'logIn' })">Log In</button>
+                <button class="auth-button" @click="$router.push({ name: 'signUp' })">Sign Up</button>
             </div>
-            
-            <!--options-->
-            <transition name="showoptions_">
-                <ul v-show="shownavoptions" id="dropdownlist" class="nav justify-content-end">
-                    <li class="nav-item navitems">
-                        <router-link style="flex-direction: column;" to="/profile">
-                            <div style="display: flex; align-items: center; padding: 2px;">
-                                <img src="../assets/user (1).png" alt="">
-                                <small class="dropdowntext" style="padding-left: 5px">My Profile</small>
-                            </div>
-                            <div class="user-info-preview">
-                                <small>{{ email }}</small>
-                                <small>{{ username }}</small>
-                            </div>
-                        </router-link>
 
-                    </li>
-                    <li @click="togglelightmode" class="nav-item navitems">
-                        <a type="button" class="nav-link">
-                            <img :src="lightIcon" alt="">
-                            <small id="light" class="dropdowntext">light mode</small>
-                        </a>
-                    </li>
-                    <li class="nav-item navitems">
-                        <a href="ad.html" class="nav-link"><i class="bi bi-badge-ad"></i><small
-                                class="dropdowntext">Post an Ad</small></a>
-                    </li>
-                    <li class="nav-item navitems">
-                        <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">About
-                                Plug</small></a>
-                    </li>
-                    <li class="nav-item navitems">
-                        <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">FAQ</small></a>
-                    </li>
-                    <li class="nav-item navitems" @click="logout">
-                        <a class="nav-link" style="color: red" tabindex="-1" aria-disabled="true">
-                            <img src="../assets/shutdown.png" alt="">
-                            <small class="dropdowntext">Logout</small>
-                        </a>
-                    </li>
-                </ul>
-            </transition>
 
             <!-- alert
             <div style="
@@ -131,12 +101,53 @@
                 </transition>
             </div> -->
         </div>
+        <!-- Hamburger menu -->
+        <transition name="showoptions_">
+            <ul v-show="shownavoptions" id="dropdownlist" class="nav justify-content-end">
+                <li class="nav-item navitems">
+                    <router-link style="flex-direction: column;" to="/profile">
+                        <div style="display: flex; align-items: center; padding: 2px;">
+                            <img src="../assets/user (1).png" alt="">
+                            <small class="dropdowntext" style="padding-left: 5px">My Profile</small>
+                        </div>
+                        <div class="user-info-preview">
+                            <small>{{ email }}</small>
+                            <small>{{ username }}</small>
+                        </div>
+                    </router-link>
+
+                </li>
+                <li @click="togglelightmode" class="nav-item navitems">
+                    <a type="button" class="nav-link">
+                        <img :src="lightIcon" alt="">
+                        <small id="light" class="dropdowntext">light mode</small>
+                    </a>
+                </li>
+                <li class="nav-item navitems">
+                    <a href="ad.html" class="nav-link"><i class="bi bi-badge-ad"></i><small class="dropdowntext">Post an
+                            Ad</small></a>
+                </li>
+                <li class="nav-item navitems">
+                    <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">About
+                            Plug</small></a>
+                </li>
+                <li class="nav-item navitems">
+                    <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">FAQ</small></a>
+                </li>
+                <li class="nav-item navitems" @click="logout">
+                    <a class="nav-link" style="color: red" tabindex="-1" aria-disabled="true">
+                        <img src="../assets/shutdown.png" alt="">
+                        <small class="dropdowntext">Logout</small>
+                    </a>
+                </li>
+            </ul>
+        </transition>
     </div>
 </template>
   
 <script>
 import { signOut } from '@firebase/auth';
-import {auth} from '../firebase/firebase'
+import { auth } from '../firebase/firebase'
 import { mapGetters } from 'vuex';
 export default {
     data() {
@@ -180,12 +191,12 @@ export default {
             }
         },
 
-        logout () {
+        logout() {
             signOut(auth)
-            .then(()=>{
-                this.$store.dispatch('authStore/cleanUp')
-                this.$router.push({ name: "signUp" })
-            })
+                .then(() => {
+                    this.$store.dispatch('authStore/cleanUp')
+                    this.$router.push({ name: "signUp" })
+                })
         },
         test: function () {
 
@@ -193,6 +204,9 @@ export default {
 
         mobilenotification_: function () {
 
+        },
+        toggleMakePost(){
+            this.$store.state.makePostStore.showMakePost= !this.$store.state.makePostStore.showMakePost
         }
 
 
@@ -205,8 +219,9 @@ export default {
         ...mapGetters('authStore', {
             username: 'USERNAME',
             email: 'EMAIL',
-            isAuthenticated:'ISAUTHENTICATED'
-            
+            usernameSnippet: 'USERNAMESNIPPET',
+            isAuthenticated: 'ISAUTHENTICATED'
+
         })
     },
 
@@ -232,8 +247,39 @@ export default {
     position: fixed;
     top: 0px;
     left: 0;
-    z-index: 1;
+    z-index: 5;
     box-shadow: var(--boxshadow);
+
+
+
+
+    .recommend-me {
+        width: 100%;
+        max-width: 97px;
+        border-radius: 10px;
+        color: #000000;
+        background: #954fff;
+        border: none;
+        padding: 3px 1px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @media only screen and (min-width: 600px) {
+            padding: 3px 4px;
+
+        }
+
+        &:hover {
+            background: #954ccc;
+
+        }
+
+        .bi {
+            font-size: 20px;
+        }
+    }
 
     img {
         width: 32px;
@@ -277,6 +323,11 @@ export default {
         text-decoration: none;
         list-style: none;
         gap: 35px;
+
+        @media only screen and (max-width: 950px) {
+                gap: 20px;
+        }
+
     }
 
     .navicon {
@@ -312,11 +363,16 @@ export default {
             outline: none;
             font-size: larger;
             width: 100%;
-            max-width: 276px;
+            max-width: 100px;
+            display: flex;
             background-image: url('../assets/loupe.png');
             background-repeat: no-repeat;
             background-size: 25px;
             background-position: 5px center;
+
+            @media only screen and (min-width: 600px) {
+                max-width: 276px;
+            }
         }
     }
 
@@ -333,93 +389,100 @@ export default {
         padding: 0 10px 0 0px;
     }
 
-    #dropdownlist {
-        width: 100%;
-        max-width: 200px;
-        position: fixed;
-        top: 47px;
-        right: -1px;
-        flex-direction: column;
-        display: flex;
-        margin: 0px;
-        background-color: var(--primary);
-        font-size: 26px;
-        border-radius: 4px;
-        z-index: 1;
-        box-shadow: var(--boxshadow);
-        height: 100%;
-        max-height: 288px;
-        justify-content: space-around;
-        padding: 6px;
 
-        >li {
-            border-radius: 5px;
-            background: var(--secondary);
-            box-shadow: var(--boxshadow);
-            flex-direction: column;
-            cursor: pointer;
-
-            .user-info-preview {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                padding: 3px;
-                font-size: 1.1rem;
-                color: var(--textcolornotimportant);
-            }
-        }
-    }
-    .authenticate{
+    .authenticate {
         width: 100%;
         flex: 1;
         display: flex;
         justify-content: end;
         gap: 17px;
         padding: 5px;
+
         @media only screen and (max-width: 600px) {
-            gap:5px;
+            gap: 5px;
         }
-        
-        .auth-button{
-                padding: 6px;
-                border: none;
-                box-shadow: 0px 0px 4px black;
-                border-radius: 4px;
-                font-size: 0.8rem;
-                background: var(--brandcolor);
-                font-weight: 700;
-                color: black;
-                margin: 3px;
-                width: 100%;
-                max-width: 110px;
 
-                @media only screen and (max-width: 600px) {
-                    font-size:1rem;
-                }
-                cursor: pointer;
-                &:first-child{
-                    background: transparent;
-                    color: var(--textcolorimportant);
-                    border:1px solid white;
-                    
-                }
+        .auth-button {
+            padding: 6px;
+            border: none;
+            box-shadow: 0px 0px 4px black;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            background: var(--brandcolor);
+            font-weight: 700;
+            color: black;
+            margin: 3px;
+            width: 100%;
+            max-width: 110px;
+            cursor: pointer;
 
-                &:hover {
-                    background-color: var(--brandcolor);
+            @media only screen and (max-width: 600px) {
+                font-size: 1rem;
+            }
 
-                }
+            &:first-child {
+                background: transparent;
+                color: var(--textcolorimportant);
+                border: 1px solid white;
+
+            }
+
+            &:hover {
+                background-color: var(--brandcolor);
+
+            }
         }
     }
- 
+
 
 }
 
+#dropdownlist {
+    width: 100%;
+    max-width: 200px;
+    position: fixed;
+    top: 47px;
+    right: -1px;
+    flex-direction: column;
+    display: flex;
+    margin: 0px;
+    background-color: var(--primary);
+    font-size: 26px;
+    border-radius: 4px;
+    z-index: 1;
+    box-shadow: var(--boxshadow);
+    height: 100%;
+    max-height: 288px;
+    justify-content: space-around;
+    padding: 6px;
 
+    img {
+        width: 32px;
+    }
+
+    >li {
+        border-radius: 5px;
+        background: var(--secondary);
+        box-shadow: var(--boxshadow);
+        flex-direction: column;
+        cursor: pointer;
+
+        .user-info-preview {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 3px;
+            font-size: 1.1rem;
+            color: var(--textcolornotimportant);
+        }
+    }
+}
 
 
 #navbariconslargescreens {
     display: none;
-    .largescreendropdownbutton{
+
+    .largescreendropdownbutton {
         display: flex;
         align-items: center;
         padding: 3px;
@@ -427,9 +490,25 @@ export default {
         background: var(--secondary);
         margin: 4px;
         width: 100%;
-        max-width: 100px;
-        justify-content: center;
-        .profile-pic{
+        max-width: 162px;
+        justify-content: space-between;
+        gap: 4px;
+
+        @media only screen and (max-width: 600px) {
+            font-size: 1rem;
+        }
+        @media only screen and (max-width: 870px) {
+            max-width: 69px;
+            .user-name-snippet{
+                display: none;
+            }
+
+            .nav-bar-side-buttons{
+                gap: 20px;
+            }
+        }
+      
+        .profile-pic {
             width: 33px;
             height: 33px;
             border-radius: 50%;
@@ -449,10 +528,6 @@ export default {
 #baroptionscontainer .nav-link {
     padding: 8px;
 }
-
-.navitems {}
-
-.navitems .nav-link {}
 
 .navitems:hover {
     background-color: var(--secondary);
@@ -475,29 +550,27 @@ export default {
     padding: 0px 2px;
 }
 
-.showoptions_-enter {
-    transform: translateX(400px);
-}
+
 
 .showoptions_-enter-to {
     transform: translateX(0px);
 }
 
-.showoptions_-enter-active {
-    transition: all 1s ease;
+.showoptions_-enter-active,
+.showoptions_-leave-active {
+    transition: all 0.5s ease-in-out;
 }
 
 .showoptions_-leave-from {
     transform: translateX(0px);
 }
 
-.showoptions_-leave-to {
-    transform: translateX(400px);
+.showoptions_-leave-to,
+.showoptions_-enter {
+    transform: translateY(-600px);
 }
 
-.showoptions_-leave-active {
-    transition: all 1s ease;
-}
+
 
 #dropdownlist ul {
     border: 1px black solid;

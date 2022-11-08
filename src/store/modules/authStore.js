@@ -13,6 +13,10 @@ const authStore={
         EMAIL(state){
             return state.userEmail;
         },
+        USERNAMESNIPPET(state){
+            let snippet= state.username.slice(0,10)
+            return `${snippet}..`
+        },
         ISAUTHENTICATED(state){
             return state.isAuthenticated;
         }

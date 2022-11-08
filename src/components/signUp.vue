@@ -27,12 +27,12 @@
             Password must be more than six characters long in length
         </div> -->
 
-        <button @click="signUp" class="authenticate-button" >Sign Up</button>
+        <button @click="signUp" class="authenticate-button">Sign Up</button>
         <!-- sign up with google -->
-        <button @click="signUp" class="google">Sign up with Google</button>
-        
+        <button @click="google" class="google">Sign up with Google</button>
 
-        <h5  class="text-center p-2">
+
+        <h5 class="text-center p-2">
             <div>
                 Already have an account
             </div>
@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import { createUserWithEmailAndPassword } from '@firebase/auth'
-import {auth,firestore} from '../firebase/firebase'
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from '@firebase/auth'
+import { auth, firestore } from '../firebase/firebase'
 import { collection, doc, setDoc } from '@firebase/firestore'
 export default {
     data() {
@@ -59,27 +59,42 @@ export default {
     },
     methods: {
         signUp() {
-            if(this.username && this.email && this.password){
-                createUserWithEmailAndPassword(auth,this.email,this.password)
-                .then((user)=>{
-                    console.log(user)
-                    const users= collection(firestore,'users')
-                    const this_user= doc(users,user.user.uid)
-                    setDoc(this_user,{
-                        email:this.email,
-                        username:this.username
+            if (this.username && this.email && this.password) {
+                createUserWithEmailAndPassword(auth, this.email, this.password)
+                    .then((user) => {
+                        console.log(user)
+                        const users = collection(firestore, 'users')
+                        const this_user = doc(users, user.user.uid)
+                        setDoc(this_user, {
+                            email: this.email,
+                            username: this.username
+                        })
+                            .then(() => {
+                                this.$router.replace({ name: 'home' });
+                            })
                     })
-                    .then(()=>{
-                        this.$router.replace({name:'home'});
-                    })
-                })
             }
-            else{
+            else {
                 console.log(
-                "this happened: "
-            )
+                    "this happened: "
+                )
             }
 
+        },
+        google() {
+            const googleAuth = new GoogleAuthProvider
+             signInWithPopup(auth, googleAuth)
+                .then(async (currentUser) => {
+                    const users = collection(firestore, 'users')
+                    const this_user = doc(users,currentUser.user.uid)
+                    setDoc(this_user, {
+                        email: currentUser.user.email,
+                        username: currentUser.user.displayName
+                    })
+                        .then(() => {
+                            this.$router.replace({ name: 'home' });
+                        })
+                })
         }
     }
 }
@@ -87,6 +102,7 @@ export default {
 
 <style lang="scss">
 .signup-body {
+
     width: 100%;
     height: 100%;
     display: flex;
@@ -98,71 +114,84 @@ export default {
     color: var(--textcolorimportant);
     border-radius: none;
     padding: 13px 5px;
-    @media only screen and (min-width: 500px){
+
+    @media only screen and (min-width: 500px) {
         max-width: 500px;
         height: initial;
         font-size: 1rem;
         gap: 1px;
         border-radius: 10px;
 
-        
+
     }
+
     font-size: 1.3rem;
-    .note{
+
+    .note {
         max-width: 37ch;
     }
-    .info{
+
+    .info {
         text-align: left;
         width: 100%;
         max-width: 358px;
-        @media only screen and (min-width:500px){
+
+        @media only screen and (min-width:500px) {
             max-width: 316px;
         }
-       
-        #password{
-             background-image: url('../assets/password.svg');
+
+        #password {
+            background-image: url('../assets/password.svg');
             background-repeat: no-repeat;
             background-size: 25px;
             background-position: 5px center;
         }
-        #email{
-             background-image: url('../assets/email.svg');
+
+        #email {
+            background-image: url('../assets/email.svg');
             background-repeat: no-repeat;
             background-size: 25px;
             background-position: 5px center;
-            
+
         }
-        #username{
-             background-image: url('../assets/user.png');
+
+        #username {
+            background-image: url('../assets/user.png');
             background-repeat: no-repeat;
             background-size: 25px;
             background-position: 5px center;
         }
     }
-    label{
+
+    label {
         font-size: 1.1rem;
         padding: 10px;
-        @media only screen and (min-width:500px){
+
+        @media only screen and (min-width:500px) {
             font-size: 1rem;
         }
     }
-    .legend{
+
+    .legend {
         font-size: 1rem;
         font-weight: 500;
         max-width: 44ch;
         padding: 12px;
-        .brand-name{
-        font-weight: 600;
-        padding: 11px 10px;
-        color: var(--brandcolor);
-        font-size: 2rem;
-        line-height: 28px;
-        @media only screen and (min-width:500px){
-            font-size: 1.7em;
+
+        .brand-name {
+            font-weight: 600;
+            padding: 11px 10px;
+            color: var(--brandcolor);
+            font-size: 2rem;
+            line-height: 28px;
+
+            @media only screen and (min-width:500px) {
+                font-size: 1.7em;
+            }
         }
-        }
-        
+
     }
+
     input {
         width: 100%;
         box-sizing: border-box;
@@ -207,15 +236,16 @@ export default {
         margin: 3px;
         width: 100%;
         max-width: 316px;
-        cursor:pointer;
-        &:hover{
-        background-color: var(--brandcolor);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--brandcolor);
 
         }
     }
-    
-    .google{
-        color:black;
+
+    .google {
+        color: black;
         font-size: 1rem;
         margin: 7px;
         width: 100%;
@@ -227,9 +257,10 @@ export default {
         border-radius: 13px;
         padding: 10px;
         background-color: ghostwhite;
-        cursor:pointer;
-        &:hover{
-        background-color: white;
+        cursor: pointer;
+
+        &:hover {
+            background-color: white;
 
         }
     }
