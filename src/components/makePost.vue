@@ -1,18 +1,18 @@
 <template>
   <transition v-if="showMakePost" name="recommenddialogueanimation">
-  <div class="makePostPage">
-      <div  id="recommeddialog" class="container">
+    <div class="makePostPage">
+      <div id="recommeddialog" class="container">
         <div class="header">
           <h3 :class="{ topbutton: true, active: showirecommend }" @click="
-            showrecommendme = false;
-          showirecommend = true;
+  showrecommendme = false;
+showirecommend = true;
           ">
             iRecommend
           </h3>
           <h3 :class="{ topbutton: true, active: showrecommendme }" @click="
-            showrecommendme = false;
-          showirecommend = false;
-          showpost = true
+  showrecommendme = false;
+showirecommend = false;
+showpost = true
           ">
             Post
           </h3>
@@ -32,8 +32,8 @@
                   </div>
                   <div>
                     <div>Recommendation type</div>
-                    <div><select class="typeselect mx-2 " name="recommendationtype" >
-                        <option  value="">kjlfsaj</option>
+                    <div><select class="typeselect mx-2 " name="recommendationtype">
+                        <option value="">kjlfsaj</option>
                         <option value="">kjlfsaj</option>
                         <option value="">kjlfsaj</option>
                         <option value="">kjlfsaj</option>
@@ -49,8 +49,8 @@
               <div id="mainbody">
                 <label for="recommend">What are you recommending</label>
                 <div name="recommend" id="recommendinput">
-                  <input autocomplete="off" v-model="recommendeditem" type="text" class="inputfield" placeholder="Recommend here"
-                    required />
+                  <input autocomplete="off" v-model="recommendeditem" type="text" class="inputfield"
+                    placeholder="Recommend here" required />
                   <select class="typeselect genre" v-model="selectedtypeirecommend">
                     <option v-for="(recommendtype, index) in types" :key="index">
                       {{ recommendtype }}
@@ -60,8 +60,8 @@
                 <div id="recommendcaption">
                   <label for="caption">Say something about it
                   </label>
-                  <textarea autocomplete="off" v-model.trim="content" name="recommendationcaption" class="descriptioninput" cols="30"
-                    rows="40" placeholder="Say something" required></textarea>
+                  <textarea autocomplete="off" v-model.trim="content" name="recommendationcaption"
+                    class="descriptioninput" cols="30" rows="40" placeholder="Say something" required></textarea>
                 </div>
 
                 <div id="recommendationsubmit">
@@ -145,7 +145,8 @@
           <div id="mainbody">
             <label for="posttitle">TItle</label>
             <div name="recommend" id="recommendinput">
-              <input autocomplete="off" v-model="posttitle" type="text" class="inputfield" placeholder="Title" required />
+              <input autocomplete="off" v-model="posttitle" type="text" class="inputfield" placeholder="Title"
+                required />
               <select class="typeselect" v-model="selectedpostcategory">
                 <option v-for="(category, index) in postcategory" :value="category" :key="index">{{ category }}</option>
               </select>
@@ -153,8 +154,8 @@
             <div id="recommendcaption">
               <label for="caption">What do you have to say
               </label>
-              <textarea autocomplete="off" v-model.trim="postdescription" name="postdescription" class="descriptioninput" cols="30"
-                rows="40" placeholder="Say something" required></textarea>
+              <textarea autocomplete="off" v-model.trim="postdescription" name="postdescription"
+                class="descriptioninput" cols="30" rows="40" placeholder="Say something" required></textarea>
             </div>
 
             <div id="recommendationsubmit">
@@ -531,7 +532,7 @@ export default {
       console.log(postdata)
 
     },
-    closeMakePost(){
+    closeMakePost() {
       this.$store.dispatch('makePostStore/closeMakePost')
     }
   },
@@ -546,7 +547,7 @@ export default {
 </script>
   
 <style lang="scss" scoped>
-.makePostPage{
+.makePostPage {
   width: 100vw;
   height: calc(100vh - 48px);
   display: flex;
@@ -557,6 +558,7 @@ export default {
   top: 0;
   left: 0;
 }
+
 #recommeddialog {
   width: 100%;
   background: var(--primary);
@@ -569,26 +571,26 @@ export default {
   font-size: 16px;
   color: white;
   height: 90%;
-    margin-bottom: 0px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    position: absolute;
-    bottom: 0px;
-    
+  margin-bottom: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  position: absolute;
+  bottom: env(safe-area-inset-bottom);
 
-  .genre{
+
+  .genre {
     max-width: 130px;
 
   }
 
-  #mainbody{
+  #mainbody {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     flex: 1;
     text-align: left;
   }
- 
+
 }
 
 
@@ -682,8 +684,8 @@ export default {
   color: var(--textcolornotimportant);
   outline: none;
   flex-grow: 0.5;
-    padding: 8px;
-    width: 100%;
+  padding: 8px;
+  width: 100%;
 
 }
 
@@ -885,7 +887,8 @@ select {
   margin: 10px 2px 0px 0px;
   padding: 5px 10px;
   box-shadow: var(--boxshadow);
-  @media only screen and (min-width:600px){
+
+  @media only screen and (min-width:600px) {
     max-height: 100px;
     font-size: 16px;
     padding: 3px;
@@ -909,7 +912,8 @@ select {
   font-size: 16px;
   border-radius: 5px;
   padding: 10px;
-  &:nth-last-of-type(2){
+
+  &:nth-last-of-type(2) {
     background: #ff4200;
   }
 }
@@ -1022,12 +1026,13 @@ select {
     transform: translateX(0);
   }
 }
-.add-image-section{
+
+.add-image-section {
   display: flex;
   justify-content: space-between;
   gap: 17px;
 
-  >div{
+  >div {
     width: 100%;
   }
 }
@@ -1068,14 +1073,12 @@ select {
     max-height: 143px;
   }
 
-  
+
   .recommendmefinalbutton {
     margin: 4px;
     font-size: 16px;
     padding: 2px 11px;
   }
 }
-
-
 </style>
   
