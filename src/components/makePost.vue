@@ -553,10 +553,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 49px;
   position: fixed;
-  top: 0;
   left: 0;
+  bottom: 0;
 }
 
 #recommeddialog {
