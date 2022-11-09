@@ -23,26 +23,23 @@ showpost = true
             <div class="recommenddialogcontent">
               <div class="d-flex justify-content-around flex-row ">
                 <div id="imagesection">
-                  <img src="../assets/albumcover.png" id="recommenddialogimage" alt="" />
+                  <img :src="imageURL" id="recommenddialogimage" alt="" />
                 </div>
                 <div class="add-image-section">
                   <div>
                     <div>Add image</div>
-                    <button class="typeselect"><i class="bi bi-plus "></i>None selected</button>
+                    <label class="typeselect add-image-label" for="file">{{ fileName }}</label>
+                    <input ref="file" type="file" id="file" class="add-image" @change="getFile">
                   </div>
                   <div>
                     <div>Recommendation type</div>
-                    <div><select class="typeselect mx-2 " name="recommendationtype">
-                        <option value="">kjlfsaj</option>
-                        <option value="">kjlfsaj</option>
-                        <option value="">kjlfsaj</option>
-                        <option value="">kjlfsaj</option>
-                        <option value="">kjlfsaj</option>
-                        <option value="">kjlfsaj</option>
-                        <option value="">kjlfsaj</option>
-
-
-                      </select></div>
+                    <div>
+                      <select class="typeselect genre" v-model="selectedRecommendationCategory">
+                        <option v-for="(recommendtype, index) in category" :key="index">
+                          {{ recommendtype }}
+                        </option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -51,8 +48,8 @@ showpost = true
                 <div name="recommend" id="recommendinput">
                   <input autocomplete="off" v-model="recommendeditem" type="text" class="inputfield"
                     placeholder="Recommend here" required />
-                  <select class="typeselect genre" v-model="selectedtypeirecommend">
-                    <option v-for="(recommendtype, index) in types" :key="index">
+                  <select class="typeselect genre" v-model="selectedRecommendationCategory">
+                    <option v-for="(recommendtype, index) in category" :key="index">
                       {{ recommendtype }}
                     </option>
                   </select>
@@ -179,16 +176,13 @@ export default {
   data() {
     return {
       recommendeditem: "",
-      types: ["Music", "Book", "Movie", "Game", "Artiste", "Actor"],
-      selectedtypeirecommend: "",
+      category: ["Music", "Book", "Movie", "Game", "Artiste", "Actor"],
+      selectedRecommendationCategory: "Movie",
       genre: "",
       content: "",
       image: "",
       submitted: false,
       show: false,
-      recommendmetypes: ["Music", "Book", "Movie", "Game"],
-      recommendmetype: "Movie",
-      recommendmetypeindex: 0,
       Game: [
         "Action-Adventure",
         "Survival",
@@ -254,7 +248,10 @@ export default {
       posttitle: "",
       postdescription: "",
       postcategory: ["Music", "Book", "Movie", "Game"],
-      selectedpostcategory: ""
+      selectedpostcategory: "",
+      fileName: 'None chosen',
+      file:null,
+      imageBlobUrl:null
     };
   },
   computed: {
@@ -272,118 +269,44 @@ export default {
         return this.Book;
       }
     },
-    ...mapState('makePostStore', ['showMakePost'])
+    ...mapState('makePostStore', ['showMakePost']),
+
+    imageURL() {
+      if(this.imageBlobUrl){
+        return `${this.imageBlobUrl}`
+      }
+
+    }
 
   },
 
+ 
   methods: {
+
     recommend: function () {
-      let date = new Date();
-      let month_number = date.getMonth();
-      let day_in_month_number = date.getDate();
-      let day_in_week_number = date.getDay();
-      let year = date.getFullYear();
-      let month = "";
-      let day_in_week = "";
-      switch (month_number) {
-        case 0:
-          month = "January";
-          break;
-        case 1:
-          month = "Febuary";
-          break;
-        case 2:
-          month = "March";
-          break;
-        case 3:
-          month = "April";
-          break;
-        case 4:
-          month = "May";
-          break;
-        case 5:
-          month = "June";
-          break;
-        case 6:
-          month = "July";
-          break;
-        case 7:
-          month = "August";
-          break;
-        case 8:
-          month = "September";
-          break;
-        case 9:
-          month = "October";
-          break;
-        case 10:
-          month = "November";
-          break;
-        case 11:
-          month = "December";
-          break;
-
-        default:
-          break;
-      }
-      switch (day_in_week_number) {
-        case 0:
-          day_in_week = "Sunday";
-          break;
-        case 1:
-          day_in_week = "Monday";
-          break;
-        case 2:
-          day_in_week = "Tuesday";
-          break;
-        case 3:
-          day_in_week = "Wednesday";
-          break;
-        case 4:
-          day_in_week = "Thursday";
-          break;
-        case 5:
-          day_in_week = "Friday";
-          break;
-        case 6:
-          day_in_week = "Saturday";
-          break;
-        default:
-          break;
-      }
-
-      let today_date = month + " " + day_in_month_number + "," + year;
-      let id = Math.random().toString().slice(2, 11);
-      var irecommenddata = {
-        user: "Default",
-        recommendeditem: this.recommendeditem,
-        item: "recommendation",
+      var recommendData = [
+        {
+        header: this.recommendeditem,
         content: this.content,
         genre: this.genre,
-        type: this.selectedtypeirecommend,
-        ups: 0,
-        downs: 0,
+        category: this.selectedRecommendationCategory,
+        upvotes:0,
+        downvotes:0,
         isreactedup: false,
         isreacteddown: false,
-        numberofcomments: 0,
-        rating: {
-          numberofraters: 20,
-          ratenumber: 0,
-          totalrating: 100,
-          ratepercentage: 0,
-        },
-        date: "",
-        id: id,
-        imageurl: "./gadget.jpg",
-        showoptions: false,
-        showrerecommend: false,
-        showratedialogue: false,
+        number_of_comments: 0,
         saved: false,
-        comments: [],
-        showcomments: false,
-        date: today_date,
-      };
-      this.submitted = true;
+      },
+      {
+        imageName:this.fileName,
+        imageFile:this.file
+      }
+    ];
+    console.log(recommendData)
+      this.$store.dispatch('makePostStore/makeRecommendation', recommendData)
+      .then(()=>{
+        this.submitted = true;
+      })
 
     },
 
@@ -433,84 +356,8 @@ export default {
     },
 
     post: function () {
-      let date = new Date();
-      let month_number = date.getMonth();
-      let day_in_month_number = date.getDate();
-      let day_in_week_number = date.getDay();
-      let year = date.getFullYear();
-      let month = "";
-      let day_in_week = "";
-      switch (month_number) {
-        case 0:
-          month = "January";
-          break;
-        case 1:
-          month = "Febuary";
-          break;
-        case 2:
-          month = "March";
-          break;
-        case 3:
-          month = "April";
-          break;
-        case 4:
-          month = "May";
-          break;
-        case 5:
-          month = "June";
-          break;
-        case 6:
-          month = "July";
-          break;
-        case 7:
-          month = "August";
-          break;
-        case 8:
-          month = "September";
-          break;
-        case 9:
-          month = "October";
-          break;
-        case 10:
-          month = "November";
-          break;
-        case 11:
-          month = "December";
-          break;
-
-        default:
-          break;
-      }
-      switch (day_in_week_number) {
-        case 0:
-          day_in_week = "Sunday";
-          break;
-        case 1:
-          day_in_week = "Monday";
-          break;
-        case 2:
-          day_in_week = "Tuesday";
-          break;
-        case 3:
-          day_in_week = "Wednesday";
-          break;
-        case 4:
-          day_in_week = "Thursday";
-          break;
-        case 5:
-          day_in_week = "Friday";
-          break;
-        case 6:
-          day_in_week = "Saturday";
-          break;
-        default:
-          break;
-      }
-
-      let today_date = month + " " + day_in_month_number + "," + year;
-      let id = Math.random().toString().slice(2, 11);
       var postdata = {
-        user: "Default",
+        recommender_id: "Default",
         item: "Post",
         postcategory: this.selectedpostcategory,
         posttitle: this.posttitle,
@@ -522,18 +369,21 @@ export default {
         numberofcomments: 0,
         id: id,
         postmediaurl: this.postmediaurl,
-        showoptions: false,
-        showrerecommend: false,
         saved: false,
-        comments: [],
-        showcomments: false,
-        date: today_date,
+        date:null
       };
       console.log(postdata)
 
     },
     closeMakePost() {
       this.$store.dispatch('makePostStore/closeMakePost')
+    },
+    getFile() {
+      const file = this.$refs.file.files[0]
+      this.fileName = file.name;
+      this.file=file
+      this.imageBlobUrl=URL.createObjectURL(file)
+      console.log("🚀 ~ file: makePost.vue ~ line 386 ~ getFile ~ this.imageBlobUrl", this.imageBlobUrl)
     }
   },
 
@@ -541,7 +391,7 @@ export default {
     // bus.$on("showrecommendialogue", (data) => {
     //   this.show = data;
     // });
-    // console.log(this.selectedtypeirecommend);
+    // console.log(this.selectedRecommendationCategory);
   },
 };
 </script>
@@ -881,7 +731,7 @@ select {
   color: var(--textcolornotimportant);
   font-size: var(--bodytextfs);
   outline: none;
-  height: 173px;
+  max-height: 173px;
   border: none;
   margin: 10px 2px 0px 0px;
   padding: 5px 10px;
@@ -1035,6 +885,50 @@ select {
     width: 100%;
   }
 }
+
+#file {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+
+.add-image-label {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 7px 0;
+  background-image: url('../assets/loupe.png');
+  background-repeat: no-repeat;
+  background-size: 25px;
+  background-position: 5px center;
+
+}
+
+/* .add-image::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.add-image::before {
+  content: 'Select some files';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.add-image:hover::before {
+  border-color: black;
+}
+.add-image:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+} */
 
 @media only screen and (min-width:610px) {
   #recommeddialog {

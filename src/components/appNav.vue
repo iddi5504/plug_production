@@ -231,7 +231,7 @@ export default {
         },
         toggleMakePost(){
             this.$store.state.makePostStore.showMakePost= !this.$store.state.makePostStore.showMakePost
-            this.$store.state.makePostStore.showMakePostBar=false
+            this.$store.state.makePostStore.showMakePostBar=!this.$store.state.makePostStore.showMakePostBar
         },
         toggleMakePostBar(){
             this.$store.state.makePostStore.showMakePostBar= !this.$store.state.makePostStore.showMakePostBar
@@ -274,7 +274,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    top: 0px;
+    top: env(safe-area-inset-top);
     left: 0;
     z-index: 5;
     box-shadow: var(--boxshadow);
