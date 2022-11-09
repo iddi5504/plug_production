@@ -1,77 +1,77 @@
-[debug] [2022-11-08T11:09:07.742Z] ----------------------------------------------------------------------
-[debug] [2022-11-08T11:09:07.744Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
-[debug] [2022-11-08T11:09:07.745Z] CLI Version:   11.15.0
-[debug] [2022-11-08T11:09:07.745Z] Platform:      win32
-[debug] [2022-11-08T11:09:07.745Z] Node Version:  v16.15.0
-[debug] [2022-11-08T11:09:07.746Z] Time:          Tue Nov 08 2022 11:09:07 GMT+0000 (Greenwich Mean Time)
-[debug] [2022-11-08T11:09:07.746Z] ----------------------------------------------------------------------
+[debug] [2022-11-09T00:34:46.358Z] ----------------------------------------------------------------------
+[debug] [2022-11-09T00:34:46.366Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2022-11-09T00:34:46.368Z] CLI Version:   11.15.0
+[debug] [2022-11-09T00:34:46.368Z] Platform:      win32
+[debug] [2022-11-09T00:34:46.369Z] Node Version:  v16.15.0
+[debug] [2022-11-09T00:34:46.372Z] Time:          Wed Nov 09 2022 00:34:46 GMT+0000 (Greenwich Mean Time)
+[debug] [2022-11-09T00:34:46.374Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-11-08T11:09:07.750Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
-[debug] [2022-11-08T11:09:07.859Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-11-08T11:09:07.860Z] > authorizing via signed-in user (iddi5504@gmail.com)
+[debug] [2022-11-09T00:34:46.387Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2022-11-09T00:34:46.630Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-11-09T00:34:46.631Z] > authorizing via signed-in user (iddi5504@gmail.com)
 [warn] !  Unable to fetch the CLI MOTD and remote config. 
-[debug] [2022-11-08T11:09:07.886Z] Failed to fetch MOTD FirebaseError: Failed to make request to https://firebase-public.firebaseio.com/cli.json
-[debug] [2022-11-08T11:09:08.234Z] java version "19.0.1" 2022-10-18
+[debug] [2022-11-09T00:34:46.697Z] Failed to fetch MOTD FirebaseError: Failed to make request to https://firebase-public.firebaseio.com/cli.json
+[debug] [2022-11-09T00:34:47.699Z] java version "19.0.1" 2022-10-18
 
-[debug] [2022-11-08T11:09:08.235Z] Java(TM) SE Runtime Environment (build 19.0.1+10-21)
+[debug] [2022-11-09T00:34:47.700Z] Java(TM) SE Runtime Environment (build 19.0.1+10-21)
 Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)
 
-[debug] [2022-11-08T11:09:08.257Z] Parsed Java major version: 19
+[debug] [2022-11-09T00:34:47.764Z] Parsed Java major version: 19
 [info] i  emulators: Starting emulators: auth, functions, firestore, database, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, database, storage"}}
-[debug] [2022-11-08T11:09:08.285Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-11-08T11:09:08.285Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-11-08T11:09:08.285Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-11-08T11:09:08.285Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-11-08T11:09:08.286Z] [database] Database Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-11-08T11:09:08.286Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-11-08T11:09:08.286Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8081}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}]},"metadata":{"message":"assigned listening specs for emulators"}}
-[debug] [2022-11-08T11:09:08.297Z] [hub] writing locator at C:\Users\user\AppData\Local\Temp\hub-plug-ce91b.json
-[debug] [2022-11-08T11:09:08.312Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-11-08T11:09:08.312Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-11-08T11:09:08.313Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8081}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[debug] [2022-11-09T00:34:47.860Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-09T00:34:47.861Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-09T00:34:47.861Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-09T00:34:47.862Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-09T00:34:47.862Z] [database] Database Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-09T00:34:47.863Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-09T00:34:47.863Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8081}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2022-11-09T00:34:47.910Z] [hub] writing locator at C:\Users\user\AppData\Local\Temp\hub-plug-ce91b.json
+[debug] [2022-11-09T00:34:47.950Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-09T00:34:47.951Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-09T00:34:47.951Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8081}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
 [warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: hosting, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mhosting, pubsub\u001b[22m"}}
 [info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
-[debug] [2022-11-08T11:09:08.347Z] defaultcredentials: writing to file C:\Users\user\AppData\Roaming\firebase\iddi5504_gmail_com_application_default_credentials.json
-[debug] [2022-11-08T11:09:08.351Z] Setting GAC to C:\Users\user\AppData\Roaming\firebase\iddi5504_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\user\\AppData\\Roaming\\firebase\\iddi5504_gmail_com_application_default_credentials.json"}}
-[debug] [2022-11-08T11:09:08.353Z] > refreshing access token with scopes: []
-[debug] [2022-11-08T11:09:08.354Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2022-11-08T11:09:08.354Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-11-08T11:09:08.356Z] Failed to get Admin SDK config for plug-ce91b, falling back to cacheFailed to get Admin SDK for Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"exit":1,"message":"Authentication Error: Your credentials are no longer valid. Please run \u001b[1mfirebase login --reauth\u001b[22m\n\nFor CI servers and headless environments, generate a new token with \u001b[1mfirebase login:ci\u001b[22m","status":500},"status":500}
+[debug] [2022-11-09T00:34:48.043Z] defaultcredentials: writing to file C:\Users\user\AppData\Roaming\firebase\iddi5504_gmail_com_application_default_credentials.json
+[debug] [2022-11-09T00:34:48.050Z] Setting GAC to C:\Users\user\AppData\Roaming\firebase\iddi5504_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\user\\AppData\\Roaming\\firebase\\iddi5504_gmail_com_application_default_credentials.json"}}
+[debug] [2022-11-09T00:34:48.057Z] > refreshing access token with scopes: []
+[debug] [2022-11-09T00:34:48.060Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-11-09T00:34:48.061Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-11-09T00:34:48.069Z] Failed to get Admin SDK config for plug-ce91b, falling back to cacheFailed to get Admin SDK for Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"exit":1,"message":"Authentication Error: Your credentials are no longer valid. Please run \u001b[1mfirebase login --reauth\u001b[22m\n\nFor CI servers and headless environments, generate a new token with \u001b[1mfirebase login:ci\u001b[22m","status":500},"status":500}
 [warn] !  functions: Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect. {"metadata":{"emulator":{"name":"functions"},"message":"Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect."}}
-[debug] [2022-11-08T11:09:08.378Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-11-08T11:09:08.379Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
-[debug] [2022-11-08T11:09:08.379Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\user\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.15.1.jar","--host","127.0.0.1","--port",8081,"--websocket_port",9150,"--project_id","plug-ce91b","--rules","C:\\Users\\user\\Desktop\\plug_development\\firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.15.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8081,\"--websocket_port\",9150,\"--project_id\",\"plug-ce91b\",\"--rules\",\"C:\\\\Users\\\\user\\\\Desktop\\\\plug_development\\\\firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[debug] [2022-11-09T00:34:48.120Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-11-09T00:34:48.121Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2022-11-09T00:34:48.121Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\user\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.15.1.jar","--host","127.0.0.1","--port",8081,"--websocket_port",9150,"--project_id","plug-ce91b","--rules","C:\\Users\\user\\Desktop\\plug_development\\firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.15.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8081,\"--websocket_port\",9150,\"--project_id\",\"plug-ce91b\",\"--rules\",\"C:\\\\Users\\\\user\\\\Desktop\\\\plug_development\\\\firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
 [info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
-[debug] [2022-11-08T11:09:11.233Z] > refreshing access token with scopes: []
-[debug] [2022-11-08T11:09:11.235Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2022-11-08T11:09:11.236Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-11-08T11:09:11.237Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+[debug] [2022-11-09T00:35:03.454Z] > refreshing access token with scopes: []
+[debug] [2022-11-09T00:35:03.455Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-11-09T00:35:03.455Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-11-09T00:35:03.461Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
 
 For CI servers and headless environments, generate a new token with firebase login:ci
-[debug] [2022-11-08T11:09:11.238Z] Failed to retrieve default database instance: {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"exit":1,"message":"Authentication Error: Your credentials are no longer valid. Please run \u001b[1mfirebase login --reauth\u001b[22m\n\nFor CI servers and headless environments, generate a new token with \u001b[1mfirebase login:ci\u001b[22m","status":500},"status":500} {"metadata":{"emulator":{"name":"database"},"message":"Failed to retrieve default database instance: {\"name\":\"FirebaseError\",\"children\":[],\"exit\":2,\"message\":\"Failed to get Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.\",\"original\":{\"name\":\"FirebaseError\",\"children\":[],\"exit\":1,\"message\":\"Authentication Error: Your credentials are no longer valid. Please run \\u001b[1mfirebase login --reauth\\u001b[22m\\n\\nFor CI servers and headless environments, generate a new token with \\u001b[1mfirebase login:ci\\u001b[22m\",\"status\":500},\"status\":500}"}}
-[debug] [2022-11-08T11:09:11.238Z] database rules config:  []
+[debug] [2022-11-09T00:35:03.461Z] Failed to retrieve default database instance: {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"exit":1,"message":"Authentication Error: Your credentials are no longer valid. Please run \u001b[1mfirebase login --reauth\u001b[22m\n\nFor CI servers and headless environments, generate a new token with \u001b[1mfirebase login:ci\u001b[22m","status":500},"status":500} {"metadata":{"emulator":{"name":"database"},"message":"Failed to retrieve default database instance: {\"name\":\"FirebaseError\",\"children\":[],\"exit\":2,\"message\":\"Failed to get Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.\",\"original\":{\"name\":\"FirebaseError\",\"children\":[],\"exit\":1,\"message\":\"Authentication Error: Your credentials are no longer valid. Please run \\u001b[1mfirebase login --reauth\\u001b[22m\\n\\nFor CI servers and headless environments, generate a new token with \\u001b[1mfirebase login:ci\\u001b[22m\",\"status\":500},\"status\":500}"}}
+[debug] [2022-11-09T00:35:03.462Z] database rules config:  []
 [warn] !  database: Did not find a Realtime Database rules file specified in a firebase.json config file. The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"database"},"message":"Did not find a Realtime Database rules file specified in a firebase.json config file. The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
-[debug] [2022-11-08T11:09:11.244Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
-[debug] [2022-11-08T11:09:11.244Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-11-08T11:09:11.245Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
-[debug] [2022-11-08T11:09:11.245Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","C:\\Users\\user\\.cache\\firebase\\emulators\\firebase-database-emulator-v4.10.0.jar","--host","127.0.0.1","--port",9000,"--single_project_mode","Warning","--functions_emulator_host","127.0.0.1","--functions_emulator_port",5001],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\firebase-database-emulator-v4.10.0.jar\",\"--host\",\"127.0.0.1\",\"--port\",9000,\"--single_project_mode\",\"Warning\",\"--functions_emulator_host\",\"127.0.0.1\",\"--functions_emulator_port\",5001],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[debug] [2022-11-09T00:35:03.470Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-11-09T00:35:03.470Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-11-09T00:35:03.470Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
+[debug] [2022-11-09T00:35:03.470Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","C:\\Users\\user\\.cache\\firebase\\emulators\\firebase-database-emulator-v4.10.0.jar","--host","127.0.0.1","--port",9000,"--single_project_mode","Warning","--functions_emulator_host","127.0.0.1","--functions_emulator_port",5001],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\firebase-database-emulator-v4.10.0.jar\",\"--host\",\"127.0.0.1\",\"--port\",9000,\"--single_project_mode\",\"Warning\",\"--functions_emulator_host\",\"127.0.0.1\",\"--functions_emulator_port\",5001],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\",\"single_project_mode\"],\"joinArgs\":false}"}}
 [info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
-[debug] [2022-11-08T11:09:20.085Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-11-08T11:09:21.531Z] Temp file directory for storage emulator: C:\Users\user\AppData\Local\Temp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: C:\\Users\\user\\AppData\\Local\\Temp/firebase/storage/blobs"}}
-[debug] [2022-11-08T11:09:21.541Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-11-08T11:09:21.541Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-11-08T11:09:21.541Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\user\\.cache\\firebase\\emulators\\ui-v1.11.1\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.1\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[debug] [2022-11-09T00:35:28.039Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-11-09T00:35:30.804Z] Temp file directory for storage emulator: C:\Users\user\AppData\Local\Temp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: C:\\Users\\user\\AppData\\Local\\Temp/firebase/storage/blobs"}}
+[debug] [2022-11-09T00:35:30.826Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-11-09T00:35:30.826Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-11-09T00:35:30.826Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\user\\.cache\\firebase\\emulators\\ui-v1.11.1\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.1\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
 [info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2022-11-08T11:09:21.688Z] Web / API server started at 127.0.0.1:4000
+[debug] [2022-11-09T00:35:31.304Z] Web / API server started at 127.0.0.1:4000
  {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
-[debug] [2022-11-08T11:09:21.689Z] Web / API server started at ::1:4000
+[debug] [2022-11-09T00:35:31.305Z] Web / API server started at ::1:4000
  {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
 [info] i  functions: Watching "C:\Users\user\Desktop\plug_development\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\user\\Desktop\\plug_development\\functions\" for Cloud Functions..."}}
-[debug] [2022-11-08T11:09:21.834Z] Validating nodejs source
+[debug] [2022-11-09T00:35:31.379Z] Validating nodejs source
 [warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
 [warn] !  functions: Please note that there will be breaking changes when you upgrade. 
-[debug] [2022-11-08T11:10:34.310Z] > [functions] package.json contents: {
+[debug] [2022-11-09T00:36:47.487Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -94,13 +94,13 @@ For CI servers and headless environments, generate a new token with firebase log
   },
   "private": true
 }
-[debug] [2022-11-08T11:10:34.310Z] Building nodejs source
-[debug] [2022-11-08T11:10:34.310Z] Analyzing nodejs backend spec
-[debug] [2022-11-08T11:10:34.312Z] Could not find functions.yaml. Must use http discovery
-[debug] [2022-11-08T11:10:34.614Z] Serving at port 9005
+[debug] [2022-11-09T00:36:47.488Z] Building nodejs source
+[debug] [2022-11-09T00:36:47.488Z] Analyzing nodejs backend spec
+[debug] [2022-11-09T00:36:47.504Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-09T00:36:49.529Z] Serving at port 9005
 
-[debug] [2022-11-08T11:10:34.685Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
-[debug] [2022-11-08T11:10:34.695Z] shutdown requested via /__/quitquitquit
+[debug] [2022-11-09T00:36:50.006Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-09T00:36:50.040Z] shutdown requested via /__/quitquitquit
 
 [info] +  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
 [info] 
@@ -127,7 +127,7 @@ For CI servers and headless environments, generate a new token with firebase log
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
-[debug] [2022-11-08T11:11:00.363Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
-[debug] [2022-11-08T11:11:00.364Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"eventId":"63143e1e-574d-49eb-845b-943a0bd35f9e","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/plug-ce91b","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2022-11-08T11:11:00.363Z","data":{"uid":"nDw3HNsgOa4bHUrGkGzBbSNUz8gz","email":"ksklds@gmail.com","emailVerified":false,"metadata":{"creationTime":"2022-11-08T11:11:00.362Z","lastSignInTime":"2022-11-08T11:11:00.362Z"},"customClaims":{},"providerData":[{"providerId":"password","email":"ksklds@gmail.com","federatedId":"ksklds@gmail.com","rawId":"ksklds@gmail.com"}]}}
-[debug] [2022-11-08T11:11:00.372Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
-[debug] [2022-11-08T11:11:00.372Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2022-11-09T00:37:31.064Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-11-09T00:37:31.065Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"eventId":"a93807ba-ea9a-4c9b-9040-b7539ef51f00","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/plug-ce91b","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2022-11-09T00:37:31.061Z","data":{"uid":"7GdmMTVPlLatBFCXZXUDfWXUq6vw","email":"iddi@gmail.com","emailVerified":false,"metadata":{"creationTime":"2022-11-09T00:37:31.056Z","lastSignInTime":"2022-11-09T00:37:31.056Z"},"customClaims":{},"providerData":[{"providerId":"password","email":"iddi@gmail.com","federatedId":"iddi@gmail.com","rawId":"iddi@gmail.com"}]}}
+[debug] [2022-11-09T00:37:31.090Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-11-09T00:37:31.090Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}

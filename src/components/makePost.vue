@@ -49,7 +49,7 @@
               <div id="mainbody">
                 <label for="recommend">What are you recommending</label>
                 <div name="recommend" id="recommendinput">
-                  <input v-model="recommendeditem" type="text" class="inputfield" placeholder="Recommend here"
+                  <input autocomplete="off" v-model="recommendeditem" type="text" class="inputfield" placeholder="Recommend here"
                     required />
                   <select class="typeselect genre" v-model="selectedtypeirecommend">
                     <option v-for="(recommendtype, index) in types" :key="index">
@@ -60,7 +60,7 @@
                 <div id="recommendcaption">
                   <label for="caption">Say something about it
                   </label>
-                  <textarea v-model.trim="content" name="recommendationcaption" class="descriptioninput" cols="30"
+                  <textarea autocomplete="off" v-model.trim="content" name="recommendationcaption" class="descriptioninput" cols="30"
                     rows="40" placeholder="Say something" required></textarea>
                 </div>
 
@@ -145,7 +145,7 @@
           <div id="mainbody">
             <label for="posttitle">TItle</label>
             <div name="recommend" id="recommendinput">
-              <input v-model="posttitle" type="text" class="inputfield" placeholder="Title" required />
+              <input autocomplete="off" v-model="posttitle" type="text" class="inputfield" placeholder="Title" required />
               <select class="typeselect" v-model="selectedpostcategory">
                 <option v-for="(category, index) in postcategory" :value="category" :key="index">{{ category }}</option>
               </select>
@@ -153,7 +153,7 @@
             <div id="recommendcaption">
               <label for="caption">What do you have to say
               </label>
-              <textarea v-model.trim="postdescription" name="postdescription" class="descriptioninput" cols="30"
+              <textarea autocomplete="off" v-model.trim="postdescription" name="postdescription" class="descriptioninput" cols="30"
                 rows="40" placeholder="Say something" required></textarea>
             </div>
 
@@ -1032,11 +1032,6 @@ select {
     border-radius: 20px;
   }
 
-  .recommenddialogcontent {
-   
-
-    
-  }
 
   #imagesection {
     display: flex;
@@ -1072,11 +1067,6 @@ select {
   }
 }
 
-@media only screen and (min-width:700px) {
-  #recommeddialog {
- 
 
-  }
-}
 </style>
   

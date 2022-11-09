@@ -8,8 +8,8 @@
                         <i class="fa fa-compass navicon"></i>
                     </button>
 
-                    <div id="searchbar">
-                        <input ref="input" type="text" id="searchinput" placeholder="Search Recommendhub"
+                    <div class="nav-bar-search all-search-bar">
+                        <input autocomplete="off" ref="input" type="text" id="searchinput" placeholder="Search Recommendhub"
                             @click="search" />
                     </div>
                 </div>
@@ -103,44 +103,52 @@
         </div>
         <!-- Hamburger menu -->
         <transition name="showoptions_">
-            <ul v-show="shownavoptions" id="dropdownlist" class="nav justify-content-end">
-                <li class="nav-item navitems">
-                    <router-link style="flex-direction: column;" to="/profile">
-                        <div style="display: flex; align-items: center; padding: 2px;">
-                            <img src="../assets/user (1).png" alt="">
-                            <small class="dropdowntext" style="padding-left: 5px">My Profile</small>
-                        </div>
-                        <div class="user-info-preview">
-                            <small>{{ email }}</small>
-                            <small>{{ username }}</small>
-                        </div>
-                    </router-link>
-
-                </li>
-                <li @click="togglelightmode" class="nav-item navitems">
-                    <a type="button" class="nav-link">
-                        <img :src="lightIcon" alt="">
-                        <small id="light" class="dropdowntext">light mode</small>
-                    </a>
-                </li>
-                <li class="nav-item navitems">
-                    <a href="ad.html" class="nav-link"><i class="bi bi-badge-ad"></i><small class="dropdowntext">Post an
-                            Ad</small></a>
-                </li>
-                <li class="nav-item navitems">
-                    <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">About
-                            Plug</small></a>
-                </li>
-                <li class="nav-item navitems">
-                    <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">FAQ</small></a>
-                </li>
-                <li class="nav-item navitems" @click="logout">
-                    <a class="nav-link" style="color: red" tabindex="-1" aria-disabled="true">
-                        <img src="../assets/shutdown.png" alt="">
-                        <small class="dropdowntext">Logout</small>
-                    </a>
-                </li>
-            </ul>
+            <div v-show="shownavoptions" ref="dropdown" class="dropdown" >
+                <div class="dropdown-search all-search-bar">
+                    <input autocomplete="off" @focus="hideDropdownList" @blur="showDropdownList" ref="input" type="text" id="searchinput" placeholder="Search Recommendhub"
+                        @click="search" />
+                </div>
+               <transition name="showList">
+                <ul v-show="dropdownListVisible" class="dropdownlist">
+                    <li class="nav-item navitems">
+                        <router-link style="flex-direction: column;" to="/profile">
+                            <div style="display: flex; align-items: center; padding: 2px;">
+                                <img src="../assets/user (1).png" alt="">
+                                <small class="dropdowntext" style="padding-left: 5px">My Profile</small>
+                            </div>
+                            <div class="user-info-preview">
+                                <small>{{ email }}</small>
+                                <small>{{ username }}</small>
+                            </div>
+                        </router-link>
+    
+                    </li>
+                    <li @click="togglelightmode" class="nav-item navitems">
+                        <a type="button" class="nav-link">
+                            <img src="../assets/light-bulb.png" alt="">
+                            <small id="light" class="dropdowntext">light mode</small>
+                        </a>
+                    </li>
+                    <li class="nav-item navitems">
+                        <a href="ad.html" class="nav-link"><i class="bi bi-badge-ad"></i><small class="dropdowntext">Post an
+                                Ad</small></a>
+                    </li>
+                    <li class="nav-item navitems">
+                        <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">About
+                                Plug</small></a>
+                    </li>
+                    <li class="nav-item navitems">
+                        <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">FAQ</small></a>
+                    </li>
+                    <li class="nav-item navitems" @click="logout">
+                        <a class="nav-link" style="color: red" tabindex="-1" aria-disabled="true">
+                            <img src="../assets/shutdown.png" alt="">
+                            <small class="dropdowntext">Logout</small>
+                        </a>
+                    </li>
+                </ul>
+               </transition>
+            </div>
         </transition>
     </div>
 </template>
@@ -161,7 +169,8 @@ export default {
             showsearch: false,
             lightModeImg: '',
             darkModeImg: '',
-            lightIcon: ''
+            lightIcon: '',
+            dropdownListVisible:true
         };
     },
     methods: {
@@ -198,8 +207,15 @@ export default {
                     this.$router.push({ name: "signUp" })
                 })
         },
-        test: function () {
-
+        hideDropdownList(){
+            this.dropdownListVisible=false
+            const dropdown= document.getElementsByClassName('dropdown')[0]
+            dropdown.style.maxHeight= '100%'
+        },
+        showDropdownList(){
+            this.dropdownListVisible=true
+            const dropdown= document.getElementsByClassName('dropdown')[0]
+            dropdown.style.maxHeight= '391px'
         },
 
         mobilenotification_: function () {
@@ -336,45 +352,6 @@ export default {
     }
 
 
-    #searchbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        height: min-content;
-        margin: 5px 10px;
-        width: 100%;
-
-        #searchicon {
-            font-size: 20px;
-            color: var(--textcolorimportant);
-            position: absolute;
-            top: 6px;
-            left: 8px;
-        }
-
-        #searchinput {
-            border: none;
-            background: rgba(139, 130, 122, 0.1098039216);
-            border-radius: 6px;
-            color: var(--textcolornotimportant);
-            padding: 5px 5px 5px 34px;
-            font-variant-caps: all-small-caps;
-            outline: none;
-            font-size: larger;
-            width: 100%;
-            max-width: 100px;
-            display: flex;
-            background-image: url('../assets/loupe.png');
-            background-repeat: no-repeat;
-            background-size: 25px;
-            background-position: 5px center;
-
-            @media only screen and (min-width: 600px) {
-                max-width: 276px;
-            }
-        }
-    }
 
     #brandname {
         padding: 0px 15px;
@@ -426,20 +403,85 @@ export default {
                 border: 1px solid white;
 
             }
-
+            
             &:hover {
                 background-color: var(--brandcolor);
-
+                
             }
         }
     }
-
-
+    
+    
 }
 
-#dropdownlist {
+
+.all-search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: min-content;
+    margin: 10px 10px;
     width: 100%;
-    max-width: 200px;
+    @media only screen and (min-width: 600px) {
+    }
+
+    #searchicon {
+        font-size: 20px;
+        color: var(--textcolorimportant);
+        position: absolute;
+        top: 6px;
+        left: 8px;
+    }
+
+    #searchinput {
+        border: none;
+        background: rgba(139, 130, 122, 0.1098039216);
+        border-radius: 6px;
+        color: var(--textcolornotimportant);
+        padding: 5px 5px 5px 34px;
+        font-variant-caps: all-small-caps;
+        outline: none;
+        font-size: 1rem;
+        width: 100%;
+        display: flex;
+        background-image: url('../assets/loupe.png');
+        background-repeat: no-repeat;
+        background-size: 25px;
+        background-position: 5px center;
+        box-sizing: border-box;
+        @media only screen and (min-width: 600px) {
+            max-width: 338px;
+            
+        }
+    }
+}
+
+.nav-bar-search{
+    display: none;
+    @media only screen and (min-width: 570px) {
+      display: initial;
+    }
+    
+}
+.dropdown-search{
+    background: none !important;
+    max-width: none;
+    box-shadow: none !important;
+    display: flex;
+    max-width: 353px;
+    input{
+        box-sizing: border-box !important;
+        max-width: none !important;
+    }
+    @media only screen and (min-width: 570px) {
+      display: none;
+    }
+    
+}
+
+.dropdown {
+    width: 100%;
     position: fixed;
     top: 47px;
     right: -1px;
@@ -452,10 +494,28 @@ export default {
     z-index: 1;
     box-shadow: var(--boxshadow);
     height: 100%;
-    max-height: 288px;
-    justify-content: space-around;
-    padding: 6px;
+    max-height: 391px;
+    align-items: center;
+    @media only screen and (min-width: 570px) {
+        max-width: 200px;
+        padding: 6px;
+        max-height: 288px;
+    }
+    justify-content: flex-start;
 
+    
+    .dropdownlist{
+        height: 100%;
+        max-height: 345px;
+        flex-direction: column;
+        display: flex;
+        margin: 0px;
+        justify-content: space-around;
+        width: 100%;
+        border: none;
+        transition: 0.4s all ease;
+        align-items: center;
+    
     img {
         width: 32px;
     }
@@ -466,6 +526,8 @@ export default {
         box-shadow: var(--boxshadow);
         flex-direction: column;
         cursor: pointer;
+        max-width: 353px;
+        width: 100%;
 
         .user-info-preview {
             display: flex;
@@ -476,6 +538,9 @@ export default {
             color: var(--textcolornotimportant);
         }
     }
+}
+
+    
 }
 
 
@@ -494,6 +559,9 @@ export default {
         justify-content: space-between;
         gap: 4px;
 
+        @media only screen and (max-width: 600px) {
+            font-size: 1rem;
+        }
         @media only screen and (max-width: 600px) {
             font-size: 1rem;
         }
@@ -570,13 +638,29 @@ export default {
     transform: translateY(-600px);
 }
 
+.showList-enter {
+    opacity: 1;
+}
+
+.showList-enter-active,
+.showList-leave-active {
+    transition: all 0.5s ease-in-out;
+}
 
 
-#dropdownlist ul {
+
+.showList-leave-to,
+.showList-enter {
+    opacity: 0;
+}
+
+
+
+.dropdown ul {
     border: 1px black solid;
 }
 
-#dropdownlist i {
+.dropdown i {
     color: var(--textcolorimportant);
 }
 
@@ -664,9 +748,7 @@ export default {
         display: block !important;
     }
 
-    #searchinput {
-        display: none;
-    }
+    
 
     #searchicon {
         display: none;
