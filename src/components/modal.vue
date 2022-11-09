@@ -380,7 +380,7 @@ export default {
             .follow-button {
                 padding: 6px;
                 border: none;
-                box-shadow: 0px 0px 4px black;
+                box-shadow: var(--boxshadow);
                 border-radius: 4px;
                 font-size: 1rem;
                 background: var(--brandcolor);
@@ -420,7 +420,7 @@ export default {
 .searchsectiontoprecommendimages {
     display: flex;
     justify-content: flex-start;
-    box-shadow: 18px 0px 10px -10px #151821 inset, -22px 0px 10px -10px #151821 inset;
+    box-shadow: var(--boxshadow);
 }
 
 

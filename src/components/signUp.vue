@@ -7,20 +7,20 @@
         <div class="info ">
             <label for="username">Username</label>
             <div style="position:relative;">
-                <input @keyup.enter="signUp" v-model.lazy="username" type="text" id="username">
+                <input autocomplete="off" @keyup.enter="signUp" v-model.lazy="username" type="text" id="username">
             </div>
         </div>
         <div class="info ">
             <label for="username">Email</label>
             <div style="position:relative;">
-                <input @keyup.enter="signUp" v-model.lazy="email" type="text" id="email">
+                <input autocomplete="off" @keyup.enter="signUp" v-model.lazy="email" type="text" id="email">
             </div>
         </div>
 
         <div class="info ">
             <label for="password">Password</label>
             <div style="position:relative;">
-                <input v-model.lazy="password" type="password" id="password">
+                <input autocomplete="off" v-model.lazy="password" type="password" id="password">
             </div>
         </div>
         <!-- <div class="text-center note  ">
@@ -227,7 +227,7 @@ export default {
     .authenticate-button {
         padding: 6px;
         border: none;
-        box-shadow: 0px 0px 4px black;
+        box-shadow: var(--boxshadow);
         border-radius: 4px;
         font-size: 1rem;
         background: var(--brandcolor);

@@ -38,7 +38,7 @@ export default {
            style.setProperty('--textcolorimportant', 'black');
            style.setProperty('--contenttext', 'black');
            style.setProperty('--textcolornotimportant', '#818384'); 
-           style.setProperty('--boxshadow', '0px 1px 2px 1px #d1d1d1');
+          //  style.setProperty('--boxshadow', 'rgba(0, 0, 0, 0.16) 0px 1px 4px;');
         }
         else{
            let style=document.documentElement.style
@@ -49,7 +49,7 @@ export default {
            style.setProperty('--textcolorimportant', 'white');
            style.setProperty('--contenttext', 'gainsboro');
            style.setProperty('--textcolornotimportant', '#818384');
-           style.setProperty('--boxshadow', '0px 1px 7px 1px #0000009e'); 
+          //  style.setProperty('--boxshadow', '0px 1px 7px 1px #0000009e'); 
         }
       }
     }
@@ -69,7 +69,7 @@ export default {
   --bodytextfs: 16px;
   --titlesfs: 20px;
   --detailsfs: 0.875rem;
-  --boxshadow: 2px 3px 7px #131111b8;
+  --boxshadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 * {

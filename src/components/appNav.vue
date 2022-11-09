@@ -54,11 +54,7 @@
 
             <div v-if="isAuthenticated" style="flex: 1" id="small-screen-nav-icons">
                 <div class="container">
-                    <button type="button" class="recommend-me">
-                        <i class="bi bi-plus"></i>
-                        <span>recommendMe</span>
-                    </button>
-                    <button  @click="toggleMakePost" class="nav-buttons">
+                    <button  @click="toggleMakePostBar" class="nav-buttons">
                         <i class="bi bi-plus-square navicon"></i>
                     </button>
                     <div class="notification-button">
@@ -150,13 +146,24 @@
                </transition>
             </div>
         </transition>
+
+        <!-- make post bar -->
+       <transition name="showoptions_">
+        <div v-show="showMakePostBar" class="make-post-bar">
+            <button @click="toggleMakePost">
+                <i class="bi bi-pen"></i>
+                 <span>Make post</span> 
+            </button>
+            <button>Ask for recommendation</button>
+        </div>
+       </transition>
     </div>
 </template>
   
 <script>
 import { signOut } from '@firebase/auth';
 import { auth } from '../firebase/firebase'
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 export default {
     data() {
         return {
@@ -170,7 +177,7 @@ export default {
             lightModeImg: '',
             darkModeImg: '',
             lightIcon: '',
-            dropdownListVisible:true
+            dropdownListVisible:true,
         };
     },
     methods: {
@@ -215,7 +222,8 @@ export default {
         showDropdownList(){
             this.dropdownListVisible=true
             const dropdown= document.getElementsByClassName('dropdown')[0]
-            dropdown.style.maxHeight= '391px'
+            dropdown.style.maxHeight= '345px'
+
         },
 
         mobilenotification_: function () {
@@ -223,6 +231,10 @@ export default {
         },
         toggleMakePost(){
             this.$store.state.makePostStore.showMakePost= !this.$store.state.makePostStore.showMakePost
+            this.$store.state.makePostStore.showMakePostBar=false
+        },
+        toggleMakePostBar(){
+            this.$store.state.makePostStore.showMakePostBar= !this.$store.state.makePostStore.showMakePostBar
         }
 
 
@@ -237,8 +249,9 @@ export default {
             email: 'EMAIL',
             usernameSnippet: 'USERNAMESNIPPET',
             isAuthenticated: 'ISAUTHENTICATED'
+        }),
+        ...mapState('makePostStore', ['showMakePostBar'])
 
-        })
     },
 
     watch: {
@@ -266,9 +279,6 @@ export default {
     z-index: 5;
     box-shadow: var(--boxshadow);
 
-
-
-
     .recommend-me {
         width: 100%;
         max-width: 97px;
@@ -278,12 +288,14 @@ export default {
         border: none;
         padding: 3px 1px;
         font-size: 10px;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
+        
 
-        @media only screen and (min-width: 600px) {
+        @media only screen and (min-width: 700px) {
             padding: 3px 4px;
+            display: flex;
 
         }
 
@@ -382,7 +394,7 @@ export default {
         .auth-button {
             padding: 6px;
             border: none;
-            box-shadow: 0px 0px 4px black;
+            box-shadow: var(--boxshadow);
             border-radius: 4px;
             font-size: 0.8rem;
             background: var(--brandcolor);
@@ -414,6 +426,33 @@ export default {
     
 }
 
+.make-post-bar{
+    width: 100%;
+    background: var(--secondary);
+    color: var(--textcolorimportant);
+    font-size: 1rem;
+    position: absolute;
+    top: 48px;
+    left: 0px;
+    display: flex;
+    justify-content: space-around;
+    height: 45px;
+
+    button{
+        border: none;
+        background: var(--primary);
+        color: var(--textcolorimportant);
+        border-radius: 10px;
+        padding: 7px;
+        margin: 4px;
+        font-size: 1rem;
+        height: fit-content;
+
+        i{
+            padding: 3px;
+        }
+    }
+}
 
 .all-search-bar {
     display: flex;
@@ -450,6 +489,7 @@ export default {
         background-size: 25px;
         background-position: 5px center;
         box-sizing: border-box;
+        box-shadow: var(--boxshadow);
         @media only screen and (min-width: 600px) {
             max-width: 338px;
             
@@ -484,7 +524,7 @@ export default {
     width: 100%;
     position: fixed;
     top: 47px;
-    right: -1px;
+    right: 0px;
     flex-direction: column;
     display: flex;
     margin: 0px;

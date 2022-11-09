@@ -8,14 +8,14 @@
         <div class="info ">
             <label for="username">Email</label>
             <div style="position:relative;">
-                <input @keyup.enter="logIn" v-model.lazy="email" type="text" id="username">
+                <input autocomplete="off" @keyup.enter="logIn" v-model.lazy="email" type="text" id="username">
             </div>
         </div>
 
         <div class="info ">
             <label for="password">Password</label>
             <div style="position:relative;">
-                <input v-model.lazy="password" type="password" id="password">
+                <input autocomplete="off" v-model.lazy="password" type="password" id="password">
             </div>
         </div>
         

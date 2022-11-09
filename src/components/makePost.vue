@@ -1,7 +1,7 @@
 <template>
+  <transition v-if="showMakePost" name="recommenddialogueanimation">
   <div class="makePostPage">
-    <transition name="recommenddialogueanimation">
-      <div v-if="showMakePost" id="recommeddialog" class="container">
+      <div  id="recommeddialog" class="container">
         <div class="header">
           <h3 :class="{ topbutton: true, active: showirecommend }" @click="
             showrecommendme = false;
@@ -65,7 +65,7 @@
                 </div>
 
                 <div id="recommendationsubmit">
-                  <button @click.prevent="show = !show" class="recommendmefinalbutton">
+                  <button @click.prevent="closeMakePost" class="recommendmefinalbutton">
                     Close
                   </button>
                   <button @click.prevent="recommend" class="recommendmefinalbutton" type="submit">
@@ -168,8 +168,8 @@
           </div>
         </div>
       </div>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
   
 <script>
@@ -530,6 +530,9 @@ export default {
       };
       console.log(postdata)
 
+    },
+    closeMakePost(){
+      this.$store.dispatch('makePostStore/closeMakePost')
     }
   },
 
@@ -565,10 +568,14 @@ export default {
   overflow: hidden;
   font-size: 16px;
   color: white;
- height: 90%;
+  height: 90%;
     margin-bottom: 0px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    position: absolute;
+    bottom: 0px;
+    
+
   .genre{
     max-width: 130px;
 
@@ -642,7 +649,7 @@ export default {
 }
 
 #addimagebutton:focus-within {
-  box-shadow: 1px 1px black inset;
+  box-shadow: var(--boxshadow);
 }
 
 
@@ -661,7 +668,7 @@ export default {
   height: 33px;
   padding-left: 5px;
   font-size: 16px;
-  box-shadow: 1px 1px black;
+  box-shadow: var(--boxshadow);
   max-width: 297px;
   width: 100%;
   outline: none;
@@ -671,7 +678,7 @@ export default {
   border-width: 0;
   background-color: var(--secondary);
   border-radius: 5px;
-  box-shadow: 1px 1px black;
+  box-shadow: var(--boxshadow);
   color: var(--textcolornotimportant);
   outline: none;
   flex-grow: 0.5;
@@ -710,14 +717,13 @@ export default {
 #recommenddialogimage {
   width: 124px;
   border-radius: 5px;
-  box-shadow: 1px 1px black;
+  box-shadow: var(--boxshadow);
 }
 
 #recommendationsubmit {
   display: flex;
   justify-content: end;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin: 8px;
 }
 
 #cancelrecommendation {
@@ -725,15 +731,13 @@ export default {
   height: 32px;
   font-size: 19px;
   background-color: var(--secondary);
-  border: 1px black solid;
   border-radius: 7px;
-  box-shadow: 1px 1px black;
+  box-shadow: var(--boxshadow);
   margin: 0 3px 0 2px;
 }
 
 #cancelrecommendation:hover {
   background-color: #ec3131;
-  box-shadow: 2px 2px black;
 }
 
 #submitrecommendation {
@@ -741,13 +745,13 @@ export default {
   background-color: var(--secondary);
   border: 1px black solid;
   border-radius: 7px;
-  box-shadow: 1px 1px black;
+  box-shadow: var(--boxshadow);
   margin: 0 2px;
 }
 
 #submitrecommendation:hover {
   background-color: #56ec31;
-  box-shadow: 2px 2px black;
+  box-shadow: var(--boxshadow);
 }
 
 .topbutton {
@@ -880,6 +884,7 @@ select {
   border: none;
   margin: 10px 2px 0px 0px;
   padding: 5px 10px;
+  box-shadow: var(--boxshadow);
   @media only screen and (min-width:600px){
     max-height: 100px;
     font-size: 16px;
@@ -903,7 +908,10 @@ select {
   background: var(--brandcolor);
   font-size: 16px;
   border-radius: 5px;
-  padding: 2px 16px;
+  padding: 10px;
+  &:nth-last-of-type(2){
+    background: #ff4200;
+  }
 }
 
 .recommenddialogueanimation-enter {
@@ -1030,6 +1038,7 @@ select {
     max-height: 455px;
     width: 100%;
     border-radius: 20px;
+    position: static;
   }
 
 
