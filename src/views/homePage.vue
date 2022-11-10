@@ -3,6 +3,7 @@
     <appNav></appNav>
     <appModal></appModal>
     <makePost></makePost>
+    <majorAlert></majorAlert>
     <h1 style="color:white;">Hello welcome to plug</h1>
   </div>
 </template>
@@ -14,12 +15,14 @@ import { auth, firestore } from '../firebase/firebase.js'
 import appNav from '../components/appNav.vue'
 import modal from '../components/modal.vue'
 import makePost from '../components/makePost.vue'
+import majorAlert from '../components/majorAlert.vue'
 
 export default {
   components: {
     appNav,
     appModal:modal,
-    makePost
+    makePost,
+    majorAlert
   },
   async beforeCreate() {
     auth.onAuthStateChanged((user) => {

@@ -7,7 +7,8 @@ const makePostStore= {
     namespaced: true,
     state:{
         showMakePost:false,
-        showMakePostBar:false
+        showMakePostBar:false,
+        showNav:true
     },
     getters:{
 
@@ -15,7 +16,18 @@ const makePostStore= {
     mutations:{
         closeMakePost(state){
             state.showMakePost=false
+            state.showNav=true
+        },
+        showMakePost(state){
+            state.showMakePost= !state.showMakePost
+            state.showMakePostBar=false;
+            if(window.innerWidth < 600){
+                if(state.showMakePost){
+                    state.showNav=false
+                }
+            }
         }
+       
     },
     actions:{
         closeMakePost(context){
@@ -28,29 +40,27 @@ const makePostStore= {
             const imageRef= ref(storage,'recommendationImages/'+imageName)
             await uploadBytes(imageRef,imageFile)
             getDownloadURL(imageRef)
-            .then((url)=>{
+            .then(async (url)=>{
                 if(recommendData.category == 'Game'){
                     var recommendationCollection= collection(firestore, 'recommendations/FpdYC7uunSCoZ5BrjbDX/games')
                 }else if(recommendData.category == 'Movie'){
                     var recommendationCollection= collection(firestore, 'recommendations/AbImXp8e3ZyMeNhFDamz/movies')
+                }else if(recommendData.category == 'Music'){
+                    var recommendationCollection= collection(firestore, 'recommendations/AbImXp8e3ZyMeNhFDamz/Music')
+
                 }
-                
                 const userData= {
                     recommender_name:context.rootState.authStore.username,
                     recommender_id:auth.currentUser.uid,
-
                 }
-
                 const extraInfo= {
                     date:serverTimestamp(),
                     imageURL:url
                 }
-
                 const completeRecommendationData= {...recommendData, ...extraInfo, ...userData}
-                addDoc(recommendationCollection,completeRecommendationData)
-                .then(data =>{
-                    console.log(data)
-                })
+                await addDoc(recommendationCollection,completeRecommendationData)
+                context.commit('closeMakePost')
+                context.commit('alert',['You have successfully made a recommendation.','Continue recommending to others, spread the word'],{root:true})
                 
             })
 

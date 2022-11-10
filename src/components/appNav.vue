@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- nav bar -->
-        <div ref="navbar" id="navbar">
+        <div v-show="showNav" ref="navbar" id="navbar">
             <div v-if="isAuthenticated" style="flex: 1; padding: 0 0 0 8px">
                 <div style="display: flex; justify-content: space-between">
                     <button style="background-color: transparent; border: 0px" @click="toggleModal">
@@ -230,8 +230,7 @@ export default {
 
         },
         toggleMakePost(){
-            this.$store.state.makePostStore.showMakePost= !this.$store.state.makePostStore.showMakePost
-            this.$store.state.makePostStore.showMakePostBar=!this.$store.state.makePostStore.showMakePostBar
+            this.$store.commit('makePostStore/showMakePost')
         },
         toggleMakePostBar(){
             this.$store.state.makePostStore.showMakePostBar= !this.$store.state.makePostStore.showMakePostBar
@@ -250,7 +249,7 @@ export default {
             usernameSnippet: 'USERNAMESNIPPET',
             isAuthenticated: 'ISAUTHENTICATED'
         }),
-        ...mapState('makePostStore', ['showMakePostBar'])
+        ...mapState('makePostStore', ['showMakePostBar','showNav'])
 
     },
 

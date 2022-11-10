@@ -23,7 +23,7 @@ showpost = true
             <div class="recommenddialogcontent">
               <div class="d-flex justify-content-around flex-row ">
                 <div id="imagesection">
-                  <img :src="imageURL" id="recommenddialogimage" alt="" />
+                  <img :src="`${imageURL}`" id="recommenddialogimage" alt="" />
                 </div>
                 <div class="add-image-section">
                   <div>
@@ -251,7 +251,7 @@ export default {
       selectedpostcategory: "",
       fileName: 'None chosen',
       file:null,
-      imageBlobUrl:null
+      imageBlobUrl:require('../assets/add-image.png')
     };
   },
   computed: {
@@ -272,9 +272,7 @@ export default {
     ...mapState('makePostStore', ['showMakePost']),
 
     imageURL() {
-      if(this.imageBlobUrl){
         return `${this.imageBlobUrl}`
-      }
 
     }
 
@@ -399,13 +397,17 @@ export default {
 <style lang="scss" scoped>
 .makePostPage {
   width: 100vw;
-  height: calc(100vh - 48px);
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
   left: 0;
   bottom: 0;
+  height: 100%;
+  @media only screen and (min-width:600px){
+    height: calc(100vh - 48px);
+
+  }
 }
 
 #recommeddialog {
@@ -419,16 +421,19 @@ export default {
   overflow: hidden;
   font-size: 16px;
   color: white;
-  height: 90%;
+  height: calc(100vh - 49px);
+  /* max-height: 731px; */
   margin-bottom: 0px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   position: absolute;
   bottom: env(safe-area-inset-bottom);
-
-
   .genre {
     max-width: 130px;
+    
+      @media only screen and (min-width:600px) {
+        max-width: 100%;
+      }
 
   }
 
@@ -930,7 +935,7 @@ select {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 } */
 
-@media only screen and (min-width:610px) {
+@media only screen and (min-width:600px) {
   #recommeddialog {
     max-width: 579px;
     max-height: 455px;

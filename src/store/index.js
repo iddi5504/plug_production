@@ -8,7 +8,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   namedspaced: true,
   state: {
-    lightMode:false
+    lightMode:false,
+    alertMessage:'',
+    showAlertMessage:false,
+    smallMessage:''
   },
   getters: {
     LIGHTMODE(state){
@@ -16,6 +19,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    alert(state, message){
+      state.alertMessage= message[0]
+      state.smallMessage= message[1]
+      state.showAlertMessage=true;
+      setTimeout(() => {
+        state.showAlertMessage=false;
+      }, 121000);
+  }
   },
   actions: {
   },
