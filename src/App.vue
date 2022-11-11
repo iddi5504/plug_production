@@ -90,11 +90,11 @@ export default {
   justify-content: center;
   align-items: center;
   background: var(--secondary);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
     Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background:url('./assets/backgroundone.jpg');
   background-size:cover;
-  background-position: center;
+  background-position: center; */
 }
 
 nav {

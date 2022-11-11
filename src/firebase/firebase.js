@@ -1,12 +1,12 @@
 import {initializeApp} from 'firebase/app'
 import {
     getFirestore,
-    connectFirestoreEmulator
+    // connectFirestoreEmulator
 
 } from 'firebase/firestore' 
 import {
     getAuth,
-    connectAuthEmulator
+    // connectAuthEmulator
 } from 'firebase/auth' 
 
 import {
@@ -29,17 +29,17 @@ initializeApp(firebaseConfig)
 // create auth instance
 const auth= getAuth()
 // set up auth emulator
-connectAuthEmulator(auth,'http://localhost:9099')
+// connectAuthEmulator(auth,'http://localhost:9099')
 
 // create auth instance
 const firestore= getFirestore()
 // set up auth emulator
-connectFirestoreEmulator(firestore,'localhost',8081)
+// connectFirestoreEmulator(firestore,'localhost',8081)
 
 // create storage instance
 const storage= getStorage()
 // set up auth emulator
-connectStorageEmulator(storage,'localhost',9199)
+// connectStorageEmulator(storage,'localhost',9199)
 
 export {
     firestore,

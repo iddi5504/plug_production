@@ -514,15 +514,33 @@ export default {
 .post-add-image-section {
   display: flex;
   justify-content: center;
-  max-height: 200px;
+  max-height: 230px;
   height: 100%;
 
-  label {
-    @media only screen and (min-width: 600px) {
-      height: 130px;
-    }
-  }
+ 
 
+  
+}
+
+#irecommend{
+  .recommenddialogcontent{
+    >div{
+      @media only screen and (min-width: 600px) {
+        display: flex;
+        justify-content: space-around;
+        gap: 13px;
+        .add-image-section{
+          display: flex;
+          justify-content: center;
+          gap: 17px;
+          flex-direction: column;
+          width: 100%;
+        }
+      }
+
+    }
+    
+  }
 }
 
 .post-image-preview {
@@ -579,16 +597,30 @@ export default {
   justify-content: center;
   display: flex;
   padding: 3px 9px;
+  overflow-y: auto;
+  &::-webkit-scrollbar{
+    background: var(--primary);
+    width: 11px;
+  }
+  &::-webkit-scrollbar-corner{
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb{
+    background:var(--secondary);
+    border-radius: 10px;
+    box-shadow: var(--boxshadow);
+  }
+ 
 }
 
 .recommenddialogcontent {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: stretch;
   width: 100%;
   color: var(--textcolorimportant);
   padding: 4px 6px;
+  gap: 18px;
 }
 
 #imagesection {
@@ -689,9 +721,14 @@ export default {
 }
 
 #recommenddialogimage {
-  width: 124px;
+  max-width: 235px;
+  width: 100%;
   border-radius: 5px;
   box-shadow: var(--boxshadow);
+
+  @media screen and (min-width:600px){
+    max-width: 338px;
+  }
 }
 
 #recommendationsubmit {
@@ -838,7 +875,6 @@ select {
 }
 
 .addimage {
-  width: 200px;
   height: 100%;
   background-color: var(--secondary);
   display: flex;
@@ -846,6 +882,8 @@ select {
   align-items: center;
   border-radius: 14px;
   cursor: pointer;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 .descriptioninput {
