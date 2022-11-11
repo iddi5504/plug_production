@@ -33,6 +33,7 @@ export default {
         border-left: 7px solid var(--brandcolor);
         width: 100%;
         border-radius: 2px;
+        margin: 3px 18px;
 
     }
     
