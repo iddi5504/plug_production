@@ -2,7 +2,7 @@
   <div id="app">
     <router-view />
     <transition name="showMinorAlert">
-      <minorAlert v-show="true"></minorAlert>
+      <minorAlert v-show="showMinorAlertMessage"></minorAlert>
     </transition>
     <loadingScreen v-show="showLoadScreen"></loadingScreen>
   </div>
