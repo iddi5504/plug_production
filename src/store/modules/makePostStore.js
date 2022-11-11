@@ -34,6 +34,7 @@ const makePostStore = {
             context.commit('closeMakePost');
         },
         async makeRecommendation(context, data) {
+            context.commit('showLoadScreen','Making recommendation',{root:true})
             const recommendData = data[0]
             const imageFile = data[1].imageFile
             const imageName = data[1].imageName
@@ -55,12 +56,18 @@ const makePostStore = {
                     const completeRecommendationData = { ...recommendData, ...extraInfo, ...userData }
                     await addDoc(recommendationCollection, completeRecommendationData)
                     context.commit('closeMakePost')
+                    context.commit('stopLoading',null,{root:true})
                     context.commit('alert', ['You have successfully made a recommendation.', 'Continue recommending to others, spread the word'], { root: true })
+
+                })
+                .catch(()=>{
+                    context.commit('stopLoading',null,{root:true})
 
                 })
 
         },
         async post(context, postData) {
+            context.commit('showLoadScreen','Making your post',{root:true})
             const postUnrefinedData = postData[0]
             const postFile = postData[1].postFile
             const postFileName = postData[1].postFileName
@@ -82,7 +89,12 @@ const makePostStore = {
                     await addDoc(postCollection, completePostData)
                     context.commit('closeMakePost')
                     context.commit('alert', ['You have successfully made a post.', 'Check your notifications for activities on your post'], { root: true })
-
+                    context.commit('stopLoading',null,{root:true})
+                
+                })
+                .catch(()=>{
+                    context.commit('stopLoading',null,{root:true})
+                    
                 })
 
         }

@@ -11,7 +11,11 @@ export default new Vuex.Store({
     lightMode:false,
     alertMessage:'',
     showAlertMessage:false,
-    smallMessage:''
+    smallMessage:'',
+    showLoadScreen:false,
+    loadScreenMessage:'',
+    minorAlertMessage:'',
+    showMinorAlertMessage:false
   },
   getters: {
     LIGHTMODE(state){
@@ -26,6 +30,20 @@ export default new Vuex.Store({
       setTimeout(() => {
         state.showAlertMessage=false;
       }, 121000);
+  },
+  showLoadScreen(state, message){
+    state.loadScreenMessage=message;
+    state.showLoadScreen=true;
+  },
+  stopLoading(state){
+    state.showLoadScreen=false
+  },
+  showMinorAlertMessage(state, message){
+    state.showMinorAlertMessage= true;
+    state.minorAlertMessage= message;
+    setTimeout(() => {
+      state.showMinorAlertMessage= false;
+    }, 4000);
   }
   },
   actions: {

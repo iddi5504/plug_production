@@ -427,7 +427,7 @@ export default {
 
 .make-post-bar{
     width: 100%;
-    background: var(--secondary);
+    background: var(--primary);
     color: var(--textcolorimportant);
     font-size: 1rem;
     position: absolute;
@@ -439,13 +439,14 @@ export default {
 
     button{
         border: none;
-        background: var(--primary);
+        background: var(--secondary);
         color: var(--textcolorimportant);
         border-radius: 10px;
         padding: 7px;
         margin: 4px;
         font-size: 1rem;
         height: fit-content;
+        box-shadow: var(--boxshadow);
 
         i{
             padding: 3px;

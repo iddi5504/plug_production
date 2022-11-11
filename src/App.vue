@@ -1,13 +1,22 @@
 <template>
   <div id="app">
     <router-view />
+    <transition name="showMinorAlert">
+      <minorAlert v-show="showMinorAlertMessage"></minorAlert>
+    </transition>
+    <loadingScreen v-show="showLoadScreen"></loadingScreen>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
+import loadingScreen from './components/loadingScreen.vue'
+import minorAlert from './components/minorAlert.vue'
 export default {
- 
+ components:{
+  loadingScreen,
+  minorAlert
+ },
   data() {
     return {
       showNav: true,
@@ -21,8 +30,9 @@ export default {
   },
   computed:{
     ...mapGetters({
-      lightMode:'LIGHTMODE'
-    })
+      lightMode:'LIGHTMODE',
+    }),
+    ...mapState(['showLoadScreen','showMinorAlertMessage'])
   },
   
   watch: {
@@ -108,5 +118,14 @@ nav {
       color: #42b983;
     }
   }
+}
+
+.showMinorAlert-enter-active, .showMinorAlert-leave-active{
+  transition: 0.5s all ease-in-out;
+  transform: translateY(0);
+}
+
+.showMinorAlert-enter, .showMinorAlert-leave-to{
+  transform: translateY(-100px);
 }
 </style>

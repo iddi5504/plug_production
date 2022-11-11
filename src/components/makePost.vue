@@ -28,8 +28,7 @@
                     <div style="text-align: left;">Recommendation type</div>
                     <div>
                       <select class="typeselect genre" v-model="selectedRecommendationCategory">
-                        <option  v-for="(recommendtype, index) in categories"
-                          :key="index" :value="recommendtype">
+                        <option v-for="(recommendtype, index) in categories" :key="index" :value="recommendtype">
                           {{ recommendtype }}
                         </option>
                       </select>
@@ -47,8 +46,8 @@
                   <div>
                     <label for="genre">Genre</label>
                     <select id="genre" class="typeselect genre" v-model="selectedRecommendationGenre">
-                      <option :value="recommendtype"
-                        v-for="(recommendtype, index) in selectedRecommendationType" :key="index">
+                      <option :value="recommendtype" v-for="(recommendtype, index) in selectedRecommendationType"
+                        :key="index">
                         {{ recommendtype }}
                       </option>
                     </select>
@@ -313,38 +312,38 @@ export default {
   methods: {
 
     recommend: function () {
-     if(
-      this.recommendeditem  &&
-      this.content &&
-      this.selectedRecommendationCategory &&
-      this.selectedRecommendationGenre 
-      ){
-      var recommendData = [
-        {
-          header: this.recommendeditem,
-          content: this.content,
-          category: this.selectedRecommendationCategory,
-          genre:this.selectedRecommendationGenre,
-          upvotes: 0,
-          downvotes: 0,
-          isreactedup: false,
-          isreacteddown: false,
-          number_of_comments: 0,
-          saved: false,
-        },
-        {
-          imageName: this.fileName,
-          imageFile: this.file
-        }
-      ];
-      this.$store.dispatch('makePostStore/makeRecommendation', recommendData)
-        .then(() => {
-          this.submitted = true;
-        })
+      if (
+        this.recommendeditem &&
+        this.content &&
+        this.selectedRecommendationCategory &&
+        this.selectedRecommendationGenre
+      ) {
+        var recommendData = [
+          {
+            header: this.recommendeditem,
+            content: this.content,
+            category: this.selectedRecommendationCategory,
+            genre: this.selectedRecommendationGenre,
+            upvotes: 0,
+            downvotes: 0,
+            isreactedup: false,
+            isreacteddown: false,
+            number_of_comments: 0,
+            saved: false,
+          },
+          {
+            imageName: this.fileName,
+            imageFile: this.file
+          }
+        ];
+        this.$store.dispatch('makePostStore/makeRecommendation', recommendData)
+          .then(() => {
+            this.submitted = true;
+          })
 
-     }else{
-      alert('you must provide all information')
-     }
+      } else {
+        this.$store.commit('showMinorAlertMessage', 'Make sure you filled out all the fields', { root: true })
+      }
     },
 
     askrecommendation: function () {
@@ -368,93 +367,96 @@ export default {
       //   });
     },
 
-    
-        prev: function () {
-          this.recommendmetypeindex--;
-          if (this.recommendmetypeindex === 0) {
-            this.recommendmetypeindex = 3;
-          }
-          this.recommendmetype = this.recommendmetypes[this.recommendmetypeindex];
-        },
 
-        opengenre_: function () {
-          this.opengenre = !this.opengenre;
-        },
-        choose: function (chose) {
-          this.selectedgenre = chose;
-          this.opengenre = !this.opengenre;
-        },
+    prev: function () {
+      this.recommendmetypeindex--;
+      if (this.recommendmetypeindex === 0) {
+        this.recommendmetypeindex = 3;
+      }
+      this.recommendmetype = this.recommendmetypes[this.recommendmetypeindex];
+    },
 
-        post: function () {
-          if(
-            this.selectedpostcategory &&
-            this.postTitle &&
-            this.postdescription
-          ){
-            var postdata = [
-            {
-              postcategory: this.selectedpostcategory,
-              postTitle: this.postTitle,
-              postdescription: this.postdescription,
-              upvotes: 0,
-              downvotes: 0,
-              numberofcomments: 0,
-              saved: false,
-            },
-            {
-              postFile: this.postFile,
-              postFileName: this.postFileName
-            }
-          ];
-          this.$store.dispatch('makePostStore/post', postdata);
-          }
-        },
-        closeMakePost() {
-          this.$store.dispatch('makePostStore/closeMakePost')
-        },
-        getFile() {
-          const file = this.$refs.file.files[0]
-          if (file.size > 1048576 * 3) {
-            alert('file too large')
+    opengenre_: function () {
+      this.opengenre = !this.opengenre;
+    },
+    choose: function (chose) {
+      this.selectedgenre = chose;
+      this.opengenre = !this.opengenre;
+    },
 
-          } else {
-            this.fileName = file.name;
-            this.file = file
-            this.imageBlobUrl = URL.createObjectURL(file)
+    post: function () {
+      if (
+        this.selectedpostcategory &&
+        this.postTitle &&
+        this.postdescription
+      ) {
+        var postdata = [
+          {
+            postcategory: this.selectedpostcategory,
+            postTitle: this.postTitle,
+            postdescription: this.postdescription,
+            upvotes: 0,
+            downvotes: 0,
+            numberofcomments: 0,
+            saved: false,
+          },
+          {
+            postFile: this.postFile,
+            postFileName: this.postFileName
           }
-        },
-        getPostFile(){
-          const file = this.$refs.postFile.files[0]
-          console.log(file)
-          // check file size
-          if (file.size > 1048576 * 1115) {
-            alert('file too large')
-          } else {
-            // check if file is a video
-            if (file.type.includes('video')) {
-              this.isImage = false
-            } else {
-              this.isImage = true
-            }
-            this.postFile = file
-            this.postFileName = file.name
-            this.postFileUrl = URL.createObjectURL(file)
-          }
+        ];
+        this.$store.dispatch('makePostStore/post', postdata);
+      } 
+      else {
+        this.$store.commit('showMinorAlertMessage', 'Make sure you filled out all the fields', { root: true })
+      }
+    },
+    closeMakePost() {
+      this.$store.dispatch('makePostStore/closeMakePost')
+    },
+    getFile() {
+      const file = this.$refs.file.files[0]
+      if (file.size > 1048576 * 3) {
+        alert('file too large')
+
+      } else {
+        this.fileName = file.name;
+        this.file = file
+        this.imageBlobUrl = URL.createObjectURL(file)
+      }
+    },
+    getPostFile() {
+      const file = this.$refs.postFile.files[0]
+      console.log(file)
+      // check file size
+      if (file.size > 1048576 * 1115) {
+        alert('file too large')
+      } else {
+        // check if file is a video
+        if (file.type.includes('video')) {
+          this.isImage = false
+        } else {
+          this.isImage = true
         }
-      },
+        this.postFile = file
+        this.postFileName = file.name
+        this.postFileUrl = URL.createObjectURL(file)
+      }
+    }
+  },
 
-      watch:{
-        
-        
+  watch: {
 
 
 
-        // bus.$on("showrecommendialogue", (data) => {
-        //   this.show = data;
-        // });
-        // console.log(this.selectedRecommendationCategory);
-      },
-    };
+
+
+    // bus.$on("showrecommendialogue", (data) => {
+    //   this.show = data;
+    // });
+    // console.log(this.selectedRecommendationCategory);
+  },
+};
 </script>
   
 <style lang="scss" scoped>
@@ -517,19 +519,20 @@ export default {
   max-height: 230px;
   height: 100%;
 
- 
 
-  
+
+
 }
 
-#irecommend{
-  .recommenddialogcontent{
-    >div{
+#irecommend {
+  .recommenddialogcontent {
+    >div {
       @media only screen and (min-width: 600px) {
         display: flex;
         justify-content: space-around;
         gap: 13px;
-        .add-image-section{
+
+        .add-image-section {
           display: flex;
           justify-content: center;
           gap: 17px;
@@ -539,7 +542,7 @@ export default {
       }
 
     }
-    
+
   }
 }
 
@@ -573,8 +576,10 @@ export default {
 .header {
   display: flex;
   margin-top: 3px;
+  align-items: center;
   color: var(--textcolorimportant);
   justify-content: space-around;
+  height: 29px;
 }
 
 #firstsection {
@@ -598,19 +603,22 @@ export default {
   display: flex;
   padding: 3px 9px;
   overflow-y: auto;
-  &::-webkit-scrollbar{
+
+  &::-webkit-scrollbar {
     background: var(--primary);
     width: 11px;
   }
-  &::-webkit-scrollbar-corner{
+
+  &::-webkit-scrollbar-corner {
     border-radius: 10px;
   }
-  &::-webkit-scrollbar-thumb{
-    background:var(--secondary);
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--secondary);
     border-radius: 10px;
     box-shadow: var(--boxshadow);
   }
- 
+
 }
 
 .recommenddialogcontent {
@@ -726,7 +734,7 @@ export default {
   border-radius: 5px;
   box-shadow: var(--boxshadow);
 
-  @media screen and (min-width:600px){
+  @media screen and (min-width:600px) {
     max-width: 338px;
   }
 }
@@ -1114,8 +1122,6 @@ select {
   #recommendinput {
     flex: 1;
   }
-
-  .inputfield {}
 
   .typeselect {
     flex: 0.5;
