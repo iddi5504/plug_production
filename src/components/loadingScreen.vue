@@ -1,7 +1,8 @@
 <template>
   <div class="loadingScreen">
     <div>
-        <span class="loader"></span>
+      <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_kxsd2ytq.json"  background="rgba(255, 212, 212, 0)"  speed="1"  style="width: 200px; height: 200px;"  loop autoplay></lottie-player>
+
         <div class="message">{{loadScreenMessage}}</div>
     </div>
   </div>
