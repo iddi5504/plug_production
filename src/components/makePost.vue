@@ -3,17 +3,10 @@
     <div class="makePostPage">
       <div id="recommeddialog" class="container">
         <div class="header">
-          <h3 :class="{ topbutton: true, active: showirecommend }" @click="
-  showrecommendme = false;
-showirecommend = true;
-          ">
+          <h3 :class="{ topbutton: true, active: showirecommend }" @click="showirecommend = true; showpost = false">
             iRecommend
           </h3>
-          <h3 :class="{ topbutton: true, active: showrecommendme }" @click="
-  showrecommendme = false;
-showirecommend = false;
-showpost = true
-          ">
+          <h3 :class="{ topbutton: true, active: showpost }" @click="showirecommend = false; showpost = true ">
             Post
           </h3>
 
@@ -27,15 +20,16 @@ showpost = true
                 </div>
                 <div class="add-image-section">
                   <div>
-                    <div>Add image</div>
+                    <div style="text-align: left;">Add image</div>
                     <label class="typeselect add-image-label" for="file">{{ fileName }}</label>
-                    <input ref="file" type="file" id="file" class="add-image" @change="getFile">
+                    <input ref="file" type="file" accept="image/*" id="file" class="add-image file" @change="getFile">
                   </div>
                   <div>
-                    <div>Recommendation type</div>
+                    <div style="text-align: left;">Recommendation type</div>
                     <div>
                       <select class="typeselect genre" v-model="selectedRecommendationCategory">
-                        <option v-for="(recommendtype, index) in category" :key="index">
+                        <option  v-for="(recommendtype, index) in categories"
+                          :key="index" :value="recommendtype">
                           {{ recommendtype }}
                         </option>
                       </select>
@@ -44,15 +38,21 @@ showpost = true
                 </div>
               </div>
               <div id="mainbody">
-                <label for="recommend">What are you recommending</label>
                 <div name="recommend" id="recommendinput">
-                  <input autocomplete="off" v-model="recommendeditem" type="text" class="inputfield"
-                    placeholder="Recommend here" required />
-                  <select class="typeselect genre" v-model="selectedRecommendationCategory">
-                    <option v-for="(recommendtype, index) in category" :key="index">
-                      {{ recommendtype }}
-                    </option>
-                  </select>
+                  <div>
+                    <label for="recommend">Recommend</label>
+                    <input autocomplete="off" v-model="recommendeditem" type="text" class="inputfield"
+                      placeholder="Recommend here" required />
+                  </div>
+                  <div>
+                    <label for="genre">Genre</label>
+                    <select id="genre" class="typeselect genre" v-model="selectedRecommendationGenre">
+                      <option :value="recommendtype"
+                        v-for="(recommendtype, index) in selectedRecommendationType" :key="index">
+                        {{ recommendtype }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
                 <div id="recommendcaption">
                   <label for="caption">Say something about it
@@ -128,43 +128,58 @@ showpost = true
           </form>
         </transition> -->
         <!-- picturepost -->
-        <div class="picturepostdialogue" v-show="false">
-          <div class="d-flex justify-content-center">
-            <img v-if="postmediaurl" src="../assets/music.jpg" class="addimage">
+        <form action="" id="irecommend" ref="recommend " v-show="showpost">
 
+          <div class="recommenddialogcontent">
+            <div class="post-add-image-section">
+              <!-- <img  src="../assets/music.jpg" class="addimage"> -->
 
-            <div v-else class="typeselect">
-              <i class="bi bi-plus"></i>
-              <div>Add image</div>
-            </div>
-
-          </div>
-          <div id="mainbody">
-            <label for="posttitle">TItle</label>
-            <div name="recommend" id="recommendinput">
-              <input autocomplete="off" v-model="posttitle" type="text" class="inputfield" placeholder="Title"
-                required />
-              <select class="typeselect" v-model="selectedpostcategory">
-                <option v-for="(category, index) in postcategory" :value="category" :key="index">{{ category }}</option>
-              </select>
-            </div>
-            <div id="recommendcaption">
-              <label for="caption">What do you have to say
+              <label for="post-file" class="typeselect addimage post-image-preview">
+                <i class="bi bi-pen"></i>
+                <img v-if="isImage" class="post-image" :src="`${postFileUrl}`" alt="">
+                <video loop autoplay v-if="!isImage" class="post-image" :src="`${postFileUrl}`" alt=""></video>
+                <div v-show="!postFileUrl">
+                  <i class="bi bi-plus"></i>
+                  <div>Add image</div>
+                </div>
               </label>
-              <textarea autocomplete="off" v-model.trim="postdescription" name="postdescription"
-                class="descriptioninput" cols="30" rows="40" placeholder="Say something" required></textarea>
-            </div>
+              <input ref="postFile" accept="image/*, video/*" required type="file" id="post-file" class="add-image file"
+                @change="getPostFile">
 
-            <div id="recommendationsubmit">
-              <button @click.prevent="show = !show" class="recommendmefinalbutton">
-                Close
-              </button>
-              <button @click.prevent="post" class="recommendmefinalbutton" type="submit">
-                Post
-              </button>
+            </div>
+            <div id="mainbody">
+              <div name="recommend" id="recommendinput">
+                <div>
+                  <label for="postTitle">Title</label>
+                  <input autocomplete="off" v-model="postTitle" type="text" class="inputfield" placeholder="Title"
+                    required />
+                </div>
+                <div>
+                  <label for="post-category">Select category</label>
+                  <select id="post-category" class="typeselect" v-model="selectedpostcategory">
+                    <option v-for="(category, index) in categories" :value="category" :key="index">{{ category }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div id="recommendcaption">
+                <label for="caption" class="">What do you have to say
+                </label>
+                <textarea autocomplete="off" v-model.trim="postdescription" name="postdescription"
+                  class="descriptioninput" cols="30" rows="40" placeholder="Say something" required></textarea>
+              </div>
+
+              <div id="recommendationsubmit">
+                <button @click.prevent="closeMakePost" class="recommendmefinalbutton">
+                  Close
+                </button>
+                <button @click.prevent="post" class="recommendmefinalbutton" type="submit">
+                  Recommend
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </transition>
@@ -176,9 +191,8 @@ export default {
   data() {
     return {
       recommendeditem: "",
-      category: ["Music", "Book", "Movie", "Game", "Artiste", "Actor"],
-      selectedRecommendationCategory: "Movie",
-      genre: "",
+      categories: ["Music", "Book", "Movie", "Game", "Artiste", "Actor"],
+      selectedRecommendationCategory: '',
       content: "",
       image: "",
       submitted: false,
@@ -186,7 +200,7 @@ export default {
       Game: [
         "Action-Adventure",
         "Survival",
-        "Horror,",
+        "Horror",
         "Shooter",
         "RPG",
         "Puzzler",
@@ -205,53 +219,56 @@ export default {
         "Jazz",
         "Dancehall",
       ],
-      Movie: [
-        "Action",
-        "Crime",
-        "Animation",
-        "Drama",
-        "Fantasy",
-        "Horror",
-        "Anime",
-        "Sci-Fi",
-        "Comedy",
-        "Thriller",
-        "Romans",
-        "Western",
-      ],
+
       Book: [
-        "Action-Adventure",
-        "Crime",
-        "Drama",
         "Manga",
         "Fantasy",
-        "Horror",
         "Sci-Fi",
+        "Action-Adventure",
         "Comedy",
-        "ParanormalRomance",
-        "Picture",
+        "Comic",
         "Book",
         "Satire",
         "Cook",
-        "Book",
         "Autobiography",
         "Business",
         "Memoir",
         "Science",
       ],
+      Movie: [
+        "Anime",
+        "Drama",
+        "Action-Adventure",
+        "Fantasy",
+        "Crime",
+        "Horror",
+        "Sci-Fi",
+        "Comedy",
+        "ParanormalRomance",
+        "Cook",
+        "Autobiography",
+        "Business",
+        "Science",
+      ],
+      selectedRecommendationGenre: '',
       selectedgenre: "select",
       opengenre: false,
       showrecommendme: false,
       showirecommend: true,
+      showpost: false,
       recommendmedescription: "",
       postmediaurl: "../assets/music.jpg",
-      posttitle: "",
+      postTitle: "",
       postdescription: "",
-      postcategory: ["Music", "Book", "Movie", "Game"],
       selectedpostcategory: "",
       fileName: 'None chosen',
-      file:null,
-      imageBlobUrl:require('../assets/add-image.png')
+      file: null,
+      imageBlobUrl: require('../assets/add-image.png'),
+      postFileUrl: require('../assets/add-image.png'),
+      postFile: null,
+      postFileName: null,
+      isImage: true,
+      selectedCateogryObject: null
     };
   },
   computed: {
@@ -269,43 +286,65 @@ export default {
         return this.Book;
       }
     },
+    selectedRecommendationType: function () {
+      if (this.selectedRecommendationCategory === "Movie") {
+        return this.Movie;
+      }
+      if (this.selectedRecommendationCategory === "Music") {
+        return this.Music;
+      }
+      if (this.selectedRecommendationCategory === "Game") {
+        return this.Game;
+      }
+      if (this.selectedRecommendationCategory === "Book") {
+        return this.Book;
+      }
+    },
     ...mapState('makePostStore', ['showMakePost']),
 
     imageURL() {
-        return `${this.imageBlobUrl}`
+      return `${this.imageBlobUrl}`
 
     }
 
   },
 
- 
+
   methods: {
 
     recommend: function () {
+     if(
+      this.recommendeditem  &&
+      this.content &&
+      this.selectedRecommendationCategory &&
+      this.selectedRecommendationGenre 
+      ){
       var recommendData = [
         {
-        header: this.recommendeditem,
-        content: this.content,
-        genre: this.genre,
-        category: this.selectedRecommendationCategory,
-        upvotes:0,
-        downvotes:0,
-        isreactedup: false,
-        isreacteddown: false,
-        number_of_comments: 0,
-        saved: false,
-      },
-      {
-        imageName:this.fileName,
-        imageFile:this.file
-      }
-    ];
-    console.log(recommendData)
+          header: this.recommendeditem,
+          content: this.content,
+          category: this.selectedRecommendationCategory,
+          genre:this.selectedRecommendationGenre,
+          upvotes: 0,
+          downvotes: 0,
+          isreactedup: false,
+          isreacteddown: false,
+          number_of_comments: 0,
+          saved: false,
+        },
+        {
+          imageName: this.fileName,
+          imageFile: this.file
+        }
+      ];
       this.$store.dispatch('makePostStore/makeRecommendation', recommendData)
-      .then(()=>{
-        this.submitted = true;
-      })
+        .then(() => {
+          this.submitted = true;
+        })
 
+     }else{
+      alert('you must provide all information')
+     }
     },
 
     askrecommendation: function () {
@@ -329,69 +368,93 @@ export default {
       //   });
     },
 
-    next: function () {
-      this.recommendmetypeindex++;
+    
+        prev: function () {
+          this.recommendmetypeindex--;
+          if (this.recommendmetypeindex === 0) {
+            this.recommendmetypeindex = 3;
+          }
+          this.recommendmetype = this.recommendmetypes[this.recommendmetypeindex];
+        },
 
-      if (this.recommendmetypeindex === this.recommendmetypes.length) {
-        this.recommendmetypeindex = 0;
-      }
-      this.recommendmetype = this.recommendmetypes[this.recommendmetypeindex];
-    },
-    prev: function () {
-      this.recommendmetypeindex--;
-      if (this.recommendmetypeindex === 0) {
-        this.recommendmetypeindex = 3;
-      }
-      this.recommendmetype = this.recommendmetypes[this.recommendmetypeindex];
-    },
+        opengenre_: function () {
+          this.opengenre = !this.opengenre;
+        },
+        choose: function (chose) {
+          this.selectedgenre = chose;
+          this.opengenre = !this.opengenre;
+        },
 
-    opengenre_: function () {
-      this.opengenre = !this.opengenre;
-    },
-    choose: function (chose) {
-      this.selectedgenre = chose;
-      this.opengenre = !this.opengenre;
-    },
+        post: function () {
+          if(
+            this.selectedpostcategory &&
+            this.postTitle &&
+            this.postdescription
+          ){
+            var postdata = [
+            {
+              postcategory: this.selectedpostcategory,
+              postTitle: this.postTitle,
+              postdescription: this.postdescription,
+              upvotes: 0,
+              downvotes: 0,
+              numberofcomments: 0,
+              saved: false,
+            },
+            {
+              postFile: this.postFile,
+              postFileName: this.postFileName
+            }
+          ];
+          this.$store.dispatch('makePostStore/post', postdata);
+          }
+        },
+        closeMakePost() {
+          this.$store.dispatch('makePostStore/closeMakePost')
+        },
+        getFile() {
+          const file = this.$refs.file.files[0]
+          if (file.size > 1048576 * 3) {
+            alert('file too large')
 
-    post: function () {
-      var postdata = {
-        recommender_id: "Default",
-        item: "Post",
-        postcategory: this.selectedpostcategory,
-        posttitle: this.posttitle,
-        postdescription: this.postdescription,
-        ups: 0,
-        downs: 0,
-        isreactedup: false,
-        isreacteddown: false,
-        numberofcomments: 0,
-        id: id,
-        postmediaurl: this.postmediaurl,
-        saved: false,
-        date:null
-      };
-      console.log(postdata)
+          } else {
+            this.fileName = file.name;
+            this.file = file
+            this.imageBlobUrl = URL.createObjectURL(file)
+          }
+        },
+        getPostFile(){
+          const file = this.$refs.postFile.files[0]
+          console.log(file)
+          // check file size
+          if (file.size > 1048576 * 1115) {
+            alert('file too large')
+          } else {
+            // check if file is a video
+            if (file.type.includes('video')) {
+              this.isImage = false
+            } else {
+              this.isImage = true
+            }
+            this.postFile = file
+            this.postFileName = file.name
+            this.postFileUrl = URL.createObjectURL(file)
+          }
+        }
+      },
 
-    },
-    closeMakePost() {
-      this.$store.dispatch('makePostStore/closeMakePost')
-    },
-    getFile() {
-      const file = this.$refs.file.files[0]
-      this.fileName = file.name;
-      this.file=file
-      this.imageBlobUrl=URL.createObjectURL(file)
-      console.log("🚀 ~ file: makePost.vue ~ line 386 ~ getFile ~ this.imageBlobUrl", this.imageBlobUrl)
-    }
-  },
+      watch:{
+        
+        
 
-  created() {
-    // bus.$on("showrecommendialogue", (data) => {
-    //   this.show = data;
-    // });
-    // console.log(this.selectedRecommendationCategory);
-  },
-};
+
+
+        // bus.$on("showrecommendialogue", (data) => {
+        //   this.show = data;
+        // });
+        // console.log(this.selectedRecommendationCategory);
+      },
+    };
 </script>
   
 <style lang="scss" scoped>
@@ -404,7 +467,8 @@ export default {
   left: 0;
   bottom: 0;
   height: 100%;
-  @media only screen and (min-width:600px){
+
+  @media only screen and (min-width:600px) {
     height: calc(100vh - 48px);
 
   }
@@ -421,19 +485,19 @@ export default {
   overflow: hidden;
   font-size: 16px;
   color: white;
-  height: calc(100vh - 49px);
-  /* max-height: 731px; */
+  height: 95%;
+  max-height: 731px;
   margin-bottom: 0px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   position: absolute;
   bottom: env(safe-area-inset-bottom);
+
   .genre {
-    max-width: 130px;
-    
-      @media only screen and (min-width:600px) {
-        max-width: 100%;
-      }
+
+    @media only screen and (min-width:600px) {
+      max-width: 100%;
+    }
 
   }
 
@@ -445,6 +509,44 @@ export default {
     text-align: left;
   }
 
+}
+
+.post-add-image-section {
+  display: flex;
+  justify-content: center;
+  max-height: 200px;
+  height: 100%;
+
+  label {
+    @media only screen and (min-width: 600px) {
+      height: 130px;
+    }
+  }
+
+}
+
+.post-image-preview {
+  position: relative;
+
+  video {
+    aspect-ratio: auto !important;
+  }
+
+  .bi {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 28px;
+    height: 28px;
+    background: var(--brandcolor);
+    border-radius: 50%;
+    color: black;
+    font-size: 1.4rem;
+  }
+
+  .post-image {
+    height: 100%;
+  }
 }
 
 
@@ -476,7 +578,7 @@ export default {
   flex: 1;
   justify-content: center;
   display: flex;
-  padding-left: 9px;
+  padding: 3px 9px;
 }
 
 .recommenddialogcontent {
@@ -512,7 +614,24 @@ export default {
 #recommendinput {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  gap: 18px;
+
+  div {
+    width: 100%;
+    max-width: 207px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  div:first-of-type {
+    max-width: 308px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
 }
 
 .inputfield {
@@ -525,7 +644,6 @@ export default {
   padding-left: 5px;
   font-size: 16px;
   box-shadow: var(--boxshadow);
-  max-width: 297px;
   width: 100%;
   outline: none;
 }
@@ -721,7 +839,7 @@ select {
 
 .addimage {
   width: 200px;
-  height: 129px;
+  height: 100%;
   background-color: var(--secondary);
   display: flex;
   justify-content: center;
@@ -891,7 +1009,7 @@ select {
   }
 }
 
-#file {
+.file {
   opacity: 0;
   width: 0.1px;
   height: 0.1px;
@@ -959,9 +1077,7 @@ select {
     flex: 1;
   }
 
-  .inputfield {
-    flex: 0.7;
-  }
+  .inputfield {}
 
   .typeselect {
     flex: 0.5;

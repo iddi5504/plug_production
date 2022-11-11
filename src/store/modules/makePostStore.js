@@ -3,66 +3,87 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage, firestore, auth } from '../../firebase/firebase'
 
 
-const makePostStore= {
+const makePostStore = {
     namespaced: true,
-    state:{
-        showMakePost:false,
-        showMakePostBar:false,
-        showNav:true
+    state: {
+        showMakePost: false,
+        showMakePostBar: false,
+        showNav: true
     },
-    getters:{
+    getters: {
 
     },
-    mutations:{
-        closeMakePost(state){
-            state.showMakePost=false
-            state.showNav=true
+    mutations: {
+        closeMakePost(state) {
+            state.showMakePost = false
+            state.showNav = true
         },
-        showMakePost(state){
-            state.showMakePost= !state.showMakePost
-            state.showMakePostBar=false;
-            if(window.innerWidth < 600){
-                if(state.showMakePost){
-                    state.showNav=false
+        showMakePost(state) {
+            state.showMakePost = !state.showMakePost
+            state.showMakePostBar = false;
+            if (window.innerWidth < 600) {
+                if (state.showMakePost) {
+                    state.showNav = false
                 }
             }
         }
-       
+
     },
-    actions:{
-        closeMakePost(context){
+    actions: {
+        closeMakePost(context) {
             context.commit('closeMakePost');
         },
-        async makeRecommendation(context,data){
-            const recommendData=data[0]
-            const imageFile=data[1].imageFile
-            const imageName=data[1].imageName
-            const imageRef= ref(storage,'recommendationImages/'+imageName)
-            await uploadBytes(imageRef,imageFile)
+        async makeRecommendation(context, data) {
+            const recommendData = data[0]
+            const imageFile = data[1].imageFile
+            const imageName = data[1].imageName
+            const imageRef = ref(storage, 'recommendationImages/' + imageName)
+            const category=recommendData.category
+            const genre=recommendData.genre
+            await uploadBytes(imageRef, imageFile)
             getDownloadURL(imageRef)
-            .then(async (url)=>{
-                if(recommendData.category == 'Game'){
-                    var recommendationCollection= collection(firestore, 'recommendations/FpdYC7uunSCoZ5BrjbDX/games')
-                }else if(recommendData.category == 'Movie'){
-                    var recommendationCollection= collection(firestore, 'recommendations/AbImXp8e3ZyMeNhFDamz/movies')
-                }else if(recommendData.category == 'Music'){
-                    var recommendationCollection= collection(firestore, 'recommendations/AbImXp8e3ZyMeNhFDamz/Music')
+                .then(async (url) => {
+                    const recommendationCollection= collection(firestore, `recommendations/${category}/${category}/${genre}/${genre}`)
+                    const userData = {
+                        recommender_name: context.rootState.authStore.username,
+                        recommender_id: auth.currentUser.uid,
+                    }
+                    const extraInfo = {
+                        date: serverTimestamp(),
+                        imageURL: url
+                    }
+                    const completeRecommendationData = { ...recommendData, ...extraInfo, ...userData }
+                    await addDoc(recommendationCollection, completeRecommendationData)
+                    context.commit('closeMakePost')
+                    context.commit('alert', ['You have successfully made a recommendation.', 'Continue recommending to others, spread the word'], { root: true })
 
-                }
-                const userData= {
-                    recommender_name:context.rootState.authStore.username,
-                    recommender_id:auth.currentUser.uid,
-                }
-                const extraInfo= {
-                    date:serverTimestamp(),
-                    imageURL:url
-                }
-                const completeRecommendationData= {...recommendData, ...extraInfo, ...userData}
-                await addDoc(recommendationCollection,completeRecommendationData)
-                context.commit('closeMakePost')
-                context.commit('alert',['You have successfully made a recommendation.','Continue recommending to others, spread the word'],{root:true})
-                
-            })
+                })
+
+        },
+        async post(context, postData) {
+            const postUnrefinedData = postData[0]
+            const postFile = postData[1].postFile
+            const postFileName = postData[1].postFileName
+            const postMediaRef = ref(storage, 'postMedia/' + postFileName)
+            const category= postUnrefinedData.postcategory
+            await uploadBytes(postMediaRef, postFile)
+            getDownloadURL(postMediaRef)
+                .then(async (url) => {
+                    var postCollection = collection(firestore, `post/${category}/${category}`)
+                    const userData = {
+                        username: context.rootState.authStore.username,
+                        user_id: auth.currentUser.uid,
+                    }
+                    const extraInfo = {
+                        date: serverTimestamp(),
+                        postMediaUrl: url
+                    }
+                    const completePostData = { ...postUnrefinedData, ...extraInfo, ...userData }
+                    await addDoc(postCollection, completePostData)
+                    context.commit('closeMakePost')
+                    context.commit('alert', ['You have successfully made a post.', 'Check your notifications for activities on your post'], { root: true })
+
+                })
 
         }
     }

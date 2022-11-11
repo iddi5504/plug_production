@@ -67,7 +67,9 @@ export default {
                         const this_user = doc(users, user.user.uid)
                         setDoc(this_user, {
                             email: this.email,
-                            username: this.username
+                            username: this.username,
+                            upvotedOn:[],
+                            downvotedOn:[]
                         })
                             .then(() => {
                                 this.$router.replace({ name: 'home' });
