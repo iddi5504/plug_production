@@ -74,7 +74,7 @@ export default {
 }
 
 .todays-recommendation-content {
-    font-size: 29px;
+    font-size: 1rem;
     color: white;
     display: flex;
     padding: 8px;

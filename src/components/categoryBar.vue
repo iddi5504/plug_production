@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style scoped>
-.categorybar{
+.categoryBar{
     width: 100%;
     padding: 2px 9px;
     box-sizing: border-box;
