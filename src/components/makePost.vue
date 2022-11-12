@@ -11,8 +11,8 @@
           </h3>
 
         </div>
-        <transition name="slideinirecommend">
-          <form action="" id="irecommend" ref="recommend " v-show="showirecommend">
+        <transition-group class="content" name="slideinirecommend">
+          <form key="1" action="" id="irecommend" ref="recommend " v-show="showirecommend">
             <div class="recommenddialogcontent">
               <div class="d-flex justify-content-around flex-row ">
                 <div id="imagesection">
@@ -71,8 +71,7 @@
               </div>
             </div>
           </form>
-        </transition>
-        <!-- recommendme
+          <!-- recommendme
         <transition name="slideinrecommendme">
           <form v-show="showrecommendme" ref="recommendme" action="">
             <div id="recommendmecontent">
@@ -126,59 +125,61 @@
             </div>
           </form>
         </transition> -->
-        <!-- picturepost -->
-        <form action="" id="irecommend" ref="recommend " v-show="showpost">
+          <!-- picturepost -->
+          <form action="" key="2" id="irecommend" ref="recommend " v-show="showpost">
 
-          <div class="recommenddialogcontent">
-            <div class="post-add-image-section">
-              <!-- <img  src="../assets/music.jpg" class="addimage"> -->
+            <div class="recommenddialogcontent">
+              <div class="post-add-image-section">
+                <!-- <img  src="../assets/music.jpg" class="addimage"> -->
 
-              <label for="post-file" class="typeselect addimage post-image-preview">
-                <i class="bi bi-pen"></i>
-                <img v-if="isImage" class="post-image" :src="`${postFileUrl}`" alt="">
-                <video loop autoplay v-if="!isImage" class="post-image" :src="`${postFileUrl}`" alt=""></video>
-                <div v-show="!postFileUrl">
-                  <i class="bi bi-plus"></i>
-                  <div>Add image</div>
-                </div>
-              </label>
-              <input ref="postFile" accept="image/*, video/*" required type="file" id="post-file" class="add-image file"
-                @change="getPostFile">
-
-            </div>
-            <div id="mainbody">
-              <div name="recommend" id="recommendinput">
-                <div>
-                  <label for="postTitle">Title</label>
-                  <input autocomplete="off" v-model="postTitle" type="text" class="inputfield" placeholder="Title"
-                    required />
-                </div>
-                <div>
-                  <label for="post-category">Select category</label>
-                  <select id="post-category" class="typeselect" v-model="selectedpostcategory">
-                    <option v-for="(category, index) in categories" :value="category" :key="index">{{ category }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div id="recommendcaption">
-                <label for="caption" class="">What do you have to say
+                <label for="post-file" class="typeselect addimage post-image-preview">
+                  <i class="bi bi-pen"></i>
+                  <img v-if="isImage" class="post-image" :src="`${postFileUrl}`" alt="">
+                  <video loop autoplay v-if="!isImage" class="post-image" :src="`${postFileUrl}`" alt=""></video>
+                  <div v-show="!postFileUrl">
+                    <i class="bi bi-plus"></i>
+                    <div>Add image</div>
+                  </div>
                 </label>
-                <textarea autocomplete="off" v-model.trim="postdescription" name="postdescription"
-                  class="descriptioninput" cols="30" rows="40" placeholder="Say something" required></textarea>
-              </div>
+                <input ref="postFile" accept="image/*, video/*" required type="file" id="post-file"
+                  class="add-image file" @change="getPostFile">
 
-              <div id="recommendationsubmit">
-                <button @click.prevent="closeMakePost" class="recommendmefinalbutton">
-                  Close
-                </button>
-                <button @click.prevent="post" class="recommendmefinalbutton" type="submit">
-                  Recommend
-                </button>
+              </div>
+              <div id="mainbody">
+                <div name="recommend" id="recommendinput">
+                  <div>
+                    <label for="postTitle">Title</label>
+                    <input autocomplete="off" v-model="postTitle" type="text" class="inputfield" placeholder="Title"
+                      required />
+                  </div>
+                  <div>
+                    <label for="post-category">Select category</label>
+                    <select id="post-category" class="typeselect" v-model="selectedpostcategory">
+                      <option v-for="(category, index) in categories" :value="category" :key="index">{{ category }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div id="recommendcaption">
+                  <label for="caption" class="">What do you have to say
+                  </label>
+                  <textarea autocomplete="off" v-model.trim="postdescription" name="postdescription"
+                    class="descriptioninput" cols="30" rows="40" placeholder="Say something" required></textarea>
+                </div>
+
+                <div id="recommendationsubmit">
+                  <button @click.prevent="closeMakePost" class="recommendmefinalbutton">
+                    Close
+                  </button>
+                  <button @click.prevent="post" class="recommendmefinalbutton" type="submit">
+                    Recommend
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </transition-group>
+
       </div>
     </div>
   </transition>
@@ -267,7 +268,6 @@ export default {
       postFile: null,
       postFileName: null,
       isImage: true,
-      selectedCateogryObject: null
     };
   },
   computed: {
@@ -338,7 +338,15 @@ export default {
         ];
         this.$store.dispatch('makePostStore/makeRecommendation', recommendData)
           .then(() => {
-            this.submitted = true;
+            this.recommendeditem = ''
+            this.content = ''
+            this.selectedRecommendationCategory = ''
+            this.selectedRecommendationGenre = ''
+            this.fileName = 'None chosen'
+            this.file = ''
+            this.imageBlobUrl = require('../assets/add-image.png')
+
+
           })
 
       } else {
@@ -405,8 +413,18 @@ export default {
             postFileName: this.postFileName
           }
         ];
-        this.$store.dispatch('makePostStore/post', postdata);
-      } 
+        this.$store.dispatch('makePostStore/post', postdata)
+          .then(() => {
+            this.selectedpostcategory = ''
+            this.postTitle = ''
+            this.postdescription = ''
+            this.postFileUrl = require('../assets/add-image.png')
+            this.postFile = null
+            this.postFileName = null
+            this.isImage = true
+
+          })
+      }
       else {
         this.$store.commit('showMinorAlertMessage', 'Make sure you filled out all the fields', { root: true })
       }
@@ -494,6 +512,26 @@ export default {
   border-bottom-right-radius: 0px;
   position: absolute;
   bottom: env(safe-area-inset-bottom);
+
+  .content {
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      background: var(--primary);
+      width: 11px;
+    }
+
+    &::-webkit-scrollbar-corner {
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--secondary);
+      border-radius: 10px;
+      box-shadow: var(--boxshadow);
+    }
+
+  }
 
   .genre {
 
@@ -602,23 +640,6 @@ export default {
   justify-content: center;
   display: flex;
   padding: 3px 9px;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    background: var(--primary);
-    width: 11px;
-  }
-
-  &::-webkit-scrollbar-corner {
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--secondary);
-    border-radius: 10px;
-    box-shadow: var(--boxshadow);
-  }
-
 }
 
 .recommenddialogcontent {
@@ -1000,25 +1021,12 @@ select {
   transition: all 0.4s ease;
 }
 
-.slideinrecommendme-enter {
-  transform: translateX(400px);
-}
 
-.slideinrecommendme-leave-to {
-  transform: translateX(400px);
-  position: absolute;
-  top: 40px;
-}
-
-.slideinrecommendme-move {
-  transition: all 0.5s ease;
-}
-
-.slideinrecommendme-enter-active,
+.slideinrecommendme-move,
 .slideinrecommendme-leave-active,
-.slideinirecommend-leave-active,
 .slideinirecommend-enter-active {
   transition: all 0.5s ease;
+  transform: translateX(0)
 }
 
 .slideinirecommend-enter {
@@ -1026,24 +1034,17 @@ select {
 }
 
 .slideinirecommend-leave-to {
-  transform: translateX(-400px);
-  position: absolute;
-  top: 40px;
+  transform: translateX(400px);
+
 }
 
-.slideinrecommendme-move {
-  transition: all 3s ease;
-}
-
-@keyframes slidein {
-  from {
-    transform: translateX(-300px);
-  }
-
+@keyframes showsection {
   to {
-    transform: translateX(0);
+    transform: translateX(400px);
+
   }
 }
+
 
 .add-image-section {
   display: flex;

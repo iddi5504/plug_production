@@ -1,9 +1,10 @@
 <template>
   <div class="loadingScreen">
     <div>
-      <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_kxsd2ytq.json"  background="rgba(255, 212, 212, 0)"  speed="1"  style="width: 200px; height: 200px;"  loop autoplay></lottie-player>
-
-        <div class="message">{{loadScreenMessage}}</div>
+      <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_kxsd2ytq.json"
+        background="rgba(255, 212, 212, 0)" speed="1" style="width: 200px; height: 200px;" loop autoplay>
+      </lottie-player>
+      <div class="message">{{ loadScreenMessage }}</div>
     </div>
   </div>
 </template>
@@ -11,7 +12,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  computed:{
+  computed: {
     ...mapState(['loadScreenMessage'])
   }
 
@@ -19,7 +20,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.loadingScreen{
+.loadingScreen {
   position: fixed;
   top: 0;
   width: 100%;
@@ -30,7 +31,8 @@ export default {
   justify-content: center;
   background: #0000005e;
   font-size: 1.5rem;
-  >div{
+
+  >div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,21 +40,22 @@ export default {
     color: var(--textcolorimportant);
   }
 }
-.loader{
+
+.loader {
   width: 50px;
   height: 50px;
-  border:8px solid transparent;
-  border-top-color:var(--brandcolor);
-  border-bottom-color:var(--brandcolor);
+  border: 8px solid transparent;
+  border-top-color: var(--brandcolor);
+  border-bottom-color: var(--brandcolor);
   animation: spin 1s ease-in-out infinite;
   border-radius: 50%;
   display: block;
   padding: 10px;
 }
 
-@keyframes spin{
-  to{
-      transform: rotateZ(360deg);
+@keyframes spin {
+  to {
+    transform: rotateZ(360deg);
   }
 }
 </style>

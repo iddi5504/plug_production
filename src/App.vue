@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view class="router-view-body"/>
     <transition name="showMinorAlert">
       <minorAlert v-show="showMinorAlertMessage"></minorAlert>
     </transition>
@@ -120,6 +120,16 @@ nav {
   }
 }
 
+.router-view-body{
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  max-width: 1600px;
+  width: 100%;
+}
 .showMinorAlert-enter-active, .showMinorAlert-leave-active{
   transition: 0.5s all ease-in-out;
   transform: translateY(0);

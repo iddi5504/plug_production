@@ -60,6 +60,7 @@ export default {
     methods: {
         signUp() {
             if (this.username && this.email && this.password) {
+            this.$store.commit('showLoadScreen','Signing Up',{root:true})
                 createUserWithEmailAndPassword(auth, this.email, this.password)
                     .then((user) => {
                         console.log(user)
@@ -74,12 +75,27 @@ export default {
                             .then(() => {
                                 this.$router.replace({ name: 'home' });
                             })
+                    this.$store.commit('stopLoading',null,{root:true})
+                        
+                    })
+
+                    .catch((err)=>{
+                        if(err.message.includes('invalid') || err.message.includes('email')){
+                            this.$store.commit('showMinorAlertMessage', 'Invalid email', { root: true })  
+                        }  
+                        if(err.message.includes('password') || err.message.includes('least')){
+                            this.$store.commit('showMinorAlertMessage', 'Password should be at least six characters and must have special characters', { root: true })  
+                        }  
+                        if(err.message.includes('already')){
+                            this.$store.commit('showMinorAlertMessage', 'An account has already been created with this email', { root: true })  
+                        }  
+                        else{
+                            this.$store.commit('showMinorAlertMessage', err.message, { root: true })  
+                        }
                     })
             }
             else {
-                console.log(
-                    "this happened: "
-                )
+                this.$store.commit('showMinorAlertMessage', 'Make sure you filled out all the fields', { root: true })
             }
 
         },

@@ -24,7 +24,7 @@
             Forgot password 
         </div>
         <!-- sign up with google -->
-        <button @click="signUp" class="google">Sign up with Google</button>
+        <button @click="signInWithGoogle" class="google">Sign up with Google</button>
 
         <h5 class="text-center p-2">
             <div>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { signInWithEmailAndPassword } from '@firebase/auth'
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from '@firebase/auth'
 import { auth } from '../firebase/firebase'
 export default {
     data() {
@@ -51,10 +51,32 @@ export default {
     },
     methods: {
         logIn() {
-            signInWithEmailAndPassword(auth, this.email, this.password)
-                .then((user) => {
-                    this.$router.push({ name: 'home' });
-                })
+            if(this.email && this.password){
+            this.$store.commit('showLoadScreen','Logging In',{root:true})
+                signInWithEmailAndPassword(auth, this.email, this.password)
+                    .then((user) => {
+                        this.$router.push({ name: 'home' });
+                    })
+                    .catch((err)=>{
+                        if(err.message.includes('user') || err.message.includes('found')){
+                            this.$store.commit('showMinorAlertMessage', 'User not found', { root: true })  
+                        }  
+                        if(err.message.includes('password')){
+                            this.$store.commit('showMinorAlertMessage', 'You have typed an incorrect password', { root: true })  
+                        }  
+                    })
+                    this.$store.commit('stopLoading',null,{root:true})
+
+            }else{
+                this.$store.commit('showMinorAlertMessage', 'Make sure you filled out all the fields', { root: true })  
+            }
+        },
+        signInWithGoogle(){
+            const googleProvider= new GoogleAuthProvider
+            signInWithPopup(auth, googleProvider)
+            .then(()=>{
+                this.$router.push({ name: 'home' });
+            })
         }
     }
 }

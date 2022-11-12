@@ -15,11 +15,20 @@ export default new Vuex.Store({
     showLoadScreen:false,
     loadScreenMessage:'',
     minorAlertMessage:'',
-    showMinorAlertMessage:false
+    showMinorAlertMessage:false,
+    section:'Surf'
   },
   getters: {
     LIGHTMODE(state){
       return state.lightMode
+    },
+    SELECTEDSECTION(state){
+      if(state.section === 'Surf'){
+        return "Surf Plug"
+      }
+      if(state.section === 'irecommend'){
+        return "Make recommendations"
+      }
     }
   },
   mutations: {
@@ -44,6 +53,9 @@ export default new Vuex.Store({
     setTimeout(() => {
       state.showMinorAlertMessage= false;
     }, 4000);
+  },
+  setSection(state, section){
+    state.section= section;
   }
   },
   actions: {

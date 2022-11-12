@@ -430,7 +430,7 @@ export default {
     background: var(--primary);
     color: var(--textcolorimportant);
     font-size: 1rem;
-    position: absolute;
+    position: fixed;
     top: 48px;
     left: 0px;
     display: flex;
