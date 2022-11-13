@@ -60,7 +60,7 @@ export default {
     methods: {
         signUp() {
             if (this.username && this.email && this.password) {
-            this.$store.commit('showLoadScreen','Signing Up',{root:true})
+                this.$store.commit('showLoadScreen', 'Signing Up', { root: true })
                 createUserWithEmailAndPassword(auth, this.email, this.password)
                     .then((user) => {
                         console.log(user)
@@ -69,28 +69,30 @@ export default {
                         setDoc(this_user, {
                             email: this.email,
                             username: this.username,
-                            upvotedOn:[],
-                            downvotedOn:[]
+                            upvotedOn: [],
+                            downvotedOn: []
                         })
                             .then(() => {
                                 this.$router.replace({ name: 'home' });
                             })
-                    this.$store.commit('stopLoading',null,{root:true})
-                        
+                        this.$store.commit('stopLoading', null, { root: true })
+
                     })
 
-                    .catch((err)=>{
-                        if(err.message.includes('invalid') || err.message.includes('email')){
-                            this.$store.commit('showMinorAlertMessage', 'Invalid email', { root: true })  
-                        }  
-                        if(err.message.includes('password') || err.message.includes('least')){
-                            this.$store.commit('showMinorAlertMessage', 'Password should be at least six characters and must have special characters', { root: true })  
-                        }  
-                        if(err.message.includes('already')){
-                            this.$store.commit('showMinorAlertMessage', 'An account has already been created with this email', { root: true })  
-                        }  
-                        else{
-                            this.$store.commit('showMinorAlertMessage', err.message, { root: true })  
+                    .catch((err) => {
+                        this.$store.commit('stopLoading', null, { root: true })
+
+                        if (err.message.includes('invalid') || err.message.includes('email')) {
+                            this.$store.commit('showMinorAlertMessage', 'Invalid email', { root: true })
+                        }
+                        if (err.message.includes('password') || err.message.includes('least')) {
+                            this.$store.commit('showMinorAlertMessage', 'Password should be at least six characters and must have special characters', { root: true })
+                        }
+                        if (err.message.includes('already')) {
+                            this.$store.commit('showMinorAlertMessage', 'An account has already been created with this email', { root: true })
+                        }
+                        else {
+                            this.$store.commit('showMinorAlertMessage', err.message, { root: true })
                         }
                     })
             }
@@ -101,10 +103,10 @@ export default {
         },
         google() {
             const googleAuth = new GoogleAuthProvider
-             signInWithPopup(auth, googleAuth)
+            signInWithPopup(auth, googleAuth)
                 .then(async (currentUser) => {
                     const users = collection(firestore, 'users')
-                    const this_user = doc(users,currentUser.user.uid)
+                    const this_user = doc(users, currentUser.user.uid)
                     setDoc(this_user, {
                         email: currentUser.user.email,
                         username: currentUser.user.displayName

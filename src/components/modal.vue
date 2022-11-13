@@ -16,7 +16,7 @@
                         <h3>Discover</h3>
 
                         <div id="searchsectiontoprecommends" class="container">
-                            <div class="title">Top Recommends</div>
+                            <div class="title">Must see movies</div>
                             <div class="images">
                                 <div>
                                     <img class="discover-image" src="../assets/gadget.jpg" alt="">
@@ -55,7 +55,7 @@
 
                         </div>
                         <div class="searchsectionhottest ">
-                            <div class="title">Top Discussions</div>
+                            <div class="title">Must hear songs</div>
                             <div class="images">
                                 <div>
                                     <img class="discover-image" src="../assets/gadget.jpg" alt="">

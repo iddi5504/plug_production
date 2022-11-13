@@ -2,18 +2,17 @@ import signUp from '../components/signUp.vue'
 import logIn from '../components/logIn.vue'
 import homePage from '../views/homePage.vue'
 import auth from '../views/authPage.vue'
-
+import mainContent from '../components/mainContent.vue'
 const routes = [
   {
     path: '/',
     name: 'home',
     component: homePage,
     children: [
-      // {
-      //   path: '',
-      //   name: 'home',
-      //   component: signUp
-      // },
+      {
+        path: '',
+        component: mainContent
+      },
     ]
   },
   {

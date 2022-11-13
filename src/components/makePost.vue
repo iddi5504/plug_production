@@ -190,13 +190,6 @@ import { mapState } from 'vuex';
 export default {
   data() {
     return {
-      recommendeditem: "",
-      categories: ["Music", "Book", "Movie", "Game", "Artiste", "Actor"],
-      selectedRecommendationCategory: '',
-      content: "",
-      image: "",
-      submitted: false,
-      show: false,
       Game: [
         "Action-Adventure",
         "Survival",
@@ -250,6 +243,13 @@ export default {
         "Business",
         "Science",
       ],
+      recommendeditem: "",
+      categories: ["Music", "Book", "Movie", "Game", "Artiste", "Actor"], 
+      selectedRecommendationCategory: 'Music',
+      content: "",
+      image: "",
+      submitted: false,
+      show: false,
       selectedRecommendationGenre: '',
       selectedgenre: "select",
       opengenre: false,
@@ -257,13 +257,12 @@ export default {
       showirecommend: true,
       showpost: false,
       recommendmedescription: "",
-      postmediaurl: "../assets/music.jpg",
       postTitle: "",
       postdescription: "",
       selectedpostcategory: "",
-      fileName: 'None chosen',
+      fileName: 'Default Image',
       file: null,
-      imageBlobUrl: require('../assets/add-image.png'),
+      imageBlobUrl: require('../assets/music.jpg'),
       postFileUrl: require('../assets/add-image.png'),
       postFile: null,
       postFileName: null,
@@ -287,15 +286,19 @@ export default {
     },
     selectedRecommendationType: function () {
       if (this.selectedRecommendationCategory === "Movie") {
+        this.imageBlobUrl= require('../assets/movie.jpg')
         return this.Movie;
       }
       if (this.selectedRecommendationCategory === "Music") {
+        this.imageBlobUrl= require('../assets/music.jpg')
         return this.Music;
       }
       if (this.selectedRecommendationCategory === "Game") {
+        this.imageBlobUrl= require('../assets/game.jpg')
         return this.Game;
       }
       if (this.selectedRecommendationCategory === "Book") {
+        this.imageBlobUrl= require('../assets/book.jpg')
         return this.Book;
       }
     },

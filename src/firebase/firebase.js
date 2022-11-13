@@ -11,7 +11,7 @@ import {
 
 import {
     getStorage,
-    connectStorageEmulator
+    // connectStorageEmulator
 } from 'firebase/storage'
 
 const firebaseConfig = {

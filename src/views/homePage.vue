@@ -2,13 +2,11 @@
   <div>
     <appNav></appNav>
     <div class="home-body">
-      <div class="main-content">
-        <todaysRecommendation></todaysRecommendation>
-        <sectionButton></sectionButton>
-        <categoryBar class="categoryBar"></categoryBar>
-      </div>
+      <router-view class="main-content">
+       
+      </router-view>
       <div class="side-content">
-          <!--  -->
+          <topRecommendations></topRecommendations>
       </div>
     </div>
     <!-- Call to action components -->
@@ -26,9 +24,9 @@ import appNav from '../components/appNav.vue'
 import modal from '../components/modal.vue'
 import makePost from '../components/makePost.vue'
 import majorAlert from '../components/majorAlert.vue'
-import todaysRecommendation from '../components/todaysRecommendation.vue'
-import categoryBar from '../components/categoryBar.vue'
-import sectionButton from '../components/sectionButton.vue'
+import mainContent from '../components/mainContent.vue'
+import topRecommendations from '../components/topRecommendations.vue'
+
 
 export default {
   components: {
@@ -36,9 +34,9 @@ export default {
     appModal:modal,
     makePost,
     majorAlert,
-    todaysRecommendation,
-    categoryBar,
-    sectionButton
+    mainContent,
+    topRecommendations
+   
     
   },
   async beforeCreate() {
@@ -81,7 +79,7 @@ export default {
   }
 
   .side-content{
-    padding: 0px;
+    /*padding: 0px;
     margin: 0px 16px;
     background-color: var(--primary);
     z-index: 0;
@@ -91,7 +89,6 @@ export default {
     font-family: sans-serif;
     border-radius: 10px;
     margin-top: 10px;
-    width: 287px;
     color: var(--textcolorimportant);
     font-size: larger;
     box-shadow: var(--boxshadow);
@@ -100,19 +97,18 @@ export default {
     @media all and (min-width: 900px){
       display: flex;
 
-    }
+    }*/
 
-    /*width: 100%;
-    max-width:400px;
+    width: 100%;
+    width: 287px;
     display: none;
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    background: grey;
     @media all and (min-width: 900px){
       display: flex;
 
-    }*/
+    }
   }
 }
 </style>

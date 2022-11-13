@@ -89,10 +89,11 @@ export default {
 }
 
 .todaysrecommendtype {
-    font-size: var(--detailsfs);
     position: absolute;
     top: 10px;
     left: 10px;
+    color:var(--textcolorimportant);
+    font-size:var(--detailsfs)
 
 }
 

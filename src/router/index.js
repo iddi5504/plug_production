@@ -7,6 +7,7 @@ import store from '../store/index'
 const router = new VueRouter({
   store:store,
   routes,
+  mode:"history"
 })
 
 export default router

@@ -436,6 +436,7 @@ export default {
     display: flex;
     justify-content: space-around;
     height: 45px;
+    z-index: 3;
 
     button{
         border: none;
