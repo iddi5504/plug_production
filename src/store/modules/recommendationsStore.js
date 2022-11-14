@@ -18,19 +18,24 @@ export const recommendationsStore = {
         FEED(state){
              // Combine all recommendations types into a single arrays
              if(state.selectedCategory == 'all'){
-                 return [...state.Books,...state.BooksPosts, ...state.Movies,...state.MoviesPosts, ...state.Games, ...state.GamesPosts, ...state.Musics,  ...state.MusicsPosts]
+                const feed= [...state.Books,...state.BooksPosts, ...state.Movies,...state.MoviesPosts, ...state.Games, ...state.GamesPosts, ...state.Musics,  ...state.MusicsPosts]
+                 return _.shuffle(feed)
              }
              if(state.selectedCategory == 'Books'){
-                return {...state.Books,...state.BooksPosts}
+                const feed ={...state.Books,...state.BooksPosts}
+                return _.shuffle(feed) 
              }
              if(state.selectedCategory == 'Movies'){
-                return {...state.Movies,...state.MoviesPosts}
+                const feed= {...state.Movies,...state.MoviesPosts}
+                return _.shuffle(feed)
              }
              if(state.selectedCategory == 'Musics'){
-                return {...state.Musics,...state.MusicsPosts}
+                const feed= {...state.Musics,...state.MusicsPosts}
+                return _.shuffle(feed)
              }
              if(state.selectedCategory == 'Games'){
-                return {...state.Games,...state.GamesPosts}
+                const feed= {...state.Games,...state.GamesPosts}
+                return _.shuffle(feed)
              }
         }
     },
