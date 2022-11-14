@@ -73,7 +73,7 @@ export const recommendationsStore = {
         },
         async getPosts(context){
             const MusicsPostsQuery = query(collectionGroup(firestore, 'MusicPosts'), limit(3) )
-            const MoviesPostsQuery = query(collectionGroup(firestore, 'MoviePots'), limit(3) )
+            const MoviesPostsQuery = query(collectionGroup(firestore, 'MoviePosts'), limit(3) )
             const GamesPostsQuery = query(collectionGroup(firestore, 'GamePosts'), limit(3) )
             const BooksPostsQuery = query(collectionGroup(firestore, 'BookPosts'), limit(3) )
 
