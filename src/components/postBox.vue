@@ -10,7 +10,7 @@
             </div>
             <div class="post-media">
                 <img v-if="postData.mediaType == 'image'" src="../assets/game.jpg" class="postimage" alt="">
-                <video ref="video" v-if="postData.mediaType == 'video'" width="100%" loop controls webkit-playsinline>
+                <video ref="video" v-if="postData.mediaType == 'video'" width="100%" loop controls webkit-playsinline playsinline>
                     <source :src="postData.postMediaUrl+'#t=0.001'" type="video/mp4">
                 </video>
 
