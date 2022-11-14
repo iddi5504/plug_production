@@ -40,18 +40,24 @@ const makePostStore = {
             const imageName = data[1].imageName
             const imageRef = ref(storage, 'recommendationImages/' + imageName)
             const category=recommendData.category
-            const genre=recommendData.genre
             await uploadBytes(imageRef, imageFile)
             getDownloadURL(imageRef)
                 .then(async (url) => {
-                    const recommendationCollection= collection(firestore, `recommendations/${category}/${category}/${genre}/${genre}`)
+                    const recommendationCollection= collection(firestore, `recommendations/${category}Recommendations/${category}Recommendations/`)
                     const userData = {
                         recommender_name: context.rootState.authStore.username,
                         recommender_id: auth.currentUser.uid,
                     }
-                    const extraInfo = {
-                        date: serverTimestamp(),
-                        imageURL: url
+                    if(imageFile){
+                        var extraInfo = {
+                            date: serverTimestamp(),
+                            imageURL: url
+                        }
+                    }else{
+                        var extraInfo = {
+                            date: serverTimestamp(),
+                            imageURL: null
+                        }
                     }
                     const completeRecommendationData = { ...recommendData, ...extraInfo, ...userData }
                     await addDoc(recommendationCollection, completeRecommendationData)
@@ -76,7 +82,7 @@ const makePostStore = {
             await uploadBytes(postMediaRef, postFile)
             getDownloadURL(postMediaRef)
                 .then(async (url) => {
-                    var postCollection = collection(firestore, `post/${category}/${category}`)
+                    var postCollection = collection(firestore, `post/${category}Posts/${category}Posts`)
                     const userData = {
                         username: context.rootState.authStore.username,
                         user_id: auth.currentUser.uid,

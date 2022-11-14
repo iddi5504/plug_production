@@ -2,9 +2,11 @@
     <div>
         <todaysRecommendation></todaysRecommendation>
         <sectionButton></sectionButton>
-        <categoryBar class="categoryBar"></categoryBar>
-
-        <recommendationBox v-for="recommendation in recommendationData" :key="recommendation.id" :recommendation="recommendation"></recommendationBox>
+        <categoryBar @click="test" class="categoryBar"></categoryBar>
+        <template style="width: 100%;" v-for="feed in FEED">
+            <postBox v-if="feed.type == 'post'" :key="feed.id" :postData="feed"></postBox>
+            <recommendationBox v-if="feed.type == 'recommendation'" :key="feed.id" :recommendation="feed"></recommendationBox>
+        </template>
     </div>
 </template>
 
@@ -13,54 +15,43 @@ import todaysRecommendation from '../components/todaysRecommendation.vue'
 import categoryBar from '../components/categoryBar'
 import sectionButton from '../components/sectionButton.vue'
 import recommendationBox from '../components/recommendationBox.vue'
+import postBox from '../components/postBox.vue'
+import { mapGetters } from 'vuex'
 export default {
     components: {
         todaysRecommendation,
         categoryBar,
         sectionButton,
-        recommendationBox
+        recommendationBox,
+        postBox
     },
     data(){
         return {
-            recommendationData:[
-                {
-                    type:'Movie',
-                    recommendeditem:"God of war",
-                    content:'God of foihad sfohi fadifs sgoisf gfhgs  gsofg  fog guif ',
-                    isreactedup:true,
-                    isreacteddown:false,
-                    downs:12,
-                    date:'21st January 2002',
-                    id:'klskls',
-                    user:'Artimus',
-                    ups:12
-                },
-                {
-                    type:'Movie',
-                    recommendeditem:"God of war",
-                    content:'God of foihad sfohi fadifs sgoisf gfhgs  gsofg  fog guif ',
-                    isreactedup:true,
-                    isreacteddown:false,
-                    downs:12,
-                    date:'21st January 2002',
-                    id:'89023ioekl',
-                    user:'Iddi',
-                    ups:12
-                },
-                {
-                    type:'Movie',
-                    recommendeditem:"God of war",
-                    content:'God of foihad sfohi fadifs sgoisf gfhgs  gsofg  fog guif ',
-                    isreactedup:true,
-                    isreacteddown:false,
-                    downs:12,
-                    date:'21st January 2002',
-                    id:'klsklsss',
-                    user:'User',
-                    ups:12
-                }
-            ]
+           posts:[{
+            postcategory:'Game',
+            postTitle:'God of war kinda sucks',
+            postdescription:"lorem loremj jkfd j djdjdididoidd difif fisisf dfsofs isfio",
+            upvotes: 0,
+            downvotes: 0,
+            number_of_comments: 0,
+            saved: false,
+            recommender_name:'Iddi Yakubu',
+            content:'lsdd sklfkf klf lkd klf lkfkls ddd sklfkdd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls df klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls dlkknls '
+           }]
         }
+    },
+    methods:{
+        test(){
+        this.$store.dispatch('recommendationsStore/getRecommendations')
+
+        }
+    },
+    computed:{
+        ...mapGetters('recommendationsStore',['FEED'])
+    },
+    created(){
+        this.$store.dispatch('recommendationsStore/getRecommendations')
+        this.$store.dispatch('recommendationsStore/getPosts')
     }
 }
 </script>

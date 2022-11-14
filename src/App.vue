@@ -100,6 +100,22 @@ export default {
   justify-content: center;
   align-items: center;
   background: var(--secondary);
+
+  &::-webkit-scrollbar {
+    background: var(--primary);
+    width: 11px;
+  }
+
+  &::-webkit-scrollbar-corner {
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 10px;
+    box-shadow: var(--boxshadow);
+  }
+
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
     Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background:url('./assets/backgroundone.jpg');

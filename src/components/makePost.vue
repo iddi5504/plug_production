@@ -267,6 +267,7 @@ export default {
       postFile: null,
       postFileName: null,
       isImage: true,
+      mediaType:''
     };
   },
   computed: {
@@ -341,13 +342,13 @@ export default {
         ];
         this.$store.dispatch('makePostStore/makeRecommendation', recommendData)
           .then(() => {
-            this.recommendeditem = ''
-            this.content = ''
-            this.selectedRecommendationCategory = ''
-            this.selectedRecommendationGenre = ''
-            this.fileName = 'None chosen'
-            this.file = ''
-            this.imageBlobUrl = require('../assets/add-image.png')
+            // this.recommendeditem = ''
+            // this.content = ''
+            // this.selectedRecommendationCategory = 'Music'
+            // this.selectedRecommendationGenre = ''
+            // this.fileName = 'None chosen'
+            // this.file = ''
+            // this.imageBlobUrl = require('../assets/music.jpg')
 
 
           })
@@ -408,8 +409,9 @@ export default {
             postdescription: this.postdescription,
             upvotes: 0,
             downvotes: 0,
-            numberofcomments: 0,
+            number_of_comments: 0,
             saved: false,
+            mediaType:this.mediaType
           },
           {
             postFile: this.postFile,
@@ -425,6 +427,7 @@ export default {
             this.postFile = null
             this.postFileName = null
             this.isImage = true
+            this.mediaType= ''
 
           })
       }
@@ -456,8 +459,10 @@ export default {
         // check if file is a video
         if (file.type.includes('video')) {
           this.isImage = false
+          this.mediaType='video'
         } else {
           this.isImage = true
+          this.mediaType='image'
         }
         this.postFile = file
         this.postFileName = file.name

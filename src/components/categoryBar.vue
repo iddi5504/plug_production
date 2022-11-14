@@ -1,7 +1,7 @@
 <template>
     <div>
         <div ref="categorybar" id="categorybar">
-            <div @click="currentcategory_ = ''" class="category">
+            <div @click="selectCategory('all')" class="category">
                 <div :class="{ categoryactive: currentcategory_ === '' }">
                     <i class="bi bi-emoji-smile-upside-down genreemoji categoryicon"> </i>
                     <p>New</p>
@@ -81,19 +81,27 @@ export default {
             setTimeout(() => {
                 this.showGenres = false;
             }, 12000);
+            if (category == 'all') {
+                this.$store.commit('recommendationsStore/setCategory', category);
+                this.currentcategory_ = category
+            }
             if (category == 'Books') {
+                this.$store.commit('recommendationsStore/setCategory', category);
                 this.currentcategory = this.books;
                 this.currentcategory_ = category
             }
             if (category == 'Movies') {
+                this.$store.commit('recommendationsStore/setCategory', category);
                 this.currentcategory = this.movie;
                 this.currentcategory_ = category
             }
             if (category == 'Musics') {
+                this.$store.commit('recommendationsStore/setCategory', category);
                 this.currentcategory = this.music;
                 this.currentcategory_ = category
             }
             if (category == 'Games') {
+                this.$store.commit('recommendationsStore/setCategory', category);
                 this.currentcategory = this.games;
                 this.currentcategory_ = category
             }

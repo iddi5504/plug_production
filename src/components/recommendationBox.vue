@@ -1,9 +1,9 @@
 <template>
 
-    <div class="recommendation-box-component">
+    <div @click="test" class="recommendation-box-component">
         <div v-bind:class="{ savedrecommend: false }" class="recommendationcontainer">
             <div class="recommendation-info">
-                <span style="margin-left: 6px;">{{ recommendation.user }}</span>
+                <span style="margin-left: 6px;">{{ recommendation.recommender_name }}</span>
                 <span style="position: absolute; right: 28px; top: 4px; "><i class="bi bi-three-dots"></i></span>
             </div>
             <hr>
@@ -11,11 +11,11 @@
                 <router-link :to='"recommendation/" + recommendation.id'>
                     <div style="display: flex; " class="media">
                         <a class="pull-left" href="#">
-                            <img class="media-object recommendedimage" src='../assets/gadget.jpg' alt="Image">
+                            <img class="media-object recommendedimage" :src='imageURL' alt="Image">
                         </a>
                         <div class="recommendation-content-text">
                             <div style="color:#818384">
-                                <small>{{ recommendation.type }}</small>
+                                <small>{{ recommendation.category }}</small>
                                 <i :class="{
                                     'bi bi-music-note-beamed': recommendation.type === 'Music',
                                     'bi bi-film': recommendation.type === 'Movie',
@@ -27,21 +27,21 @@
                                 }">
                                 </i>
                             </div>
-                            <h5 class="recommendeditemname">{{ recommendation.recommendeditem }}</h5>
+                            <h5 class="recommendeditemname">{{ recommendation.header }}</h5>
                             <p>{{ recommendation.content }}</p>
                         </div>
                     </div>
                 </router-link>
 
             </article>
-          
+
             <!--recommend-box-bottom-->
             <div style="margin: 0px 5px;" class="recommend-box-bottom">
                 <div class="post-interactions">
                     <!--up-->
                     <span>
                         <i ref="up" :class="['bi bi-caret-up-fill', { isreactedup: recommendation.isreactedup }]"></i>
-                        <small>{{ recommendation.ups }}</small>
+                        <small>{{ recommendation.upvotes }}</small>
 
                     </span>
 
@@ -50,13 +50,13 @@
                     <span>
                         <i ref="down"
                             :class="['bi bi-caret-down-fill', { isreacteddown: recommendation.isreacteddown }]"></i>
-                        <small>{{ recommendation.downs }}</small>
+                        <small>{{ recommendation.downvotes }}</small>
 
                     </span>
-                    <span style="margin:5px" class="options">
+                    <span @click="showComments = !showComments" style="margin:5px" class="options">
                         <!--comments-->
                         <i class="bi bi-chat-dots"></i>
-                        <small>{{ comments.length }}</small>
+                        <small>{{ recommendation.number_of_comments }}</small>
                     </span>
                     <span style="margin:5px" class="options">
                         <i class="bi bi-arrow-repeat"></i>
@@ -66,7 +66,7 @@
                     </span>
                 </div>
                 <div>
-                    <span>{{ recommendation.date }}</span>
+                    <span> 24th october 2001</span>
                 </div>
             </div>
             <!--options-->
@@ -77,7 +77,7 @@
                 <div class="option"> <i class="bi bi-trash"></i> Delete</div>
             </div>
             <!--comments-->
-            <div class="commentdialogue">
+            <div v-show="showComments" class="commentdialogue">
                 <div class="comments">
                     <div v-for="(comment, commentindex) in comments" :key="commentindex">
                         <div class="commentbox">
@@ -120,7 +120,8 @@ export default {
     props: ["recommendation"],
     data() {
         return {
-            comment:'',
+            comment: '',
+            showComments: false,
             showoptions: false,
             comments: [
                 { content: 'Fuck you all ', name: 'Iddi5504' },
@@ -136,15 +137,49 @@ export default {
                 { content: 'Fuck you all ', name: 'Iddi5504' },
                 { content: 'Fuck you all ', name: 'Iddi5504' },
                 { content: 'Fuck you all ', name: 'Iddi5504' }
-            ]
+            ],
+
 
         }
     },
     methods: {
+        test() {
+            console.log("🚀 ~ file: recommendationBox.vue ~ line 152 ~ imageURL ~ this.recommendation.imageURL", this.recommendation.imageURL)
 
+        }
 
     },
+    computed: {
+        imageURL() {
+            if (this.recommendation.imageURL == null) {
+                const category = this.recommendation.category
+                let image = ''
+                switch (category) {
+                    case 'Book':
+                        image = require('../assets/book.jpg')
+                        break;
+                    case 'Movie':
+                        image = require('../assets/movie.jpg')
+                        break;
+                    case 'Music':
+                        image = require('../assets/music.jpg')
+                        break;
+                    case 'Game':
+                        image = require('../assets/game.jpg')
+                        break;
 
+                    default:
+                        image = require('../assets/movie.jpg')
+                        break;
+                }
+                return image
+            } 
+            else {
+                return this.recommendation.imageURL
+            }
+        }
+
+    }
 
 }
 
@@ -165,11 +200,12 @@ export default {
     transition: 0.5s ease-out;
     max-width: 700px;
 
-    hr{
+    hr {
         border-top: 1px solid var(--textcolornotimportant);
         padding: 3px;
         margin: 0;
     }
+
     .recommendation-info {
         display: flex;
         flex-direction: row;
@@ -189,6 +225,7 @@ export default {
     align-items: flex-start;
     padding: 5px;
     text-align: left;
+    width: 100%;
 
     p {
         font-size: 16px;
@@ -211,10 +248,11 @@ hr {
 }
 
 .recommendedimage {
-    width: 79px;
-    height: 90px;
+    max-width: 147px;
+    max-height: 180px;
     border-radius: 20px;
     margin-right: 7px;
+    width: 100%;
 }
 
 
@@ -255,14 +293,18 @@ hr {
     align-items: center;
     justify-content: space-between;
 
-    .post-interactions{
+    .post-interactions {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 7px;
 
-        i{
+        i {
             padding: 2px;
+        }
+
+        span {
+            cursor: pointer;
         }
     }
 }
@@ -369,7 +411,7 @@ hr {
         padding: 20px 0px;
         height: 10px;
     }
-    
+
     &::-webkit-scrollbar-thumb {
         width: 5px;
         background-color: var(--secondary);
@@ -434,6 +476,7 @@ hr {
     flex-direction: row;
     padding: 10px;
     align-items: center;
+
     .commentinput {
         width: 100%;
         background: var(--secondary);
@@ -443,9 +486,9 @@ hr {
         padding: 2px 2px 2px 12px;
         height: 100%;
         outline: none;
-    
+
     }
-    
+
     .commentbutton {
         border: none;
         background: var(--secondary);

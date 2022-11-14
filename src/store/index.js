@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import {authStore} from './modules/authStore'
 import {modalStore} from './modules/modalStore'
 import {makePostStore} from './modules/makePostStore'
+import {recommendationsStore} from './modules/recommendationsStore'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -63,6 +64,7 @@ export default new Vuex.Store({
   modules: {
     authStore,
     modalStore,
-    makePostStore
+    makePostStore,
+    recommendationsStore
   }
 })
