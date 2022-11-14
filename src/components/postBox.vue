@@ -11,7 +11,7 @@
             <div class="post-media">
                 <img v-if="postData.mediaType == 'image'" src="../assets/game.jpg" class="postimage" alt="">
                 <video ref="video" v-if="postData.mediaType == 'video'" width="100%" loop controls>
-                    <source :src="postData.postMediaUrl" type="video/mp4">
+                    <source :src="postData.postMediaUrl+'#t=0.001'" type="video/mp4">
                 </video>
 
             </div>
