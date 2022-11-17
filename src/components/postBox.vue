@@ -1,6 +1,6 @@
 <template>
     <div ref="postBox" style="width: 100%;">
-        <div class="postcontainer d-flex flex-direction-column justify-content-around">
+        <div  class="postcontainer d-flex flex-direction-column justify-content-around">
             <div class="top-details">
                 <span>
                     <router-link :to="'/user/'+ postData.user_id">{{ postData.username }}</router-link>
@@ -9,7 +9,7 @@
                 <span><i class="bi bi-three-dots"></i></span>
             </div>
             <div class="post-media">
-                <img v-if="postData.mediaType == 'image'" src="../assets/game.jpg" class="postimage" alt="">
+                <img v-if="postData.mediaType == 'image'" :src="postData.postMediaUrl" class="postimage" alt="">
                 <video ref="video" v-if="postData.mediaType == 'video'" width="100%" loop controls webkit-playsinline playsinline>
                     <source :src="postData.postMediaUrl+'#t=0.001'" type="video/mp4">
                 </video>
@@ -80,14 +80,13 @@ export default {
         
     },
     mounted(){
+           if(this.postData.mediaType == "video"){
             const postBox = this.$refs.postBox;
             const observeWhen= {
                 threshold:1,
                 rootMargin:'-10px 0px'
             }
             const postBoxObserver= new IntersectionObserver((entry)=>{
-                console.log(entry)
-                console.log("🚀 ~ file: postBox.vue ~ line 90 ~ postBoxObserver ~ entry[0].intersectionRatio", entry[0].intersectionRatio)
                 if(entry[0].isIntersecting && entry[0].intersectionRatio > 0.4){
                     this.$refs.video.play()
                 }else{
@@ -95,7 +94,9 @@ export default {
                 }
             }, observeWhen)
             postBoxObserver.observe(postBox);
-            console.log(this.$refs.video)
+           }
+            
+        
         }
 
 }
@@ -104,9 +105,10 @@ export default {
 
 <style lang="scss" scoped>
 .postcontainer {
+    
     border-radius: 21px;
     background: var(--primary);
-    margin: 18px 5px;
+    margin: 2px 5px;
     color: var(--textcolorimportant);
     padding-right: var(--bs-gutter-x, 0.75rem);
     padding-left: var(--bs-gutter-x, 0.75rem);

@@ -1,9 +1,9 @@
 <template>
     <div>
-        <todaysRecommendation></todaysRecommendation>
+        <todaysRecommendation ></todaysRecommendation>
         <sectionButton></sectionButton>
-        <categoryBar @click="test" class="categoryBar"></categoryBar>
-        <template style="width: 100%;" v-for="feed in FEED">
+        <categoryBar class="categoryBar"></categoryBar>
+        <template v-for="feed in FEED">
             <postBox v-if="feed.type == 'post'" :key="feed.id" :postData="feed"></postBox>
             <recommendationBox v-if="feed.type == 'recommendation'" :key="feed.id" :recommendation="feed"></recommendationBox>
         </template>
@@ -27,24 +27,11 @@ export default {
     },
     data(){
         return {
-           posts:[{
-            postcategory:'Game',
-            postTitle:'God of war kinda sucks',
-            postdescription:"lorem loremj jkfd j djdjdididoidd difif fisisf dfsofs isfio",
-            upvotes: 0,
-            downvotes: 0,
-            number_of_comments: 0,
-            saved: false,
-            recommender_name:'Iddi Yakubu',
-            content:'lsdd sklfkf klf lkd klf lkfkls ddd sklfkdd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls df klf lkd klf lkfkls ddd sklfkf klf lkd klf lkfkls dlkknls '
-           }]
+         
         }
     },
     methods:{
-        test(){
-        this.$store.dispatch('recommendationsStore/getRecommendations')
-
-        }
+        
     },
     computed:{
         ...mapGetters('recommendationsStore',['FEED'])
@@ -52,6 +39,8 @@ export default {
     created(){
         this.$store.dispatch('recommendationsStore/getRecommendations')
         this.$store.dispatch('recommendationsStore/getPosts')
+    },
+    mounted(){
     }
 }
 </script>

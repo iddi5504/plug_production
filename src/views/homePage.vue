@@ -5,7 +5,7 @@
       <router-view class="main-content">
        
       </router-view>
-      <div class="side-content">
+      <div ref="content" class="side-content" >
           <topRecommendations></topRecommendations>
       </div>
     </div>
@@ -37,6 +37,9 @@ export default {
     mainContent,
     topRecommendations
    
+    
+  },
+  methods:{
     
   },
   async beforeCreate() {

@@ -179,6 +179,9 @@ export default {
             }
         }
 
+    },
+    mounted(){
+       
     }
 
 }
@@ -188,6 +191,7 @@ export default {
 <style lang="scss" scoped>
 .recommendationcontainer {
     position: relative;
+    
     border-radius: 21px;
     background: var(--primary);
     float: none;

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @click="test" >
         <div ref="categorybar" id="categorybar">
             <div @click="selectCategory('all')" class="category">
                 <div :class="{ categoryactive: currentcategory_ === '' }">
@@ -113,6 +113,11 @@ export default {
              setTimeout(() => {
                 this.showGenres = false;
             }, 2000);
+        },
+        test(){
+            this.$store.dispatch('recommendationsStore/lazyLoadPosts')
+
+
         }
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div @scroll.passive="onScroll" ref="content" id="app">
     <router-view class="router-view-body"/>
     <transition name="showMinorAlert">
       <minorAlert v-show="showMinorAlertMessage"></minorAlert>
@@ -20,17 +20,32 @@ export default {
   data() {
     return {
       showNav: true,
-
+      scrollPercentage:0
     }
   },
-  beforeMount() {
-   
+  mounted() {
+    // window.addEventListener('scroll',(event)=>{
+      
+    // })
+  },
+  methods:{
+    onScroll(event){
+      const scrollHeight= event.target.scrollHeight
+      const scrollTop= event.target.scrollTop
+      const clientHeight= event.target.clientHeight
+      this.scrollPercentage = ((scrollTop  + clientHeight) / scrollHeight) * 100
+    }
+  },
+  watch:{
+    
   },
   created(){
+
   },
   computed:{
     ...mapGetters({
       lightMode:'LIGHTMODE',
+      newRequestMade:'recommendationsStore/NEWREQUESTMADE'
     }),
     ...mapState(['showLoadScreen','showMinorAlertMessage'])
   },
@@ -62,6 +77,15 @@ export default {
           //  style.setProperty('--boxshadow', '0px 1px 7px 1px #0000009e'); 
         }
       }
+    },
+    scrollPercentage(newPercentage, oldPercentage){
+      if(!(newPercentage > 70) ) return
+      if(newPercentage > oldPercentage) {
+        // this.$store.commit('recommendationsStore/newRequestMade', true)
+        // this.$store.dispatch('recommendationsStore/lazyLoadPosts')
+        // .then(()=>{
+        // })
+      }
     }
   }
 }
@@ -82,6 +106,8 @@ export default {
   --boxshadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+
+
 * {
   margin: 0;
   padding: 0;
@@ -100,6 +126,11 @@ export default {
   justify-content: center;
   align-items: center;
   background: var(--secondary);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overflow-anchor: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+    Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
   &::-webkit-scrollbar {
     background: var(--primary);
