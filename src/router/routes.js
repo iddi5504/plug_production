@@ -3,6 +3,7 @@ import logIn from '../components/logIn.vue'
 import homePage from '../views/homePage.vue'
 import auth from '../views/authPage.vue'
 import mainContent from '../components/mainContent.vue'
+import singleRecommendation from '../components/singleRecommendation.vue'
 const routes = [
   {
     path: '/',
@@ -12,6 +13,11 @@ const routes = [
       {
         path: '',
         component: mainContent
+      },
+      {
+        path: '/recommendation/:id',
+        component: singleRecommendation,
+        name:'singleRecommendation'
       },
     ]
   },

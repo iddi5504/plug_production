@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- nav bar -->
-        <div v-show="showNav" ref="navbar" id="navbar">
+        <div @click="test" v-show="showNav" ref="navbar" id="navbar">
             <div v-if="isAuthenticated" style="flex: 1; padding: 0 0 0 8px">
                 <div style="display: flex; justify-content: space-between">
                     <button style="background-color: transparent; border: 0px" @click="toggleModal">
@@ -17,7 +17,7 @@
 
             <div class="nav-center">
                 <span style="display: flex; position: relative;">
-                    <h5 id="brandname" ref="brandname" href="{% url 'home' %}">Plug</h5>
+                    <h5 id="brandname" ref="brandname" >Plug</h5>
                     <!-- <img class="logo" src="../assets/pluglogo.png" alt=""> -->
                 </span>
             </div>
@@ -130,8 +130,9 @@
                                 Ad</small></a>
                     </li>
                     <li class="nav-item navitems">
-                        <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">About
-                                Plug</small></a>
+                        <a class="nav-link">
+                            <i class="bi bi-info-circle"></i>
+                            <small class="dropdowntext">About Plug</small></a>
                     </li>
                     <li class="nav-item navitems">
                         <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">FAQ</small></a>
@@ -234,6 +235,9 @@ export default {
         },
         toggleMakePostBar(){
             this.$store.state.makePostStore.showMakePostBar= !this.$store.state.makePostStore.showMakePostBar
+        },
+        test(){
+            this.$store.dispatch('recommendationsStore/lazyLoadPosts')
         }
 
 

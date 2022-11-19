@@ -1,4 +1,4 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage, firestore, auth } from '../../firebase/firebase'
 
@@ -59,8 +59,10 @@ const makePostStore = {
                             imageURL: null
                         }
                     }
-                    const completeRecommendationData = { ...recommendData, ...extraInfo, ...userData }
-                    await addDoc(recommendationCollection, completeRecommendationData)
+                    const recommendationDoc= doc(recommendationCollection)
+                    const recommendationId= `${category}Recommendation${recommendationDoc.id}`
+                    const completeRecommendationData = { ...recommendData, ...extraInfo, ...userData, id:recommendationId }
+                    await setDoc(recommendationDoc, completeRecommendationData)
                     // context.commit('closeMakePost')
                     // context.commit('stopLoading',null,{root:true})
                     // context.commit('alert', ['You have successfully made a recommendation.', 'Continue recommending to others, spread the word'], { root: true })
@@ -91,8 +93,12 @@ const makePostStore = {
                         date: serverTimestamp(),
                         postMediaUrl: url
                     }
-                    const completePostData = { ...postUnrefinedData, ...extraInfo, ...userData }
-                    await addDoc(postCollection, completePostData)
+                    const post= doc(postCollection)
+                    const completePostData = { ...postUnrefinedData, ...extraInfo, ...userData,post_id: post.id }
+                    await setDoc(
+                        post, 
+                        completePostData
+                        )
                     // context.commit('closeMakePost')
                     // context.commit('alert', ['You have successfully made a post.', 'Check your notifications for activities on your post'], { root: true })
                     // context.commit('stopLoading',null,{root:true})

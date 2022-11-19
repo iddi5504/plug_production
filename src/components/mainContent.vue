@@ -1,11 +1,12 @@
 <template>
-    <div>
-        <todaysRecommendation ></todaysRecommendation>
+    <div @scroll="onScroll">
+        <todaysRecommendation></todaysRecommendation>
         <sectionButton></sectionButton>
         <categoryBar class="categoryBar"></categoryBar>
         <template v-for="feed in FEED">
             <postBox v-if="feed.type == 'post'" :key="feed.id" :postData="feed"></postBox>
-            <recommendationBox v-if="feed.type == 'recommendation'" :key="feed.id" :recommendation="feed"></recommendationBox>
+            <recommendationBox v-if="feed.type == 'recommendation'" :key="feed.id" :recommendation="feed">
+            </recommendationBox>
         </template>
     </div>
 </template>
@@ -25,22 +26,39 @@ export default {
         recommendationBox,
         postBox
     },
-    data(){
+    data() {
         return {
-         
+            scrollHeight: null,
+            offsetHeight: null,
+            scrollTop: null,
+            totalScroll: null
         }
     },
-    methods:{
-        
+    methods: {
+        onScroll(event) {
+            this.totalScroll = Math.floor(event.target.offsetHeight + event.target.scrollTop)
+            this.scrollHeight = Math.floor(event.target.scrollHeight)
+        }
     },
-    computed:{
-        ...mapGetters('recommendationsStore',['FEED'])
+    computed: {
+        ...mapGetters('recommendationsStore', ['FEED'])
     },
-    created(){
+    created() {
         this.$store.dispatch('recommendationsStore/getRecommendations')
         this.$store.dispatch('recommendationsStore/getPosts')
     },
-    mounted(){
+    watch: {
+        totalScroll(totalScroll) {
+            
+            if (totalScroll >= this.scrollHeight -200) {
+                console.warn('request made')
+                // this.$store.dispatch('recommendationsStore/lazyLoadPosts')
+                    // .then(() => {
+
+                    //     this.$store.commit('recommendationsStore/newRequestMade', true)
+                    // })
+            }
+        }
     }
 }
 </script>

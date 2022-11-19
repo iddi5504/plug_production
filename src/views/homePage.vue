@@ -39,16 +39,23 @@ export default {
    
     
   },
-  methods:{
-    
+  data(){
+    return {
+      scrollHeight:null,
+      offsetHeight:null,
+      scrollTop:null,
+      totalScroll:null
+    }
   },
+  
   async beforeCreate() {
     auth.onAuthStateChanged((user) => {
       if(user){
         const userFirestore = doc(firestore, 'users', user.uid)
+        let userId= user.uid
         getDoc(userFirestore)
-          .then((user) => {
-            this.$store.dispatch('authStore/setUser', user.data(),{root:true})
+          .then((userData) => {
+            this.$store.dispatch('authStore/setUser', {...userData.data(), user_id:userId},{root:true})
           })
       }
     })
@@ -62,7 +69,6 @@ export default {
   display: flex;
   justify-content: center;
   width: 100%;
-  gap: 10px;
   align-content: flex-start;
   margin-top: 58px;
 
@@ -113,5 +119,19 @@ export default {
 
     }
   }
+    &::-webkit-scrollbar {
+      background: var(--primary);
+      width: 4px;
+    }
+  
+    &::-webkit-scrollbar-corner {
+      border-radius: 10px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: #979595;
+      border-radius: 10px;
+      box-shadow: var(--boxshadow);
+    }
 }
 </style>

@@ -3,7 +3,8 @@ const authStore={
     state:{
         username:null,
         userEmail:'',
-        isAuthenticated:false
+        isAuthenticated:false,
+        user_id:null
         
     },
     getters:{
@@ -26,6 +27,7 @@ const authStore={
             state.userEmail=user.email;
             state.username=user.username;
             state.isAuthenticated=true;
+            state.user_id=user.user_id;
         },
         cleanUp(state){
             state.userEmail=null;

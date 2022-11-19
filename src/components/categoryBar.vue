@@ -115,9 +115,7 @@ export default {
             }, 2000);
         },
         test(){
-            this.$store.dispatch('recommendationsStore/lazyLoadPosts')
-
-
+            // this.$store.dispatch('recommendationsStore/lazyLoadPosts')
         }
     }
 

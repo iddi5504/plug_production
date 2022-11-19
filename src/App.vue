@@ -1,5 +1,5 @@
 <template>
-  <div @scroll.passive="onScroll" ref="content" id="app">
+  <div  ref="content" id="app">
     <router-view class="router-view-body"/>
     <transition name="showMinorAlert">
       <minorAlert v-show="showMinorAlertMessage"></minorAlert>
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       showNav: true,
-      scrollPercentage:0
+      
     }
   },
   mounted() {
@@ -29,12 +29,7 @@ export default {
     // })
   },
   methods:{
-    onScroll(event){
-      const scrollHeight= event.target.scrollHeight
-      const scrollTop= event.target.scrollTop
-      const clientHeight= event.target.clientHeight
-      this.scrollPercentage = ((scrollTop  + clientHeight) / scrollHeight) * 100
-    }
+    
   },
   watch:{
     
@@ -78,15 +73,7 @@ export default {
         }
       }
     },
-    scrollPercentage(newPercentage, oldPercentage){
-      if(!(newPercentage > 70) ) return
-      if(newPercentage > oldPercentage) {
-        // this.$store.commit('recommendationsStore/newRequestMade', true)
-        // this.$store.dispatch('recommendationsStore/lazyLoadPosts')
-        // .then(()=>{
-        // })
-      }
-    }
+    
   }
 }
 </script>
@@ -132,20 +119,6 @@ export default {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
     Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-  &::-webkit-scrollbar {
-    background: var(--primary);
-    width: 11px;
-  }
-
-  &::-webkit-scrollbar-corner {
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--secondary);
-    border-radius: 10px;
-    box-shadow: var(--boxshadow);
-  }
 
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
     Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
