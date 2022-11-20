@@ -1,14 +1,13 @@
 <template>
-
-    <div @click="test" class="recommendation-box-component">
+    <div ref="recommendation" class="recommendation-box-component">
         <div v-bind:class="{ savedrecommend: false }" class="recommendationcontainer">
             <div class="recommendation-info">
-                <span style="margin-left: 6px;">{{ recommendation.recommender_name }}</span>
+                <span style="margin-left: 6px;">{{ recommendation.recommender_name }}skskskl</span>
                 <span style="position: absolute; right: 28px; top: 4px; "><i class="bi bi-three-dots"></i></span>
             </div>
             <hr>
-            <article>
-                <router-link :to='"recommendation/" + recommendation.id'>
+            <router-link :to="`recommendation/${recommendation.id}`">
+                <article>
                     <div style="display: flex; " class="media">
                         <a class="pull-left" href="#">
                             <img class="media-object recommendedimage" :src='imageURL' alt="Image">
@@ -31,29 +30,27 @@
                             <p>{{ recommendation.content }}</p>
                         </div>
                     </div>
-                </router-link>
-
-            </article>
+                </article>
+            </router-link>
 
             <!--recommend-box-bottom-->
             <div style="margin: 0px 5px;" class="recommend-box-bottom">
                 <div class="post-interactions">
                     <!--up-->
-                    <span>
-                        <i ref="up" :class="['bi bi-caret-up-fill', { isreactedup: recommendation.isreactedup }]"></i>
-                        <small>{{ recommendation.upvotes }}</small>
+                    <span @click="upvote">
+                        <i ref="up" :class="['bi bi-caret-up-fill', { upvoted: UPVOTEDON }]"></i>
+                        <small>{{ UPVOTES }}</small>
 
                     </span>
 
                     <!--down-->
 
-                    <span>
-                        <i ref="down"
-                            :class="['bi bi-caret-down-fill', { isreacteddown: recommendation.isreacteddown }]"></i>
+                    <span @click="downvote">
+                        <i ref="down" :class="['bi bi-caret-down-fill', { downvoted: DOWNVOTEDON }]"></i>
                         <small>{{ recommendation.downvotes }}</small>
 
                     </span>
-                    <span @click="showComments = !showComments" style="margin:5px" class="options">
+                    <span style="margin:5px" class="options" @click="$router.push(`recommendation/${recommendation.id}`)">
                         <!--comments-->
                         <i class="bi bi-chat-dots"></i>
                         <small>{{ recommendation.number_of_comments }}</small>
@@ -76,75 +73,93 @@
                 <div class="option"> <i class="fa fa-edit"></i> Edit</div>
                 <div class="option"> <i class="bi bi-trash"></i> Delete</div>
             </div>
-            <!--comments-->
-            <div v-show="showComments" class="commentdialogue">
-                <div class="comments">
-                    <div v-for="(comment, commentindex) in comments" :key="commentindex">
-                        <div class="commentbox">
-                            <div class="comment">
-                                <div class="comment-text">
-                                    <span>
-                                        <img class="userprofileimage" src="../assets/albumcover.png" alt="" srcset=" ">
-                                    </span>
-                                    <p class="commentcontent">{{ comment.content }}</p>
-                                    <small class="commentusername">{{ comment.name }}</small>
-                                </div>
-                                <i class="bi bi-trash"></i>
-
-                            </div>
-                            <div class="reply-section">
-                                <div></div>
-                                <small> 23 replies</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <p v-show="false"
-                            style="display: flex; justify-content: center;  align-items:center;   position: absolute; top: 50%; left: 48%;  margin-left: -60px; font-size: 1.5em; ">
-                            No comments</p>
-                    </div>
-
-                </div>
-                <div class="makecomment">
-                    <textarea name="comment" cols="30" rows="10" class="commentinput" v-model="comment"></textarea>
-                    <button class="commentbutton">Comment</button>
-                </div>
-            </div>
-
+            
         </div>
     </div>
 </template>
   
 <script>
+import { addDoc, collection, serverTimestamp, doc, updateDoc,increment} from '@firebase/firestore'
+import { firestore } from '@/firebase/firebase'
+import { mapState } from 'vuex'
 export default {
     props: ["recommendation"],
     data() {
         return {
-            comment: '',
-            showComments: false,
+            recommendationType: '',
+            showComments: true,
             showoptions: false,
-            comments: [
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' },
-                { content: 'Fuck you all ', name: 'Iddi5504' }
-            ],
-
-
+            upvoted: false,
+            downvoted: false
         }
     },
     methods: {
-        test() {
-            console.log("🚀 ~ file: recommendationBox.vue ~ line 152 ~ imageURL ~ this.recommendation.imageURL", this.recommendation.imageURL)
+        async upvote() {
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const userDoc = doc(firestore, `/users/${this.user_id}`)
+            if (!this.UPVOTEDON) {
+                updateDoc(recommendationDoc, {
+                    upvotes: increment(1)
+                })
+                    .then(() => {
+                        this.UPVOTES = 1
+                        this.upvoted = true
+                        this.$store.dispatch('authStore/upvote', this.recommendation.uid)
+                        this.upvoted = true
+                        updateDoc(userDoc, {
+                            upvotes: arrayUnion(this.recommendation.uid)
+                        })
+                    })
+            } else {
+                if (this.upvoted == true) {
+                    updateDoc(recommendationDoc, {
+                        upvotes: increment(-1)
+                    })
+                        .then(() => {
+                            this.UPVOTES = -1
+                            this.upvoted = false
+                            this.$store.dispatch('authStore/removeUpvote', this.recommendation.uid)
+                            updateDoc(userDoc, {
+                                upvotes: arrayRemove(this.recommendation.uid)
+                            })
+
+                        })
+                }
+            }
+
+        },
+        async downvote() {
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const userDoc = doc(firestore, `/users/${this.user_id}`)
+            if (!this.DOWNVOTEDON) {
+                updateDoc(recommendationDoc, {
+                    downvotes: increment(1)
+                })
+                    .then(() => {
+                        this.DOWNVOTES = 1
+                        this.downvote = true
+                        this.$store.dispatch('authStore/downvote', this.recommendation.uid)
+                        this.downvoted = true
+                        updateDoc(userDoc, {
+                            downvotes: arrayUnion(this.recommendation.uid)
+                        })
+                    })
+            } else {
+                if (this.downvoted == true) {
+                    updateDoc(recommendationDoc, {
+                        downvotes: increment(-1)
+                    })
+                        .then(() => {
+                            this.DOWNVOTES = -1
+                            this.downvoted = false
+                            this.$store.dispatch('authStore/removeDownvote', this.recommendation.uid)
+                            updateDoc(userDoc, {
+                                downvotes: arrayRemove(this.recommendation.uid)
+                            })
+
+                        })
+                }
+            }
 
         }
 
@@ -173,15 +188,55 @@ export default {
                         break;
                 }
                 return image
-            } 
+            }
             else {
                 return this.recommendation.imageURL
             }
-        }
-
+        },
+        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes']),
+        UPVOTES: {
+            get() {
+                return this.recommendation.upvotes
+            },
+            set(increment) {
+                this.recommendation.upvotes += increment
+            }
+        },
+        UPVOTEDON() {
+            if (this.upvotes.includes(this.recommendation.uid)) {
+                this.upvoted = true
+                return this.upvoted
+            }
+        },
+        
+        DOWNVOTES: {
+            get() {
+                return this.recommendation.downvotes
+            },
+            set(increment) {
+                this.recommendation.downvotes += increment
+            }
+        },
+        DOWNVOTEDON() {
+            if (this.downvotes.includes(this.recommendation.uid)) {
+                this.downvoted = true
+                return this.downvoted
+            }
+        },
     },
     mounted(){
-       
+        if (this.recommendation.id.includes('MusicRecommendation')) {
+            this.recommendationType = 'MusicRecommendations'
+        }
+        if (this.recommendation.id.includes('MovieRecommendation')) {
+            this.recommendationType = 'MovieRecommendations'
+        }
+        if (this.recommendation.id.includes('BookRecommendation')) {
+            this.recommendationType = 'BookRecommendations'
+        }
+        if (this.recommendation.id.includes('GameRecommendation')) {
+            this.recommendationType = 'GameRecommendations'
+        }
     }
 
 }
@@ -189,9 +244,21 @@ export default {
 </script>
   
 <style lang="scss" scoped>
+.showReply-enter-active,
+.showReply-leave-active {
+    position: absolute;
+    transform: translateY(0);
+    transition: 0.4s ease all;
+}
+
+.showReply-enter,
+.showReply-leave-to {
+    transform: translateY(100px)
+}
+
 .recommendationcontainer {
     position: relative;
-    
+
     border-radius: 21px;
     background: var(--primary);
     float: none;
@@ -202,7 +269,7 @@ export default {
     box-shadow: var(--boxshadow);
     animation: comein-data-v-0148dea0 0.5s;
     transition: 0.5s ease-out;
-    max-width: 700px;
+    max-width: 660px;
 
     hr {
         border-top: 1px solid var(--textcolornotimportant);
@@ -220,6 +287,7 @@ export default {
 
 .recommendation-box-component {
     width: 100%;
+
 }
 
 
@@ -349,7 +417,7 @@ hr {
 
 @keyframes comein {
     0% {
-        transform: translateY(30px);
+        transform: translateY(-10px);
 
     }
 
@@ -400,120 +468,12 @@ hr {
     margin: 1 5 5px 1;
 }
 
-.comments {
-    display: flex;
-    flex-direction: column;
-    max-height: 44vh;
-    overflow-y: auto;
-    transition: 0.5s ease-out;
-    padding-top: 10px;
 
-
-    &::-webkit-scrollbar {
-        width: 4px;
-        border-radius: 0px 8px 8px 0;
-        padding: 20px 0px;
-        height: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        width: 5px;
-        background-color: var(--secondary);
-        border-radius: 0px 8px 8px 0;
-    }
+.upvoted {
+    color: var(--brandcolor);
 }
 
-.comment {
-    display: flex;
-    justify-content: space-between;
-
-}
-
-.commentbox {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    animation: comein 0.4s;
-
-    .comment-text {
-        display: flex;
-        margin: 4px;
-        position: relative;
-    }
-
-    .reply-section {
-        align-items: center;
-        display: flex;
-        padding: 0px 0px 1px 44px;
-        animation: 0.4s ease 0s 1 normal none running comein;
-
-        >div {
-            width: 77px;
-            height: 1px;
-            background-color: gray;
-        }
-
-        small {
-            padding: 0px 0px 0px 7px;
-        }
-    }
-
-}
-
-.commentcontent {
-    margin: 10px 5px 2px 15px;
-    word-break: break-word;
-}
-
-.commentusername {
-    position: absolute;
-    left: 52px;
-    color: var(--textcolorimportant);
-    top: -6px;
-    font-size: 0.9rem;
-}
-
-.makecomment {
-    height: 35px;
-    background-color: transparent;
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    align-items: center;
-
-    .commentinput {
-        width: 100%;
-        background: var(--secondary);
-        border: none;
-        border-radius: 10px;
-        color: var(--textcolornotimportant);
-        padding: 2px 2px 2px 12px;
-        height: 100%;
-        outline: none;
-
-    }
-
-    .commentbutton {
-        border: none;
-        background: var(--secondary);
-        color: var(--textcolorimportant);
-        border-radius: 3px;
-        padding: 7px;
-        margin: 4px;
-        font-size: 1rem;
-        height: fit-content;
-        box-shadow: var(--boxshadow);
-
-    }
-}
-
-
-
-.isreactedup {
-    color: #6288f3;
-}
-
-.isreacteddown {
+.downvoted {
     color: red;
 }
 </style>

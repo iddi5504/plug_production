@@ -1,17 +1,17 @@
 import {initializeApp} from 'firebase/app'
 import {
     getFirestore,
-    
+    // connectFirestoreEmulator
 
 } from 'firebase/firestore' 
 import {
     getAuth,
-    
+    // connectAuthEmulator
 } from 'firebase/auth' 
 
 import {
     getStorage,
-    
+    // connectStorageEmulator
 } from 'firebase/storage'
 
 const firebaseConfig = {

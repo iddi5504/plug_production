@@ -13,7 +13,7 @@
         </div>
         <div class="comment-interactions">
             <small>2h</small>
-            <small @click="toggleReply" style="color: var(--brandcolor);">reply</small>
+            <small @click="toggleReply" style="color: var(--brandcolor); cursor:pointer;">reply</small>
         </div>
         <div class="replies" v-show="showReplies">
             <div v-for="reply in comment.replies" :key="reply.id" class="comment">
@@ -21,32 +21,32 @@
                     <router-link exact tag="span" :to="'profile/' + comment.owner_id">
                         <img class="userprofileimage" src="../assets/albumcover.png" alt="" srcset=" ">
                     </router-link>
-                    <p class="commentcontent">{{ comment.comment_text }}</p>
-                    <small class="commentusername">{{ comment.owner_name }}</small>
+                    <p class="commentcontent">{{ reply.reply_text }}</p>
+                    <small class="commentusername">{{ reply.owner_name }}</small>
                 </div>
 
             </div>
         </div>
         <transition name="showReply">
             <div ref="comment" key="2" v-show="showReplyField" class="makecomment">
-                <textarea name="comment" cols="30" rows="10" class="commentinput" v-model="replyText"></textarea>
+                <textarea maxlength="600" draggable="false" @keyup.enter="makeReply(comment.comment_id)" name="comment" class="commentinput reply-input" v-model="replyText"></textarea>
                 <button class="commentbutton" @click="makeReply(comment.comment_id)">reply</button>
             </div>
         </transition>
         <div class="reply-section">
             <div></div>
-            <small @click="showReplies = !showReplies">show {{ NUMBEROFREPLIES }} replies</small>
+            <small @click="showReplies = !showReplies">{{showRepliesText}} {{ NUMBEROFREPLIES }} replies</small>
         </div>
     </div>
 </template>
 
 <script>
-import { arrayUnion, collection, deleteDoc, doc, updateDoc } from '@firebase/firestore';
+import { arrayUnion, collection, deleteDoc, doc, increment, updateDoc } from '@firebase/firestore';
 import { firestore } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import { bus } from '../main'
 export default {
-    props: ['comment', 'recommendation', 'commentIndex'],
+    props: ['comment', 'recommendation', 'commentIndex', 'recommendationType'],
     data() {
         return {
             replyText: '',
@@ -72,9 +72,15 @@ export default {
                 replies: arrayUnion(replyData)
             })
             .then(() => {
+                // increase number of comments count
+                const recommendationDoc= doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+                        updateDoc(recommendationDoc, {
+                            number_of_comments: increment(1)
+                        })
                 this.replyText = ''
                 this.replies= replyData
                 this.numberOfReplies += 1 
+                
             })
         },
         async deleteComment(comment_id) {
@@ -83,6 +89,8 @@ export default {
             deleteDoc(comment)
                 .then(() => {
                     bus.$emit('deleteComment', this.commentIndex)
+                    // increase number of comments count
+                   
                 })
         },
     },
@@ -97,6 +105,13 @@ export default {
             },
             set(reply) {
                 this.comment.replies.push(reply)
+            }
+        },
+        showRepliesText(){
+            if(this.showReplies == true){
+                return 'hide'
+            }else{
+                return 'show'
             }
         }
     },
@@ -118,6 +133,54 @@ export default {
     transition: 0.5s ease-out;
     padding-top: 10px;
 
+    .userprofileimage {
+        width: 37px;
+        height: 37px;
+        border-radius: 50%;
+        margin: 1 5 5px 1;
+    }
+    
+    .reply-input{
+        max-width: 390px;
+    }
+    
+.makecomment {
+    height: 35px;
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    align-items: center;
+    position: sticky;
+    bottom: 2px;
+    border-radius: 22px;
+
+    .commentinput {
+        width: 100%;
+        background: var(--secondary);
+        border: none;
+        border-radius: 10px;
+        color: var(--textcolornotimportant);
+        padding: 2px 2px 2px 12px;
+        height: 100%;
+        outline: none;
+        resize: none;
+
+    }
+
+    .commentbutton {
+        border: none;
+        background: var(--secondary);
+        color: var(--textcolorimportant);
+        border-radius: 3px;
+        padding: 7px;
+        margin: 4px;
+        font-size: 1rem;
+        height: fit-content;
+        box-shadow: var(--boxshadow);
+
+    }
+}
     .replies {
         padding-left: 44px;
         padding-left: 44px;
@@ -189,6 +252,7 @@ export default {
 
         small {
             padding: 0px 0px 0px 7px;
+            cursor: pointer;
         }
     }
 
@@ -205,5 +269,10 @@ export default {
     color: var(--textcolorimportant);
     top: -6px;
     font-size: 0.9rem;
+    width: 100%;
+}
+
+.makecomment{
+    justify-content: flex-end;
 }
 </style>

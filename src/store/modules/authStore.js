@@ -4,7 +4,9 @@ const authStore={
         username:null,
         userEmail:'',
         isAuthenticated:false,
-        user_id:null
+        user_id:null,
+        upvotes:[],
+        downvotes:[]
         
     },
     getters:{
@@ -28,11 +30,25 @@ const authStore={
             state.username=user.username;
             state.isAuthenticated=true;
             state.user_id=user.user_id;
+            state.upvotes=user.upvotes;
+            state.downvotes=user.downvotes;
         },
         cleanUp(state){
             state.userEmail=null;
             state.username=null;
             state.isAuthenticated=false;
+        },
+        addUpvote(state, id){
+            state.upvotes.push(id);
+        },
+        removeUpvote(state, id){
+            state.upvotes.splice(state.upvotes.indexOf(id), 1)
+        },
+        addDownvote(state, id){
+            state.downvotes.push(id);
+        },
+        removeDownvote(state, id){
+            state.downvotes.splice(state.downvotes.indexOf(id), 1)
         }
     },
     actions:{
@@ -41,6 +57,18 @@ const authStore={
         },
         cleanUp(context){
             context.commit('cleanUp')
+        },
+        upvote(context, id){
+            context.commit('addUpvote',id)
+        },
+        removeUpvote(context, id){
+            context.commit('removeUpvote',id)
+        },
+        downvote(context, id){
+            context.commit('addDownvote',id)
+        },
+        removeDownvote(context, id){
+            context.commit('removeDownvote',id)
         }
     }
 }

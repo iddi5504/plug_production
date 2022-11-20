@@ -36,17 +36,16 @@
             <div style="margin: 0px 5px;" class="recommend-box-bottom">
                 <div class="post-interactions">
                     <!--up-->
-                    <span>
-                        <i ref="up" :class="['bi bi-caret-up-fill', { isreactedup: recommendation.isreactedup }]"></i>
-                        <small>{{ recommendation.upvotes }}</small>
+                    <span @click="upvote">
+                        <i ref="up" :class="['bi bi-caret-up-fill', { upvoted: UPVOTEDON }]"></i>
+                        <small>{{ UPVOTES }}</small>
 
                     </span>
 
                     <!--down-->
 
-                    <span>
-                        <i ref="down"
-                            :class="['bi bi-caret-down-fill', { isreacteddown: recommendation.isreacteddown }]"></i>
+                    <span @click="downvote">
+                        <i ref="down" :class="['bi bi-caret-down-fill', { downvoted: DOWNVOTEDON }]"></i>
                         <small>{{ recommendation.downvotes }}</small>
 
                     </span>
@@ -76,8 +75,10 @@
             <!--comments-->
             <div v-show="showComments" class="commentdialogue">
                 <div class="comments">
-                    <comment v-for="(comment, commentIndex) in comments" :key="commentIndex" :commentIndex="commentIndex" :comment="comment" :recommendation="recommendation">
-                        
+                    <comment v-for="(comment, commentIndex) in comments" :key="commentIndex"
+                        :commentIndex="commentIndex" :comment="comment" :recommendation="recommendation"
+                        :recommendationType="recommendationType">
+
                     </comment>
                     <div>
                         <p v-show="false"
@@ -98,23 +99,25 @@
 </template>
   
 <script>
-import { limit, addDoc, collection, collectionGroup, getDocs, query, serverTimestamp, where, doc, updateDoc, deleteDoc, orderBy, arrayUnion } from '@firebase/firestore'
+import { limit, addDoc, collection, collectionGroup, getDocs, query, serverTimestamp, where, doc, updateDoc, deleteDoc, orderBy, increment, getDoc, FieldValue, arrayUnion, arrayRemove } from '@firebase/firestore'
 import { firestore } from '@/firebase/firebase'
 import { mapState } from 'vuex'
 import comment from '@/components/comment.vue'
-import {bus} from '../main'
+import { bus } from '../main'
 export default {
-    components:{
+    components: {
         comment
     },
     data() {
         return {
             recommendation: {},
+            recommendationType: '',
             comment: null,
             showComments: true,
             showoptions: false,
             comments: [],
-           
+            upvoted: false,
+            downvoted: false
 
         }
     },
@@ -128,12 +131,19 @@ export default {
                     owner_id: this.user_id,
                     owner_name: this.username,
                     post_id: this.recommendation.uid,
-                    replies:[]
+                    replies: []
                 }
                 addDoc(commentCollection, commentData)
                     .then((comment) => {
                         this.comments.unshift({ ...commentData, comment_id: comment.id })
                         this.comment = ''
+
+                        // increase number of comments count
+                        const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+                        updateDoc(recommendationDoc, {
+                            number_of_comments: increment(1)
+                        })
+
                     })
             }
         },
@@ -146,8 +156,76 @@ export default {
                 console.log(snapshot.data().date.toDate())
                 this.comments.push({ ...snapshot.data(), comment_id: snapshot.id })
             })
+        },
+        async upvote() {
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const userDoc = doc(firestore, `/users/${this.user_id}`)
+            if (!this.UPVOTEDON) {
+                updateDoc(recommendationDoc, {
+                    upvotes: increment(1)
+                })
+                    .then(() => {
+                        this.UPVOTES = 1
+                        this.upvoted = true
+                        this.$store.dispatch('authStore/upvote', this.recommendation.uid)
+                        this.upvoted = true
+                        updateDoc(userDoc, {
+                            upvotes: arrayUnion(this.recommendation.uid)
+                        })
+                    })
+            } else {
+                if (this.upvoted == true) {
+                    updateDoc(recommendationDoc, {
+                        upvotes: increment(-1)
+                    })
+                        .then(() => {
+                            this.UPVOTES = -1
+                            this.upvoted = false
+                            this.$store.dispatch('authStore/removeUpvote', this.recommendation.uid)
+                            updateDoc(userDoc, {
+                                upvotes: arrayRemove(this.recommendation.uid)
+                            })
+
+                        })
+                }
+            }
+
+        },
+        async downvote() {
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const userDoc = doc(firestore, `/users/${this.user_id}`)
+            if (!this.DOWNVOTEDON) {
+                updateDoc(recommendationDoc, {
+                    downvotes: increment(1)
+                })
+                    .then(() => {
+                        this.DOWNVOTES = 1
+                        this.downvote = true
+                        this.$store.dispatch('authStore/downvote', this.recommendation.uid)
+                        this.downvoted = true
+                        updateDoc(userDoc, {
+                            downvotes: arrayUnion(this.recommendation.uid)
+                        })
+                    })
+            } else {
+                if (this.downvoted == true) {
+                    updateDoc(recommendationDoc, {
+                        downvotes: increment(-1)
+                    })
+                        .then(() => {
+                            this.DOWNVOTES = -1
+                            this.downvoted = false
+                            this.$store.dispatch('authStore/removeDownvote', this.recommendation.uid)
+                            updateDoc(userDoc, {
+                                downvotes: arrayRemove(this.recommendation.uid)
+                            })
+
+                        })
+                }
+            }
+
         }
-       
+
     },
     computed: {
         imageURL() {
@@ -178,15 +256,44 @@ export default {
                 return this.recommendation.imageURL
             }
         },
-        ...mapState('authStore', ['user_id', 'username'])
-
+        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes']),
+        UPVOTES: {
+            get() {
+                return this.recommendation.upvotes
+            },
+            set(increment) {
+                this.recommendation.upvotes += increment
+            }
+        },
+        UPVOTEDON() {
+            if (this.upvotes.includes(this.recommendation.uid)) {
+                this.upvoted = true
+                return this.upvoted
+            }
+        },
+        
+        DOWNVOTES: {
+            get() {
+                return this.recommendation.downvotes
+            },
+            set(increment) {
+                this.recommendation.downvotes += increment
+            }
+        },
+        DOWNVOTEDON() {
+            if (this.downvotes.includes(this.recommendation.uid)) {
+                this.downvoted = true
+                return this.downvoted
+            }
+        },
     },
     async created() {
         const recommendationId = this.$route.params.id
         console.log(recommendationId)
         if (recommendationId.includes('MusicRecommendation')) {
-            const recommendationCollection = query(collection(firestore, 'MusicRecommendations'), where('id', '==', recommendationId))
+            const recommendationCollection = query(collectionGroup(firestore, 'MusicRecommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
+            this.recommendationType = 'MusicRecommendations'
             this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
             this.getComments()
 
@@ -196,12 +303,16 @@ export default {
             const recommendation = await getDocs(recommendationCollection)
             this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
             this.getComments()
+            this.recommendationType = 'MovieRecommendations'
+
 
         }
         if (recommendationId.includes('BookRecommendation')) {
             const recommendationCollection = query(collectionGroup(firestore, 'BookRecommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
+            console.log(recommendation.docs)
             this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
+            this.recommendationType = 'BookRecommendations'
             this.getComments()
 
         }
@@ -209,12 +320,17 @@ export default {
             const recommendationCollection = query(collectionGroup(firestore, 'GameRecommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
             this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
+            this.recommendationType = 'GameRecommendations'
             this.getComments()
 
         }
 
-        bus.$on('deleteComment',(commentIndex)=>{
+        bus.$on('deleteComment', (commentIndex) => {
             this.comments.splice(commentIndex, 1)
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            updateDoc(recommendationDoc, {
+                number_of_comments: increment(-1)
+            })
         })
 
     },
@@ -226,7 +342,7 @@ export default {
 
 </script>
   
-<style lang="scss">
+<style lang="scss" scoped>
 .showReply-enter-active,
 .showReply-leave-active {
     position: absolute;
@@ -474,6 +590,7 @@ hr {
         padding: 2px 2px 2px 12px;
         height: 100%;
         outline: none;
+        resize: none;
 
     }
 
@@ -493,11 +610,11 @@ hr {
 
 
 
-.isreactedup {
-    color: #6288f3;
+.upvoted {
+    color: var(--brandcolor);
 }
 
-.isreacteddown {
+.downvoted {
     color: red;
 }
 </style>
