@@ -70,7 +70,8 @@ export default {
                             email: this.email,
                             username: this.username,
                             upvotes: [],
-                            downvotes: []
+                            downvotes: [],
+                            saves:[]
                         })
                             .then(() => {
                                 this.$router.replace({ name: 'home' });

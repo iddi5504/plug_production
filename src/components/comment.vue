@@ -12,7 +12,7 @@
 
         </div>
         <div class="comment-interactions">
-            <small>2h</small>
+            <small>{{ DATE }}</small>
             <small @click="toggleReply" style="color: var(--brandcolor); cursor:pointer;">reply</small>
         </div>
         <div class="replies" v-show="showReplies">
@@ -29,13 +29,14 @@
         </div>
         <transition name="showReply">
             <div ref="comment" key="2" v-show="showReplyField" class="makecomment">
-                <textarea maxlength="600" draggable="false" @keyup.enter="makeReply(comment.comment_id)" name="comment" class="commentinput reply-input" v-model="replyText"></textarea>
+                <textarea maxlength="600" draggable="false" name="comment"
+                    class="commentinput reply-input" v-model="replyText"></textarea>
                 <button class="commentbutton" @click="makeReply(comment.comment_id)">reply</button>
             </div>
         </transition>
         <div class="reply-section">
             <div></div>
-            <small @click="showReplies = !showReplies">{{showRepliesText}} {{ NUMBEROFREPLIES }} replies</small>
+            <small @click="showReplies = !showReplies">{{ showRepliesText }} {{ NUMBEROFREPLIES }} replies</small>
         </div>
     </div>
 </template>
@@ -45,6 +46,7 @@ import { arrayUnion, collection, deleteDoc, doc, increment, updateDoc } from '@f
 import { firestore } from '@/firebase/firebase';
 import { mapState } from 'vuex';
 import { bus } from '../main'
+import moment from 'moment';
 export default {
     props: ['comment', 'recommendation', 'commentIndex', 'recommendationType'],
     data() {
@@ -52,7 +54,7 @@ export default {
             replyText: '',
             showReplyField: false,
             showReplies: false,
-            numberOfReplies:null
+            numberOfReplies: null
         }
     },
     methods: {
@@ -60,6 +62,7 @@ export default {
             this.showReplyField = !this.showReplyField
         },
         makeReply(comment_id) {
+            this.showReplyField= false
             const commentCollection = collection(firestore, 'comments');
             const comment = doc(commentCollection, comment_id)
             const replyData = {
@@ -71,17 +74,17 @@ export default {
             updateDoc(comment, {
                 replies: arrayUnion(replyData)
             })
-            .then(() => {
-                // increase number of comments count
-                const recommendationDoc= doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
-                        updateDoc(recommendationDoc, {
-                            number_of_comments: increment(1)
-                        })
-                this.replyText = ''
-                this.replies= replyData
-                this.numberOfReplies += 1 
-                
-            })
+                .then(() => {
+                    // increase number of comments count
+                    const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+                    updateDoc(recommendationDoc, {
+                        number_of_comments: increment(1)
+                    })
+                    this.replyText = ''
+                    this.replies = replyData
+                    this.numberOfReplies += 1
+
+                })
         },
         async deleteComment(comment_id) {
             const commentCollection = collection(firestore, 'comments');
@@ -90,14 +93,14 @@ export default {
                 .then(() => {
                     bus.$emit('deleteComment', this.commentIndex)
                     // increase number of comments count
-                   
+
                 })
         },
     },
     computed: {
         ...mapState('authStore', ['user_id', 'username']),
-        NUMBEROFREPLIES(){
-                return this.numberOfReplies
+        NUMBEROFREPLIES() {
+            return this.numberOfReplies
         },
         replies: {
             get() {
@@ -107,19 +110,28 @@ export default {
                 this.comment.replies.push(reply)
             }
         },
-        showRepliesText(){
-            if(this.showReplies == true){
+        showRepliesText() {
+            if (this.showReplies == true) {
                 return 'hide'
-            }else{
+            } else {
                 return 'show'
             }
+        },
+        DATE() {
+            try {
+                var rawDate = this.comment.date.toDate()
+            } catch (error) {
+                var rawDate= new Date()                
+            }
+            const date = new Date()
+            return `${moment(rawDate).fromNow(date)} ago`
         }
     },
-    watch:{
+    watch: {
 
     },
-    mounted(){
-        this.numberOfReplies= this.comment.replies.length
+    mounted() {
+        this.numberOfReplies = this.comment.replies.length
     }
 
 }
@@ -139,48 +151,50 @@ export default {
         border-radius: 50%;
         margin: 1 5 5px 1;
     }
-    
-    .reply-input{
+
+    .reply-input {
         max-width: 390px;
     }
-    
-.makecomment {
-    height: 35px;
-    background-color: var(--primary);
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    align-items: center;
-    position: sticky;
-    bottom: 2px;
-    border-radius: 22px;
 
-    .commentinput {
-        width: 100%;
-        background: var(--secondary);
-        border: none;
-        border-radius: 10px;
-        color: var(--textcolornotimportant);
-        padding: 2px 2px 2px 12px;
-        height: 100%;
-        outline: none;
-        resize: none;
+    .makecomment {
+        height: 35px;
+        background-color: var(--primary);
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        align-items: center;
+        position: sticky;
+        bottom: 2px;
+        border-radius: 22px;
 
+        .commentinput {
+            width: 100%;
+            background: var(--secondary);
+            border: none;
+            border-radius: 10px;
+            color: var(--textcolornotimportant);
+            padding: 2px 2px 2px 12px;
+            height: 100%;
+            outline: none;
+            resize: none;
+            font-size: 16px;
+
+        }
+
+        .commentbutton {
+            border: none;
+            background: var(--secondary);
+            color: var(--textcolorimportant);
+            border-radius: 3px;
+            padding: 7px;
+            margin: 4px;
+            font-size: 1rem;
+            height: fit-content;
+            box-shadow: var(--boxshadow);
+
+        }
     }
 
-    .commentbutton {
-        border: none;
-        background: var(--secondary);
-        color: var(--textcolorimportant);
-        border-radius: 3px;
-        padding: 7px;
-        margin: 4px;
-        font-size: 1rem;
-        height: fit-content;
-        box-shadow: var(--boxshadow);
-
-    }
-}
     .replies {
         padding-left: 44px;
         padding-left: 44px;
@@ -190,20 +204,20 @@ export default {
         &::-webkit-scrollbar {
             background: var(--primary);
             width: 4px;
-          }
-        
-          &::-webkit-scrollbar-corner {
+        }
+
+        &::-webkit-scrollbar-corner {
             border-radius: 10px;
-          }
-        
-          &::-webkit-scrollbar-thumb {
+        }
+
+        &::-webkit-scrollbar-thumb {
             background: #979595;
             border-radius: 10px;
             box-shadow: var(--boxshadow);
-          }
+        }
     }
 
-    
+
 }
 
 .comment {
@@ -272,7 +286,7 @@ export default {
     width: 100%;
 }
 
-.makecomment{
+.makecomment {
     justify-content: flex-end;
 }
 </style>

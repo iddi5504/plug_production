@@ -6,7 +6,8 @@ const authStore={
         isAuthenticated:false,
         user_id:null,
         upvotes:[],
-        downvotes:[]
+        downvotes:[],
+        saves:[]
         
     },
     getters:{
@@ -32,6 +33,7 @@ const authStore={
             state.user_id=user.user_id;
             state.upvotes=user.upvotes;
             state.downvotes=user.downvotes;
+            state.saves=user.saves
         },
         cleanUp(state){
             state.userEmail=null;
@@ -49,7 +51,13 @@ const authStore={
         },
         removeDownvote(state, id){
             state.downvotes.splice(state.downvotes.indexOf(id), 1)
-        }
+        },
+        removeSave(state, id){
+            state.saves.splice(state.saves.indexOf(id), 1)
+        },
+        addSave(state, id){
+            state.saves.push(id);
+        },
     },
     actions:{
         setUser(context,user){
@@ -69,7 +77,13 @@ const authStore={
         },
         removeDownvote(context, id){
             context.commit('removeDownvote',id)
-        }
+        },
+        removeSave(context, id){
+            context.commit('removeSave',id)
+        },
+        save(context, id){
+            context.commit('addSave',id)
+        },
     }
 }
 export {

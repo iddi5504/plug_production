@@ -1,10 +1,11 @@
 <template>
 
     <div ref="recommendation" class="recommendation-box-component">
-        <div v-bind:class="{ savedrecommend: false }" class="recommendationcontainer">
+        <div class="recommendationcontainer">
             <div class="recommendation-info">
                 <span style="margin-left: 6px;">{{ recommendation.recommender_name }}skskskl</span>
-                <span style="position: absolute; right: 28px; top: 4px; "><i class="bi bi-three-dots"></i></span>
+                <span @click="showOptions = !showOptions" style="position: absolute; right: 28px; top: 4px; "><i
+                        class="bi bi-three-dots"></i></span>
             </div>
             <hr>
             <article>
@@ -39,7 +40,6 @@
                     <span @click="upvote">
                         <i ref="up" :class="['bi bi-caret-up-fill', { upvoted: UPVOTEDON }]"></i>
                         <small>{{ UPVOTES }}</small>
-
                     </span>
 
                     <!--down-->
@@ -54,29 +54,30 @@
                         <i class="bi bi-chat-dots"></i>
                         <small>{{ recommendation.number_of_comments }}</small>
                     </span>
-                    <span style="margin:5px" class="options">
-                        <i class="bi bi-arrow-repeat"></i>
-                        <small>2R</small>
-
-
+                    <span @click="save" v-bind:class="{ saved: SAVED, options: true }">
+                        <i class="fa fa-bookmark"></i>
+                        <small>Save</small>
                     </span>
                 </div>
                 <div>
-                    <span> 24th october 2001</span>
+                    <span>{{ DATE }}</span>
                 </div>
             </div>
             <!--options-->
-            <div v-show="showoptions" id="recommendationoptions">
-                <div class="option"><i class="fa fa-bookmark"></i> Save</div>
-                <div class="option"> <i class="bi bi-share"></i> Share</div>
-                <div class="option"> <i class="fa fa-edit"></i> Edit</div>
-                <div class="option"> <i class="bi bi-trash"></i> Delete</div>
-            </div>
+            <transition name="showReply">
+                <div v-show="showOptions" id="recommendationoptions">
+                    <div v-bind:class="{ saved: SAVED, option: true }" @click="save"><i class="fa fa-bookmark"></i> Save</div>
+                    <div class="option"> <i class="bi bi-share"></i> Share</div>
+                    <!-- <div class="option"> <i class="fa fa-edit"></i> Edit</div> -->
+                    <div class="option"> <i class="bi bi-trash"></i> Report</div>
+                    <div v-show="BELONGSTOUSER" class="option"> <i class="bi bi-trash"></i> Delete</div>
+                </div>
+            </transition>
             <!--comments-->
             <div v-show="showComments" class="commentdialogue">
                 <div class="comments">
-                    <comment v-for="(comment, commentIndex) in comments" :key="commentIndex"
-                        :commentIndex="commentIndex" :comment="comment" :recommendation="recommendation"
+                    <comment v-for="(comment_, commentIndex) in comments" :key="comment_.comment_id"
+                        :commentIndex="commentIndex" :comment="comment_" :recommendation="recommendation"
                         :recommendationType="recommendationType">
 
                     </comment>
@@ -93,17 +94,17 @@
                 </div>
 
             </div>
-
         </div>
     </div>
 </template>
   
 <script>
-import { limit, addDoc, collection, collectionGroup, getDocs, query, serverTimestamp, where, doc, updateDoc, deleteDoc, orderBy, increment, getDoc, FieldValue, arrayUnion, arrayRemove } from '@firebase/firestore'
+import { addDoc, collection, collectionGroup, getDocs, query, serverTimestamp, where, doc, updateDoc, deleteDoc, orderBy, increment, getDoc, FieldValue, arrayUnion, arrayRemove } from '@firebase/firestore'
 import { firestore } from '@/firebase/firebase'
 import { mapState } from 'vuex'
 import comment from '@/components/comment.vue'
 import { bus } from '../main'
+import moment from 'moment'
 export default {
     components: {
         comment
@@ -114,10 +115,11 @@ export default {
             recommendationType: '',
             comment: null,
             showComments: true,
-            showoptions: false,
+            showOptions: false,
             comments: [],
             upvoted: false,
-            downvoted: false
+            downvoted: false,
+            saved: false
 
         }
     },
@@ -137,6 +139,7 @@ export default {
                     .then((comment) => {
                         this.comments.unshift({ ...commentData, comment_id: comment.id })
                         this.comment = ''
+                        this.number_of_comments= 0
 
                         // increase number of comments count
                         const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
@@ -151,9 +154,7 @@ export default {
             const commentCollection = collection(firestore, 'comments');
             const commentsQuery = query(commentCollection, orderBy('date', 'desc'), where('post_id', "==", this.recommendation.uid))
             const comments = await getDocs(commentsQuery)
-            console.log(comments.docs)
             comments.forEach((snapshot) => {
-                console.log(snapshot.data().date.toDate())
                 this.comments.push({ ...snapshot.data(), comment_id: snapshot.id })
             })
         },
@@ -161,31 +162,37 @@ export default {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.UPVOTEDON) {
+                this.upvoted = true
                 updateDoc(recommendationDoc, {
                     upvotes: increment(1)
                 })
                     .then(() => {
                         this.UPVOTES = 1
-                        this.upvoted = true
                         this.$store.dispatch('authStore/upvote', this.recommendation.uid)
                         this.upvoted = true
                         updateDoc(userDoc, {
                             upvotes: arrayUnion(this.recommendation.uid)
                         })
+                            .catch(() => {
+                                this.upvoted = false
+                            })
                     })
             } else {
                 if (this.upvoted == true) {
+                    this.upvoted = false
                     updateDoc(recommendationDoc, {
                         upvotes: increment(-1)
                     })
                         .then(() => {
                             this.UPVOTES = -1
-                            this.upvoted = false
                             this.$store.dispatch('authStore/removeUpvote', this.recommendation.uid)
                             updateDoc(userDoc, {
                                 upvotes: arrayRemove(this.recommendation.uid)
                             })
 
+                        })
+                        .catch(() => {
+                            this.upvoted = true
                         })
                 }
             }
@@ -195,32 +202,68 @@ export default {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.DOWNVOTEDON) {
+                this.downvote = true
                 updateDoc(recommendationDoc, {
                     downvotes: increment(1)
                 })
                     .then(() => {
                         this.DOWNVOTES = 1
-                        this.downvote = true
                         this.$store.dispatch('authStore/downvote', this.recommendation.uid)
                         this.downvoted = true
                         updateDoc(userDoc, {
                             downvotes: arrayUnion(this.recommendation.uid)
                         })
                     })
+                    .catch(() => {
+                        this.downvote = false
+                    })
             } else {
                 if (this.downvoted == true) {
+                    this.downvoted = false
                     updateDoc(recommendationDoc, {
                         downvotes: increment(-1)
                     })
                         .then(() => {
                             this.DOWNVOTES = -1
-                            this.downvoted = false
                             this.$store.dispatch('authStore/removeDownvote', this.recommendation.uid)
                             updateDoc(userDoc, {
                                 downvotes: arrayRemove(this.recommendation.uid)
                             })
 
                         })
+                        .catch(() => {
+                            this.downvote = true
+                        })
+
+                }
+            }
+
+        },
+        async save() {
+            const userDoc = doc(firestore, `/users/${this.user_id}`)
+            if (!this.SAVED) {
+                this.saved = true
+                updateDoc(userDoc, {
+                    saves: arrayUnion(this.recommendation.uid)
+                })
+                    .then(() => {
+                        this.$store.dispatch('authStore/save', this.recommendation.uid)
+                    })
+                    .catch(() => {
+                        this.saved = false
+                    })
+
+            } else {
+                if (this.saved == true) {
+                    this.saved = false
+                    this.$store.dispatch('authStore/removeSave', this.recommendation.uid)
+                    updateDoc(userDoc, {
+                        saves: arrayRemove(this.recommendation.uid)
+                    })
+                        .catch(() => {
+                            this.saved = true
+                        })
+
                 }
             }
 
@@ -256,7 +299,7 @@ export default {
                 return this.recommendation.imageURL
             }
         },
-        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes']),
+        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes', 'saves']),
         UPVOTES: {
             get() {
                 return this.recommendation.upvotes
@@ -268,10 +311,12 @@ export default {
         UPVOTEDON() {
             if (this.upvotes.includes(this.recommendation.uid)) {
                 this.upvoted = true
-                return this.upvoted
+            }else{
+                this.upvoted = false
             }
+            return this.upvoted
         },
-        
+
         DOWNVOTES: {
             get() {
                 return this.recommendation.downvotes
@@ -283,14 +328,37 @@ export default {
         DOWNVOTEDON() {
             if (this.downvotes.includes(this.recommendation.uid)) {
                 this.downvoted = true
-                return this.downvoted
+            }else{
+                this.downvoted = false
             }
+            return this.downvoted
         },
+        SAVED() {
+            if (this.saves.includes(this.recommendation.uid)) {
+                this.saved = true
+            }
+            else{
+                this.saved = false
+            }
+            return this.saved
+        },
+
+
+        DATE() {
+            try {
+                var rawDate = this.recommendation.date.toDate()
+            } catch (error) {
+                var rawDate = new Date()
+            }
+            const date = new Date()
+            return `${moment(rawDate).fromNow(date)} ago`
+        }
+
     },
     async created() {
         const recommendationId = this.$route.params.id
-        console.log(recommendationId)
         if (recommendationId.includes('MusicRecommendation')) {
+
             const recommendationCollection = query(collectionGroup(firestore, 'MusicRecommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
             this.recommendationType = 'MusicRecommendations'
@@ -310,7 +378,6 @@ export default {
         if (recommendationId.includes('BookRecommendation')) {
             const recommendationCollection = query(collectionGroup(firestore, 'BookRecommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
-            console.log(recommendation.docs)
             this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
             this.recommendationType = 'BookRecommendations'
             this.getComments()
@@ -335,7 +402,6 @@ export default {
 
     },
     mounted() {
-        //    console.log(this.comments)
     }
 
 }
@@ -350,9 +416,11 @@ export default {
     transition: 0.4s ease all;
 }
 
-.showReply-enter,
-.showReply-leave-to {
+.showReply-enter {
     transform: translateY(100px)
+}
+.showReply-leave-to{
+    opacity:0
 }
 
 .recommendationcontainer {
@@ -456,8 +524,9 @@ hr {
     color: var(--textcolorimportant);
 }
 
-.savedrecommend {
-    background: rgb(39, 32, 32);
+
+.saved {
+    color: #d847ff;
 }
 
 .recommend-box-bottom {
@@ -472,6 +541,10 @@ hr {
         justify-content: space-between;
         gap: 7px;
 
+        span {
+            transition: 0.3s all ease;
+        }
+        
         i {
             padding: 2px;
         }
@@ -481,11 +554,6 @@ hr {
         }
     }
 }
-
-.option:hover {
-    color: var(--textcolornotimportant);
-}
-
 
 .typeicon {
     padding: 0px 5px;
@@ -541,8 +609,31 @@ hr {
     color: var(--textcolorimportant);
     border-top-right-radius: 0px;
     box-shadow: var(--boxshadow);
-    padding-left: 16px;
-    animation: show 0.5s;
+    align-items: flex-start;
+
+    div{
+        &:first-child{
+            border-top-left-radius: 10px;
+            &:active{
+                color:#d847ff;
+            }
+        }
+        &:last-child{
+            border-bottom-left-radius: 10px;
+        }
+    }
+    .option {
+        width: 100%;
+        text-align: left;
+        padding: 2px 11px;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        &:hover {
+            background: var(--secondary);
+        }
+    }
+
 }
 
 .option:last-child:hover {
@@ -591,6 +682,22 @@ hr {
         height: 100%;
         outline: none;
         resize: none;
+        font-size: 16px;
+
+        &::-webkit-scrollbar {
+            background: var(--primary);
+            width: 4px;
+        }
+
+        &::-webkit-scrollbar-corner {
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #979595;
+            border-radius: 10px;
+            box-shadow: var(--boxshadow);
+        }
 
     }
 

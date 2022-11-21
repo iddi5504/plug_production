@@ -55,15 +55,13 @@
                         <i class="bi bi-chat-dots"></i>
                         <small>{{ recommendation.number_of_comments }}</small>
                     </span>
-                    <span style="margin:5px" class="options">
-                        <i class="bi bi-arrow-repeat"></i>
-                        <small>2R</small>
-
-
+                    <span @click="save" v-bind:class="{ saved: SAVED, options: true }">
+                        <i class="fa fa-bookmark"></i>
+                        <small>Save</small>
                     </span>
                 </div>
                 <div>
-                    <span> 24th october 2001</span>
+                    <span>{{DATE}}</span>
                 </div>
             </div>
             <!--options-->
@@ -79,9 +77,10 @@
 </template>
   
 <script>
-import { addDoc, collection, serverTimestamp, doc, updateDoc,increment} from '@firebase/firestore'
+import {arrayUnion,arrayRemove, doc, updateDoc,increment} from '@firebase/firestore'
 import { firestore } from '@/firebase/firebase'
 import { mapState } from 'vuex'
+import moment from 'moment'
 export default {
     props: ["recommendation"],
     data() {
@@ -90,7 +89,9 @@ export default {
             showComments: true,
             showoptions: false,
             upvoted: false,
-            downvoted: false
+            downvoted: false,
+            saved: false
+
         }
     },
     methods: {
@@ -98,6 +99,7 @@ export default {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.UPVOTEDON) {
+                this.upvoted = true
                 updateDoc(recommendationDoc, {
                     upvotes: increment(1)
                 })
@@ -105,24 +107,30 @@ export default {
                         this.UPVOTES = 1
                         this.upvoted = true
                         this.$store.dispatch('authStore/upvote', this.recommendation.uid)
-                        this.upvoted = true
                         updateDoc(userDoc, {
                             upvotes: arrayUnion(this.recommendation.uid)
                         })
                     })
+                    .catch(()=>{
+                this.upvoted = false
+
+                    })
             } else {
                 if (this.upvoted == true) {
+                    this.upvoted = false
                     updateDoc(recommendationDoc, {
                         upvotes: increment(-1)
                     })
                         .then(() => {
                             this.UPVOTES = -1
-                            this.upvoted = false
                             this.$store.dispatch('authStore/removeUpvote', this.recommendation.uid)
                             updateDoc(userDoc, {
                                 upvotes: arrayRemove(this.recommendation.uid)
                             })
 
+                        })
+                        .catch(()=>{
+                            this.upvoted = true
                         })
                 }
             }
@@ -161,6 +169,35 @@ export default {
                 }
             }
 
+        },
+        async save() {
+            const userDoc = doc(firestore, `/users/${this.user_id}`)
+            if (!this.SAVED) {
+                this.saved = true
+                updateDoc(userDoc, {
+                    saves: arrayUnion(this.recommendation.uid)
+                })
+                    .then(() => {
+                        this.$store.dispatch('authStore/save', this.recommendation.uid)
+                    })
+                    .catch(() => {
+                        this.saved = false
+                    })
+
+            } else {
+                if (this.saved == true) {
+                    this.saved = false
+                    this.$store.dispatch('authStore/removeSave', this.recommendation.uid)
+                    updateDoc(userDoc, {
+                        saves: arrayRemove(this.recommendation.uid)
+                    })
+                        .catch(() => {
+                            this.saved = true
+                        })
+
+                }
+            }
+
         }
 
     },
@@ -193,7 +230,7 @@ export default {
                 return this.recommendation.imageURL
             }
         },
-        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes']),
+        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes', 'saves']),
         UPVOTES: {
             get() {
                 return this.recommendation.upvotes
@@ -205,10 +242,12 @@ export default {
         UPVOTEDON() {
             if (this.upvotes.includes(this.recommendation.uid)) {
                 this.upvoted = true
-                return this.upvoted
+            }else{
+                this.upvoted = false
             }
+            return this.upvoted
         },
-        
+
         DOWNVOTES: {
             get() {
                 return this.recommendation.downvotes
@@ -220,9 +259,30 @@ export default {
         DOWNVOTEDON() {
             if (this.downvotes.includes(this.recommendation.uid)) {
                 this.downvoted = true
-                return this.downvoted
+            }else{
+                this.downvoted = false
             }
+            return this.downvoted
         },
+        SAVED() {
+            if (this.saves.includes(this.recommendation.uid)) {
+                this.saved = true
+            }
+            else{
+                this.saved = false
+            }
+            return this.saved
+        },
+        DATE() {
+            try {
+                var rawDate = this.recommendation.date.toDate()
+            } catch (error) {
+                var rawDate = new Date()
+            }
+            const date = new Date()
+            return `${moment(rawDate).fromNow(date)} ago`
+        }
+
     },
     mounted(){
         if (this.recommendation.id.includes('MusicRecommendation')) {
@@ -333,6 +393,10 @@ hr {
 }
 
 
+.saved {
+    color: #d847ff;
+}
+
 #rerecommendcontent {
     width: 75%;
     margin: auto;
@@ -371,6 +435,9 @@ hr {
         justify-content: space-between;
         gap: 7px;
 
+        span {
+            transition: 0.3s all ease;
+        }
         i {
             padding: 2px;
         }

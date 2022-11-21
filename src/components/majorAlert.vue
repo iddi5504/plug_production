@@ -35,7 +35,7 @@ export default {
     height: 100%;
     z-index: 7;
     @media only screen and (min-width:600px) {
-        height: calc(100vh - 48px);
+        /*height: calc(100vh - 48px);*/
 
     }
 

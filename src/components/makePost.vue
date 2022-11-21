@@ -330,8 +330,6 @@ export default {
             genre: this.selectedRecommendationGenre,
             upvotes: 0,
             downvotes: 0,
-            isreactedup: false,
-            isreacteddown: false,
             number_of_comments: 0,
             saved: false,
           },
