@@ -157,7 +157,7 @@
                     <i class="bi bi-pen"></i>
                     <span>Make post</span>
                 </button>
-                <button>Ask for recommendation</button>
+                <button @click="openAskRecommendationContainer">Ask for recommendation</button>
             </div>
         </transition>
     </div>

@@ -244,6 +244,7 @@ export default {
         padding: 14px;
         box-shadow: var(--boxshadow);
         width: 100%;
+        max-width: 340px;
         margin: 10px;
         overflow-y: auto;
         gap: 3px;
