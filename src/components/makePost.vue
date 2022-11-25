@@ -102,7 +102,7 @@
                 </div>
                 <transition name="opengenre">
                   <div v-show="opengenre" :class="{ optionscontainer: true }">
-                    <div v-for="(genre, index) in selectedtype" :key="index" class="options" @click="choose(genre)">
+                    <div v-for="(genre, index) in selectedtype" :key="index" class="genreOptions" @click="choose(genre)">
                       <input type="radio" name="category" class="radio" id="music" />
                       <label for="music">{{ genre }}</label>
                     </div>
@@ -244,7 +244,7 @@ export default {
         "Science",
       ],
       recommendeditem: "",
-      categories: ["Music", "Book", "Movie", "Game", "Artiste", "Actor"], 
+      categories: ["Music", "Book", "Movie", "Game", "Artiste", "Actor"],
       selectedRecommendationCategory: 'Music',
       content: "",
       image: "",
@@ -267,39 +267,35 @@ export default {
       postFile: null,
       postFileName: null,
       isImage: true,
-      mediaType:''
+      mediaType: ''
     };
   },
   computed: {
-    selectedtype: function () {
-      if (this.recommendmetype === "Movie") {
-        return this.Movie;
-      }
-      if (this.recommendmetype === "Music") {
-        return this.Music;
-      }
-      if (this.recommendmetype === "Game") {
-        return this.Game;
-      }
-      if (this.recommendmetype === "Book") {
-        return this.Book;
-      }
-    },
+
     selectedRecommendationType: function () {
+
       if (this.selectedRecommendationCategory === "Movie") {
-        this.imageBlobUrl= require('../assets/movie.jpg')
+        if (!this.imageBlobUrl) {
+          this.imageBlobUrl = require('../assets/movie.jpg')
+        }
         return this.Movie;
       }
       if (this.selectedRecommendationCategory === "Music") {
-        this.imageBlobUrl= require('../assets/music.jpg')
+        if (!this.imageBlobUrl) {
+          this.imageBlobUrl = require('../assets/music.jpg')
+        }
         return this.Music;
       }
       if (this.selectedRecommendationCategory === "Game") {
-        this.imageBlobUrl= require('../assets/game.jpg')
+        if (!this.imageBlobUrl) {
+          this.imageBlobUrl = require('../assets/game.jpg')
+        }
         return this.Game;
       }
       if (this.selectedRecommendationCategory === "Book") {
-        this.imageBlobUrl= require('../assets/book.jpg')
+        if (!this.imageBlobUrl) {
+          this.imageBlobUrl = require('../assets/book.jpg')
+        }
         return this.Book;
       }
     },
@@ -409,7 +405,7 @@ export default {
             downvotes: 0,
             number_of_comments: 0,
             saved: false,
-            mediaType:this.mediaType
+            mediaType: this.mediaType
           },
           {
             postFile: this.postFile,
@@ -425,7 +421,7 @@ export default {
             this.postFile = null
             this.postFileName = null
             this.isImage = true
-            this.mediaType= ''
+            this.mediaType = ''
 
           })
       }
@@ -457,10 +453,10 @@ export default {
         // check if file is a video
         if (file.type.includes('video')) {
           this.isImage = false
-          this.mediaType='video'
+          this.mediaType = 'video'
         } else {
           this.isImage = true
-          this.mediaType='image'
+          this.mediaType = 'image'
         }
         this.postFile = file
         this.postFileName = file.name
@@ -483,7 +479,7 @@ export default {
 };
 </script>
   
-<style lang="scss" scoped>
+<style lang="scss">
 .makePostPage {
   width: 100vw;
   display: flex;
@@ -574,7 +570,7 @@ export default {
       @media only screen and (min-width: 600px) {
         display: flex;
         justify-content: space-around;
-        gap: 13px;
+        gap: 7px;
 
         .add-image-section {
           display: flex;
@@ -704,10 +700,9 @@ export default {
 .inputfield {
   border-width: 0px;
   background-color: var(--secondary);
-  padding: 1px;
+  padding: 6px;
   color: var(--textcolornotimportant);
   border-radius: 5px;
-  height: 33px;
   padding-left: 5px;
   font-size: 16px;
   box-shadow: var(--boxshadow);
@@ -808,46 +803,6 @@ label {
   font-size: 1rem;
 }
 
-.optionscontainer {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--secondary);
-  border-radius: 20px;
-  width: 100%;
-  overflow-y: auto;
-  align-content: center;
-  transition: 0.5s ease;
-  margin-top: 10px;
-  max-height: 192px;
-  font-size: 19px;
-  min-width: 196px;
-  color: var(--textcolornotimportant);
-}
-
-.optionscontainer::-webkit-scrollbar {
-  width: 4px;
-  background-color: var(--secondary);
-  border-radius: 0px 8px 8px 0;
-  padding: 20px 0px;
-  height: 10px;
-}
-
-.optionscontainer::-webkit-scrollbar-thumb {
-  width: 5px;
-  background-color: black;
-  border-radius: 0px 8px 8px 0;
-}
-
-.options {
-  display: flex;
-  padding: 5px 10px;
-  cursor: pointer;
-  justify-content: center;
-}
-
-.optionscontainer .options:hover {
-  background-color: #414b57;
-}
 
 .radio {
   display: none;
@@ -865,33 +820,8 @@ select {
   color: var(--brandcolor);
 }
 
-#previous {
-  position: absolute;
-  top: 35px;
-  left: -48px;
-}
 
-#next {
-  position: absolute;
-  top: 35px;
-  right: -48px;
-}
 
-.recommendmeimage {
-  height: 109px;
-  width: 130px;
-  border-radius: 13px;
-}
-
-#recommendmecontent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  color: var(--textcolorimportant);
-  font-size: var(--bodytextfs);
-  font-weight: 600;
-}
 
 #recommendmegenreselect {
   background: var(--brandcolor);
@@ -923,13 +853,13 @@ select {
 
 .descriptioninput {
   background: var(--secondary);
-  border-radius: 8px;
+  border-radius: 5px;
   color: var(--textcolornotimportant);
   font-size: var(--bodytextfs);
   outline: none;
   max-height: 173px;
   border: none;
-  margin: 10px 2px 0px 0px;
+  margin: 3px 2px 0px 0px;
   padding: 5px 10px;
   box-shadow: var(--boxshadow);
 
@@ -979,54 +909,6 @@ select {
 .recommenddialogueanimation-leave-active {
   transition: all 0.8s ease;
 }
-
-.nextimage-enter {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-}
-
-.nextimage-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-.nextimage-enter.active {
-  transition: all 0.5s ease;
-  position: absolute;
-  overflow: hidden;
-  opacity: 1;
-}
-
-.nextimage-leave.active {
-  transition: all 0.1s ease;
-  position: absolute;
-  overflow: hidden;
-  opacity: 1;
-}
-
-.nextimage-move {
-  transition: all 0.5s;
-  transform: translateY(0px);
-}
-
-.opengenre-enter {
-  max-height: 0px;
-}
-
-.opengenre-leave-to {
-  max-height: 0px;
-}
-
-.opengenre-enter,
-.opengenre-leave-to {
-  transition: all 0.5s ease;
-}
-
-.opengenre-move {
-  transition: all 0.4s ease;
-}
-
 
 .slideinrecommendme-move,
 .slideinrecommendme-leave-active,

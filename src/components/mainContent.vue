@@ -49,14 +49,14 @@ export default {
     },
     watch: {
         totalScroll(totalScroll) {
-            
-            if (totalScroll >= this.scrollHeight -200) {
-                console.warn('request made')
-                // this.$store.dispatch('recommendationsStore/lazyLoadPosts')
-                    // .then(() => {
 
-                    //     this.$store.commit('recommendationsStore/newRequestMade', true)
-                    // })
+            if (totalScroll >= this.scrollHeight - 200) {
+                // console.warn('request made')
+                // this.$store.dispatch('recommendationsStore/lazyLoadPosts')
+                // .then(() => {
+
+                //     this.$store.commit('recommendationsStore/newRequestMade', true)
+                // })
             }
         }
     }

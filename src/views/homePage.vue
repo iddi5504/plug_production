@@ -3,15 +3,16 @@
     <appNav></appNav>
     <div class="home-body">
       <router-view class="main-content">
-       
+
       </router-view>
-      <div ref="content" class="side-content" >
-          <topRecommendations></topRecommendations>
+      <div ref="content" class="side-content">
+        <topRecommendations></topRecommendations>
       </div>
     </div>
     <!-- Call to action components -->
     <appModal></appModal>
     <makePost></makePost>
+    <askRecommendation></askRecommendation>
     <majorAlert></majorAlert>
   </div>
 </template>
@@ -26,36 +27,37 @@ import makePost from '../components/makePost.vue'
 import majorAlert from '../components/majorAlert.vue'
 import mainContent from '../components/mainContent.vue'
 import topRecommendations from '../components/topRecommendations.vue'
-
+import askRecommendation from '../components/askRecommendation.vue'
 
 export default {
   components: {
     appNav,
-    appModal:modal,
+    appModal: modal,
     makePost,
     majorAlert,
     mainContent,
-    topRecommendations
-   
-    
+    topRecommendations,
+    askRecommendation
+
+
   },
-  data(){
+  data() {
     return {
-      scrollHeight:null,
-      offsetHeight:null,
-      scrollTop:null,
-      totalScroll:null
+      scrollHeight: null,
+      offsetHeight: null,
+      scrollTop: null,
+      totalScroll: null
     }
   },
-  
+
   async beforeCreate() {
     auth.onAuthStateChanged((user) => {
-      if(user){
+      if (user) {
         const userFirestore = doc(firestore, 'users', user.uid)
-        let userId= user.uid
+        let userId = user.uid
         getDoc(userFirestore)
           .then((userData) => {
-            this.$store.dispatch('authStore/setUser', {...userData.data(), user_id:userId},{root:true})
+            this.$store.dispatch('authStore/setUser', { ...userData.data(), user_id: userId }, { root: true })
           })
       }
     })
@@ -65,14 +67,14 @@ export default {
 </script>
 
 <style lang="scss">
-.home-body{
+.home-body {
   display: flex;
   justify-content: center;
   width: 100%;
   align-content: flex-start;
   margin-top: 58px;
 
-  .main-content{
+  .main-content {
     width: 100%;
     justify-content: flex-start;
     align-items: center;
@@ -81,13 +83,13 @@ export default {
     justify-items: center;
     max-width: 700px;
     min-width: 300px;
-    
-    .categoryBar{
+
+    .categoryBar {
       width: 100%;
     }
   }
 
-  .side-content{
+  .side-content {
     /*padding: 0px;
     margin: 0px 16px;
     background-color: var(--primary);
@@ -114,24 +116,26 @@ export default {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    @media all and (min-width: 900px){
+
+    @media all and (min-width: 900px) {
       display: flex;
 
     }
   }
-    &::-webkit-scrollbar {
-      background: var(--primary);
-      width: 4px;
-    }
-  
-    &::-webkit-scrollbar-corner {
-      border-radius: 10px;
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background: #979595;
-      border-radius: 10px;
-      box-shadow: var(--boxshadow);
-    }
+
+  &::-webkit-scrollbar {
+    background: var(--primary);
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-corner {
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #979595;
+    border-radius: 10px;
+    box-shadow: var(--boxshadow);
+  }
 }
 </style>

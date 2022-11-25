@@ -1,11 +1,11 @@
 <template>
 
     <div ref="recommendation" class="recommendation-box-component">
-        <div class="recommendationcontainer">
+        <div  v-if="!deleted || recommendation" class="recommendationcontainer">
             <div class="recommendation-info">
                 <span style="margin-left: 6px;">{{ recommendation.recommender_name }}skskskl</span>
-                <span @click="showOptions = !showOptions" style="position: absolute; right: 28px; top: 4px; "><i
-                        class="bi bi-three-dots"></i></span>
+                <span @click="showOptions = !showOptions" style="position: absolute; right: 28px; top: 4px; ">
+                    <i class="bi bi-three-dots"></i></span>
             </div>
             <hr>
             <article>
@@ -66,11 +66,13 @@
             <!--options-->
             <transition name="showReply">
                 <div v-show="showOptions" id="recommendationoptions">
-                    <div v-bind:class="{ saved: SAVED, option: true }" @click="save"><i class="fa fa-bookmark"></i> Save</div>
+                    <div v-bind:class="{ saved: SAVED, option: true }" @click="save"><i class="fa fa-bookmark"></i> Save
+                    </div>
                     <div class="option"> <i class="bi bi-share"></i> Share</div>
                     <!-- <div class="option"> <i class="fa fa-edit"></i> Edit</div> -->
-                    <div class="option"> <i class="bi bi-trash"></i> Report</div>
-                    <div v-show="BELONGSTOUSER" class="option"> <i class="bi bi-trash"></i> Delete</div>
+                    <div class="option"> <i class="bi bi-megaphone"></i> Report</div>
+                    <div v-show="BELONGSTOUSER" @click="deleteRecommendation" class="option"> <i
+                            class="bi bi-trash"></i> Delete</div>
                 </div>
             </transition>
             <!--comments-->
@@ -95,23 +97,31 @@
 
             </div>
         </div>
+
+        <div v-if="deleted" class="delete-message">
+            <span>Recommendation has been deleted</span>
+        </div>
+        <div v-if="errorOccured">
+            <span>{{errorMessage}}</span>
+        </div>
     </div>
 </template>
   
 <script>
 import { addDoc, collection, collectionGroup, getDocs, query, serverTimestamp, where, doc, updateDoc, deleteDoc, orderBy, increment, getDoc, FieldValue, arrayUnion, arrayRemove } from '@firebase/firestore'
-import { firestore } from '@/firebase/firebase'
+import { firestore, storage } from '@/firebase/firebase'
 import { mapState } from 'vuex'
 import comment from '@/components/comment.vue'
 import { bus } from '../main'
 import moment from 'moment'
+import { deleteObject, ref } from '@firebase/storage'
 export default {
     components: {
         comment
     },
     data() {
         return {
-            recommendation: {},
+            recommendation: null,
             recommendationType: '',
             comment: null,
             showComments: true,
@@ -119,7 +129,10 @@ export default {
             comments: [],
             upvoted: false,
             downvoted: false,
-            saved: false
+            saved: false,
+            deleted:false,
+            errorOccurred:false,
+            errorMessage:''
 
         }
     },
@@ -139,7 +152,7 @@ export default {
                     .then((comment) => {
                         this.comments.unshift({ ...commentData, comment_id: comment.id })
                         this.comment = ''
-                        this.number_of_comments= 0
+                        this.number_of_comments = 0
 
                         // increase number of comments count
                         const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
@@ -242,7 +255,7 @@ export default {
         async save() {
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.SAVED) {
-                this.saved = true
+                this.SAVED = true
                 updateDoc(userDoc, {
                     saves: arrayUnion(this.recommendation.uid)
                 })
@@ -250,23 +263,38 @@ export default {
                         this.$store.dispatch('authStore/save', this.recommendation.uid)
                     })
                     .catch(() => {
-                        this.saved = false
+                        this.SAVED = false
                     })
 
             } else {
                 if (this.saved == true) {
-                    this.saved = false
+                    this.SAVED = false
                     this.$store.dispatch('authStore/removeSave', this.recommendation.uid)
                     updateDoc(userDoc, {
                         saves: arrayRemove(this.recommendation.uid)
                     })
                         .catch(() => {
-                            this.saved = true
+                            this.SAVED = true
                         })
 
                 }
             }
 
+        },
+        async deleteRecommendation() {
+            const imageURL = this.recommendation.imageURL
+            if (imageURL) {
+                const imageRef = ref(storage, imageURL)
+                deleteObject(imageRef)
+            }
+
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            deleteDoc(recommendationDoc)
+                .then(() => {
+                    this.deleted= true
+                    this.recommendation=null
+                    this.$store.commit('showMinorAlertMessage', 'You recommendation has been successfully deleted', { root: true })
+                })
         }
 
     },
@@ -311,7 +339,7 @@ export default {
         UPVOTEDON() {
             if (this.upvotes.includes(this.recommendation.uid)) {
                 this.upvoted = true
-            }else{
+            } else {
                 this.upvoted = false
             }
             return this.upvoted
@@ -328,19 +356,24 @@ export default {
         DOWNVOTEDON() {
             if (this.downvotes.includes(this.recommendation.uid)) {
                 this.downvoted = true
-            }else{
+            } else {
                 this.downvoted = false
             }
             return this.downvoted
         },
-        SAVED() {
-            if (this.saves.includes(this.recommendation.uid)) {
-                this.saved = true
+        SAVED: {
+            get() {
+                if (this.saves.includes(this.recommendation.uid)) {
+                    this.saved = true
+                }
+                else {
+                    this.saved = false
+                }
+                return this.saved
+            },
+            set(saved) {
+                this.saved = saved
             }
-            else{
-                this.saved = false
-            }
-            return this.saved
         },
 
 
@@ -352,6 +385,14 @@ export default {
             }
             const date = new Date()
             return `${moment(rawDate).fromNow(date)} ago`
+        },
+
+        BELONGSTOUSER() {
+            if (this.recommendation.recommender_id == this.user_id) {
+                return true
+            } else {
+                return false
+            }
         }
 
     },
@@ -359,16 +400,27 @@ export default {
         const recommendationId = this.$route.params.id
         if (recommendationId.includes('MusicRecommendation')) {
 
-            const recommendationCollection = query(collectionGroup(firestore, 'MusicRecommendations'), where('id', '==', recommendationId))
-            const recommendation = await getDocs(recommendationCollection)
-            this.recommendationType = 'MusicRecommendations'
-            this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
-            this.getComments()
+            try {
+                const recommendationCollection = query(collectionGroup(firestore, 'MusicRecommendations'), where('id', '==', recommendationId))
+                const recommendation = await getDocs(recommendationCollection)
+                this.recommendationType = 'MusicRecommendations'
+                this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
+                this.getComments()
+                
+            } catch (error) {
+                this.errorOccurred = true;
+                this.errorMessage = 'Could not fetch recommendation'
+                console.log('Could not fetch recommendation')
+            }
 
         }
         if (recommendationId.includes('MovieRecommendation')) {
             const recommendationCollection = query(collectionGroup(firestore, 'MovieRecommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
+            .catch(()=>{
+                this.errorOccurred = true;
+                this.errorMessage = 'Could not fetch recommendation'
+            })
             this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
             this.getComments()
             this.recommendationType = 'MovieRecommendations'
@@ -378,6 +430,10 @@ export default {
         if (recommendationId.includes('BookRecommendation')) {
             const recommendationCollection = query(collectionGroup(firestore, 'BookRecommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
+            .catch(()=>{
+                this.errorOccurred = true;
+                this.errorMessage = 'Could not fetch recommendation'
+            })
             this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
             this.recommendationType = 'BookRecommendations'
             this.getComments()
@@ -386,6 +442,10 @@ export default {
         if (recommendationId.includes('GameRecommendation')) {
             const recommendationCollection = query(collectionGroup(firestore, 'GameRecommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
+            .catch(()=>{
+                this.errorOccurred = true;
+                this.errorMessage = 'Could not fetch recommendation'
+            })
             this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
             this.recommendationType = 'GameRecommendations'
             this.getComments()
@@ -419,8 +479,9 @@ export default {
 .showReply-enter {
     transform: translateY(100px)
 }
-.showReply-leave-to{
-    opacity:0
+
+.showReply-leave-to {
+    opacity: 0
 }
 
 .recommendationcontainer {
@@ -544,7 +605,7 @@ hr {
         span {
             transition: 0.3s all ease;
         }
-        
+
         i {
             padding: 2px;
         }
@@ -611,17 +672,20 @@ hr {
     box-shadow: var(--boxshadow);
     align-items: flex-start;
 
-    div{
-        &:first-child{
+    div {
+        &:first-child {
             border-top-left-radius: 10px;
-            &:active{
-                color:#d847ff;
+
+            &:active {
+                color: #d847ff;
             }
         }
-        &:last-child{
+
+        &:last-child {
             border-bottom-left-radius: 10px;
         }
     }
+
     .option {
         width: 100%;
         text-align: left;
@@ -660,6 +724,15 @@ hr {
     margin: 1 5 5px 1;
 }
 
+.delete-message{
+    color: red;
+    height: calc(100vh - 126px);
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 10px;
+}
 
 .makecomment {
     height: 35px;

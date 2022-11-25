@@ -23,7 +23,7 @@ export default {
     justify-content: center;
     align-items: center;
     .alert{
-        max-width: 45ch;
+        max-width: 60ch;
         padding: 11px;
         font-size: 1rem;
         color: var(--textcolorimportant);

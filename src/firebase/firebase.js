@@ -1,13 +1,13 @@
-import {initializeApp} from 'firebase/app'
+import { initializeApp } from 'firebase/app'
 import {
     getFirestore,
     // connectFirestoreEmulator
 
-} from 'firebase/firestore' 
+} from 'firebase/firestore'
 import {
     getAuth,
     // connectAuthEmulator
-} from 'firebase/auth' 
+} from 'firebase/auth'
 
 import {
     getStorage,
@@ -21,23 +21,23 @@ const firebaseConfig = {
     storageBucket: "plug-ce91b.appspot.com",
     messagingSenderId: "388613185384",
     appId: "1:388613185384:web:e923759933a339571300dd"
-  };
+};
 
 //   inititalize firebase app
 initializeApp(firebaseConfig)
 
 // create auth instance
-const auth= getAuth()
+const auth = getAuth()
 // set up auth emulator
 // connectAuthEmulator(auth,'http://localhost:9099')
 
 // create auth instance
-const firestore= getFirestore()
+const firestore = getFirestore()
 // set up auth emulator
 // connectFirestoreEmulator(firestore,'localhost',8081)
 
 // create storage instance
-const storage= getStorage()
+const storage = getStorage()
 // set up auth emulator
 // connectStorageEmulator(storage,'localhost',9199)
 

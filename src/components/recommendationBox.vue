@@ -3,7 +3,7 @@
         <div v-bind:class="{ savedrecommend: false }" class="recommendationcontainer">
             <div class="recommendation-info">
                 <span style="margin-left: 6px;">{{ recommendation.recommender_name }}skskskl</span>
-                <span style="position: absolute; right: 28px; top: 4px; "><i class="bi bi-three-dots"></i></span>
+                <span class="options-button" @click="showOptions = !showOptions"><i  class="bi bi-three-dots"></i></span>
             </div>
             <hr>
             <router-link :to="`recommendation/${recommendation.id}`">
@@ -65,12 +65,15 @@
                 </div>
             </div>
             <!--options-->
-            <div v-show="showoptions" id="recommendationoptions">
-                <div class="option"><i class="fa fa-bookmark"></i> Save</div>
-                <div class="option"> <i class="bi bi-share"></i> Share</div>
-                <div class="option"> <i class="fa fa-edit"></i> Edit</div>
-                <div class="option"> <i class="bi bi-trash"></i> Delete</div>
-            </div>
+            <transition name="showReply">
+                <div v-show="showOptions" id="recommendationoptions">
+                    <div v-bind:class="{ saved: SAVED, option: true }" @click="save"><i class="fa fa-bookmark"></i> Save</div>
+                    <div class="option"> <i class="bi bi-share"></i> Share</div>
+                    <!-- <div class="option"> <i class="fa fa-edit"></i> Edit</div> -->
+                    <div class="option"> <i class="bi bi-megaphone"></i> Report</div>
+                    <div v-show="BELONGSTOUSER" class="option"> <i class="bi bi-trash"></i> Delete</div>
+                </div>
+            </transition>
             
         </div>
     </div>
@@ -87,7 +90,7 @@ export default {
         return {
             recommendationType: '',
             showComments: true,
-            showoptions: false,
+            showOptions: false,
             upvoted: false,
             downvoted: false,
             saved: false
@@ -273,6 +276,13 @@ export default {
             }
             return this.saved
         },
+        BELONGSTOUSER(){
+            if(this.recommendation.recommender_id == this.user_id){
+                return true
+            }else{
+                return false
+            }
+        },
         DATE() {
             try {
                 var rawDate = this.recommendation.date.toDate()
@@ -311,9 +321,11 @@ export default {
     transition: 0.4s ease all;
 }
 
-.showReply-enter,
-.showReply-leave-to {
+.showReply-enter {
     transform: translateY(100px)
+}
+.showReply-leave-to{
+    opacity:0
 }
 
 .recommendationcontainer {
@@ -341,7 +353,18 @@ export default {
         display: flex;
         flex-direction: row;
         justify-items: space-between;
+        position: relative;
 
+        .options-button{
+            position: absolute;
+            right: 7px;
+            bottom: -9px;
+            cursor: pointer;
+
+            i{
+                font-size: 30px;
+            }
+        }
     }
 }
 
@@ -448,10 +471,6 @@ hr {
     }
 }
 
-.option:hover {
-    color: var(--textcolornotimportant);
-}
-
 
 .typeicon {
     padding: 0px 5px;
@@ -507,10 +526,32 @@ hr {
     color: var(--textcolorimportant);
     border-top-right-radius: 0px;
     box-shadow: var(--boxshadow);
-    padding-left: 16px;
-    animation: show 0.5s;
-}
+    align-items: flex-start;
 
+    div{
+        &:first-child{
+            border-top-left-radius: 10px;
+            &:active{
+                color:#d847ff;
+            }
+        }
+        &:last-child{
+            border-bottom-left-radius: 10px;
+        }
+    }
+    .option {
+        width: 100%;
+        text-align: left;
+        padding: 2px 11px;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        &:hover {
+            background: var(--secondary);
+        }
+    }
+
+}
 .option:last-child:hover {
     color: red;
 

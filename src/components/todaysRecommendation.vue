@@ -55,12 +55,12 @@ export default {
 }
 </script>
     
-<style scoped>
+<style lang="scss" scoped>
 .todaysrecommendcontainer {
     margin: 0px 4px;
     position: relative;
     padding-top: 3px;
-    background-image: url("../assets/blackpanther.jpg");
+    background-image: url("../assets/435.jpg");
     height: 200px;
     background-repeat: no-repeat;
     background-position: center;
@@ -70,7 +70,19 @@ export default {
     filter: opacity(0.8);
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    &::after{
+        content: "";
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: linear-gradient(183deg, transparent, #000000cf);
+    }
+    
 }
 
 .todays-recommendation-content {
@@ -81,6 +93,7 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+    z-index: 1;
 }
 
 .todays-recommend-body {
@@ -89,11 +102,12 @@ export default {
 }
 
 .todaysrecommendtype {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color:var(--textcolorimportant);
-    font-size:var(--detailsfs)
+    position: relative;
+    top: 0px;
+    left:0px;
+    color:white;
+    font-size:var(--detailsfs);
+    padding: 4px;
 
 }
 

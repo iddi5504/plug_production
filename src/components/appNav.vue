@@ -9,15 +9,15 @@
                     </button>
 
                     <div class="nav-bar-search all-search-bar">
-                        <input autocomplete="off" ref="input" type="text" id="searchinput" placeholder="Search Recommendhub"
-                            @click="search" />
+                        <input autocomplete="off" ref="input" type="text" id="searchinput"
+                            placeholder="Search Recommendhub" @click="search" />
                     </div>
                 </div>
             </div>
 
             <div class="nav-center">
                 <span style="display: flex; position: relative;">
-                    <h5 id="brandname" ref="brandname" >Plug</h5>
+                    <h5 id="brandname" ref="brandname">Plug</h5>
                     <!-- <img class="logo" src="../assets/pluglogo.png" alt=""> -->
                 </span>
             </div>
@@ -30,10 +30,10 @@
                         <i class="bi bi-house navicon" id="homebutton"></i>
                     </li>
                     <li class="nav-item">
-                        <i  @click="toggleMakePost" class="bi bi-plus-square navicon"></i>
+                        <i @click="toggleMakePost" class="bi bi-plus-square navicon"></i>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="recommend-me">
+                        <button @click="openAskRecommendationContainer" type="button" class="recommend-me">
                             <i class="bi bi-plus"></i>
                             <span>recommendMe</span>
                         </button>
@@ -54,7 +54,7 @@
 
             <div v-if="isAuthenticated" style="flex: 1" id="small-screen-nav-icons">
                 <div class="container">
-                    <button  @click="toggleMakePostBar" class="nav-buttons">
+                    <button @click="toggleMakePostBar" class="nav-buttons">
                         <i class="bi bi-plus-square navicon"></i>
                     </button>
                     <div class="notification-button">
@@ -99,65 +99,67 @@
         </div>
         <!-- Hamburger menu -->
         <transition name="showoptions_">
-            <div v-show="shownavoptions" ref="dropdown" class="dropdown" >
+            <div v-show="shownavoptions" ref="dropdown" class="dropdown">
                 <div class="dropdown-search all-search-bar">
-                    <input autocomplete="off" @focus="hideDropdownList" @blur="showDropdownList" ref="input" type="text" id="searchinput" placeholder="Search Recommendhub"
-                        @click="search" />
+                    <input autocomplete="off" @focus="hideDropdownList" @blur="showDropdownList" ref="input" type="text"
+                        id="searchinput" placeholder="Search Recommendhub" @click="search" />
                 </div>
-               <transition name="showList">
-                <ul v-show="dropdownListVisible" class="dropdownlist">
-                    <li class="nav-item navitems">
-                        <router-link style="flex-direction: column;" to="/profile">
-                            <div style="display: flex; align-items: center; padding: 2px;">
-                                <img src="../assets/user (1).png" alt="">
-                                <small class="dropdowntext" style="padding-left: 5px">My Profile</small>
-                            </div>
-                            <div class="user-info-preview">
-                                <small>{{ email }}</small>
-                                <small>{{ username }}</small>
-                            </div>
-                        </router-link>
-    
-                    </li>
-                    <li @click="togglelightmode" class="nav-item navitems">
-                        <a type="button" class="nav-link">
-                            <img src="../assets/light-bulb.png" alt="">
-                            <small id="light" class="dropdowntext">light mode</small>
-                        </a>
-                    </li>
-                    <li class="nav-item navitems">
-                        <a href="ad.html" class="nav-link"><i class="bi bi-badge-ad"></i><small class="dropdowntext">Post an
-                                Ad</small></a>
-                    </li>
-                    <li class="nav-item navitems">
-                        <a class="nav-link">
-                            <i class="bi bi-info-circle"></i>
-                            <small class="dropdowntext">About Plug</small></a>
-                    </li>
-                    <li class="nav-item navitems">
-                        <a class="nav-link"><i class="bi bi-info-circle"></i><small class="dropdowntext">FAQ</small></a>
-                    </li>
-                    <li class="nav-item navitems" @click="logout">
-                        <a class="nav-link" style="color: red" tabindex="-1" aria-disabled="true">
-                            <img src="../assets/shutdown.png" alt="">
-                            <small class="dropdowntext">Logout</small>
-                        </a>
-                    </li>
-                </ul>
-               </transition>
+                <transition name="showList">
+                    <ul v-show="dropdownListVisible" class="dropdownlist">
+                        <li class="nav-item navitems">
+                            <router-link style="flex-direction: column;" to="/profile">
+                                <div style="display: flex; align-items: center; padding: 2px;">
+                                    <img src="../assets/user (1).png" alt="">
+                                    <small class="dropdowntext" style="padding-left: 5px">My Profile</small>
+                                </div>
+                                <div class="user-info-preview">
+                                    <small>{{ email }}</small>
+                                    <small>{{ username }}</small>
+                                </div>
+                            </router-link>
+
+                        </li>
+                        <li @click="togglelightmode" class="nav-item navitems">
+                            <a type="button" class="nav-link">
+                                <img src="../assets/light-bulb.png" alt="">
+                                <small id="light" class="dropdowntext">light mode</small>
+                            </a>
+                        </li>
+                        <li class="nav-item navitems">
+                            <a href="ad.html" class="nav-link"><i class="bi bi-badge-ad"></i><small
+                                    class="dropdowntext">Post an
+                                    Ad</small></a>
+                        </li>
+                        <li class="nav-item navitems">
+                            <a class="nav-link">
+                                <i class="bi bi-info-circle"></i>
+                                <small class="dropdowntext">About Plug</small></a>
+                        </li>
+                        <li class="nav-item navitems">
+                            <a class="nav-link"><i class="bi bi-info-circle"></i><small
+                                    class="dropdowntext">FAQ</small></a>
+                        </li>
+                        <li class="nav-item navitems" @click="logout">
+                            <a class="nav-link" style="color: red" tabindex="-1" aria-disabled="true">
+                                <img src="../assets/shutdown.png" alt="">
+                                <small class="dropdowntext">Logout</small>
+                            </a>
+                        </li>
+                    </ul>
+                </transition>
             </div>
         </transition>
 
         <!-- make post bar -->
-       <transition name="showoptions_">
-        <div v-show="showMakePostBar" class="make-post-bar">
-            <button @click="toggleMakePost">
-                <i class="bi bi-pen"></i>
-                 <span>Make post</span> 
-            </button>
-            <button>Ask for recommendation</button>
-        </div>
-       </transition>
+        <transition name="showoptions_">
+            <div v-show="showMakePostBar" class="make-post-bar">
+                <button @click="toggleMakePost">
+                    <i class="bi bi-pen"></i>
+                    <span>Make post</span>
+                </button>
+                <button>Ask for recommendation</button>
+            </div>
+        </transition>
     </div>
 </template>
   
@@ -178,7 +180,7 @@ export default {
             lightModeImg: '',
             darkModeImg: '',
             lightIcon: '',
-            dropdownListVisible:true,
+            dropdownListVisible: true,
         };
     },
     methods: {
@@ -207,7 +209,14 @@ export default {
                 this.lightIcon = '../assets/lightbulb.png'
             }
         },
+        openAskRecommendationContainer() {
+            if (this.showAskRecommendationContainer) {
+                this.$store.commit('askRecommendationStore/setShowAskRecommendationContainer', false)
 
+            } else {
+                this.$store.commit('askRecommendationStore/setShowAskRecommendationContainer', true)
+            }
+        },
         logout() {
             signOut(auth)
                 .then(() => {
@@ -215,28 +224,28 @@ export default {
                     this.$router.push({ name: "signUp" })
                 })
         },
-        hideDropdownList(){
-            this.dropdownListVisible=false
-            const dropdown= document.getElementsByClassName('dropdown')[0]
-            dropdown.style.maxHeight= '100%'
+        hideDropdownList() {
+            this.dropdownListVisible = false
+            const dropdown = document.getElementsByClassName('dropdown')[0]
+            dropdown.style.maxHeight = '100%'
         },
-        showDropdownList(){
-            this.dropdownListVisible=true
-            const dropdown= document.getElementsByClassName('dropdown')[0]
-            dropdown.style.maxHeight= '345px'
+        showDropdownList() {
+            this.dropdownListVisible = true
+            const dropdown = document.getElementsByClassName('dropdown')[0]
+            dropdown.style.maxHeight = '345px'
 
         },
 
         mobilenotification_: function () {
 
         },
-        toggleMakePost(){
+        toggleMakePost() {
             this.$store.commit('makePostStore/showMakePost')
         },
-        toggleMakePostBar(){
-            this.$store.state.makePostStore.showMakePostBar= !this.$store.state.makePostStore.showMakePostBar
+        toggleMakePostBar() {
+            this.$store.state.makePostStore.showMakePostBar = !this.$store.state.makePostStore.showMakePostBar
         },
-        test(){
+        test() {
             this.$store.dispatch('recommendationsStore/lazyLoadPosts')
         }
 
@@ -253,7 +262,9 @@ export default {
             usernameSnippet: 'USERNAMESNIPPET',
             isAuthenticated: 'ISAUTHENTICATED'
         }),
-        ...mapState('makePostStore', ['showMakePostBar','showNav'])
+        ...mapState('makePostStore', ['showMakePostBar', 'showNav']),
+        ...mapState('askRecommendationStore', ['showAskRecommendationContainer'])
+
 
     },
 
@@ -294,7 +305,7 @@ export default {
         display: none;
         align-items: center;
         justify-content: center;
-        
+
 
         @media only screen and (min-width: 700px) {
             padding: 3px 4px;
@@ -331,6 +342,7 @@ export default {
             border: none;
             color: var(--textcolorimportant);
             background-color: transparent;
+            cursor: pointer
         }
 
         .notification-button {
@@ -356,7 +368,7 @@ export default {
         gap: 35px;
 
         @media only screen and (max-width: 950px) {
-                gap: 20px;
+            gap: 20px;
         }
 
     }
@@ -418,18 +430,18 @@ export default {
                 border: 1px solid white;
 
             }
-            
+
             &:hover {
                 background-color: var(--brandcolor);
-                
+
             }
         }
     }
-    
-    
+
+
 }
 
-.make-post-bar{
+.make-post-bar {
     width: 100%;
     background: var(--primary);
     color: var(--textcolorimportant);
@@ -442,7 +454,7 @@ export default {
     height: 45px;
     z-index: 3;
 
-    button{
+    button {
         border: none;
         background: var(--secondary);
         color: var(--textcolorimportant);
@@ -453,7 +465,7 @@ export default {
         height: fit-content;
         box-shadow: var(--boxshadow);
 
-        i{
+        i {
             padding: 3px;
         }
     }
@@ -467,8 +479,8 @@ export default {
     height: min-content;
     margin: 10px 10px;
     width: 100%;
-    @media only screen and (min-width: 600px) {
-    }
+
+    @media only screen and (min-width: 600px) {}
 
     #searchicon {
         font-size: 20px;
@@ -495,34 +507,39 @@ export default {
         background-position: 5px center;
         box-sizing: border-box;
         box-shadow: var(--boxshadow);
+
         @media only screen and (min-width: 600px) {
             max-width: 338px;
-            
+
         }
     }
 }
 
-.nav-bar-search{
+.nav-bar-search {
     display: none;
+
     @media only screen and (min-width: 570px) {
-      display: initial;
+        display: initial;
     }
-    
+
 }
-.dropdown-search{
+
+.dropdown-search {
     background: none !important;
     max-width: none;
     box-shadow: none !important;
     display: flex;
     max-width: 353px;
-    input{
+
+    input {
         box-sizing: border-box !important;
         max-width: none !important;
     }
+
     @media only screen and (min-width: 570px) {
-      display: none;
+        display: none;
     }
-    
+
 }
 
 .dropdown {
@@ -541,15 +558,17 @@ export default {
     height: 100%;
     max-height: 391px;
     align-items: center;
+
     @media only screen and (min-width: 570px) {
         max-width: 200px;
         padding: 6px;
         max-height: 288px;
     }
+
     justify-content: flex-start;
 
-    
-    .dropdownlist{
+
+    .dropdownlist {
         height: 100%;
         max-height: 345px;
         flex-direction: column;
@@ -560,32 +579,32 @@ export default {
         border: none;
         transition: 0.4s all ease;
         align-items: center;
-    
-    img {
-        width: 32px;
-    }
 
-    >li {
-        border-radius: 5px;
-        background: var(--secondary);
-        box-shadow: var(--boxshadow);
-        flex-direction: column;
-        cursor: pointer;
-        max-width: 353px;
-        width: 100%;
+        img {
+            width: 32px;
+        }
 
-        .user-info-preview {
-            display: flex;
+        >li {
+            border-radius: 5px;
+            background: var(--secondary);
+            box-shadow: var(--boxshadow);
             flex-direction: column;
+            cursor: pointer;
+            max-width: 353px;
             width: 100%;
-            padding: 3px;
-            font-size: 1.1rem;
-            color: var(--textcolornotimportant);
+
+            .user-info-preview {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                padding: 3px;
+                font-size: 1.1rem;
+                color: var(--textcolornotimportant);
+            }
         }
     }
-}
 
-    
+
 }
 
 
@@ -603,24 +622,28 @@ export default {
         max-width: 162px;
         justify-content: space-between;
         gap: 4px;
+        cursor: pointer;
 
         @media only screen and (max-width: 600px) {
             font-size: 1rem;
         }
+
         @media only screen and (max-width: 600px) {
             font-size: 1rem;
         }
+
         @media only screen and (max-width: 870px) {
             max-width: 69px;
-            .user-name-snippet{
+
+            .user-name-snippet {
                 display: none;
             }
 
-            .nav-bar-side-buttons{
+            .nav-bar-side-buttons {
                 gap: 20px;
             }
         }
-      
+
         .profile-pic {
             width: 33px;
             height: 33px;
@@ -793,7 +816,7 @@ export default {
         display: block !important;
     }
 
-    
+
 
     #searchicon {
         display: none;

@@ -89,7 +89,7 @@ export default {
   --textcolornotimportant: #818384;
   --bodytextfs: 16px;
   --titlesfs: 20px;
-  --detailsfs: 0.875rem;
+  --detailsfs: 13px;
   --boxshadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -157,5 +157,9 @@ nav {
 
 .showMinorAlert-enter, .showMinorAlert-leave-to{
   transform: translateY(-100px);
+}
+
+button{
+  cursor: pointer;
 }
 </style>
