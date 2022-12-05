@@ -328,6 +328,7 @@ export default {
             downvotes: 0,
             number_of_comments: 0,
             saved: false,
+            postType: 'recommendation'
           },
           {
             imageName: this.fileName,
@@ -352,27 +353,6 @@ export default {
       }
     },
 
-    askrecommendation: function () {
-      let id = Math.random().toString().slice(2, 11);
-      var recommendmedata = {
-        user: "default",
-        recommendmetype: this.recommendmetype,
-        selectedgenre: this.selectedgenre,
-        recommendmedescription: this.recommendmedescription,
-        id: id,
-        recommends: [],
-        numberofrecommends: 0,
-        showrecommendinput: false,
-        showrecommendations: false,
-        recommendsucess: false,
-      };
-      // this.$http
-      //   .post("http://localhost:3000/recommendme", recommendmedata)
-      //   .then((recommendmedata_) => {
-      //     bus.$emit("recommendmedata", recommendmedata_);
-      //   });
-    },
-
 
     prev: function () {
       this.recommendmetypeindex--;
@@ -390,7 +370,7 @@ export default {
       this.opengenre = !this.opengenre;
     },
 
-    post: function () {
+    post() {
       if (
         this.selectedpostcategory &&
         this.postTitle &&
@@ -405,7 +385,8 @@ export default {
             downvotes: 0,
             number_of_comments: 0,
             saved: false,
-            mediaType: this.mediaType
+            mediaType: this.mediaType,
+            postType: 'post'
           },
           {
             postFile: this.postFile,
@@ -651,7 +632,6 @@ export default {
   width: 100%;
   color: var(--textcolorimportant);
   padding: 4px 6px;
-  gap: 18px;
 }
 
 #imagesection {
@@ -677,7 +657,7 @@ export default {
 #recommendinput {
   display: flex;
   justify-content: space-between;
-  gap: 18px;
+  gap: 0px;
 
   div {
     width: 100%;
@@ -708,6 +688,7 @@ export default {
   box-shadow: var(--boxshadow);
   width: 100%;
   outline: none;
+  box-sizing: border-box;
 }
 
 .typeselect {

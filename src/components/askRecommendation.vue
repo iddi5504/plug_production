@@ -30,18 +30,17 @@
                     </div>
                     <transition name="opengenre">
                         <div v-show="showGenres" class="genre-list">
-                            <div v-for="(genre, index) in selectedType" @click="selectGenre(genre)" :key="index"
+                            <div v-for="genre in selectedType" @click="selectGenre(genre)" :key="genre"
                                 class="genre-options">
-                                <input type="radio" name="category" class="radio" id="music" />
-                                <label for="music">{{ genre }}</label>
+                                <label style="cursor:inherit;" for="music">{{ genre }}</label>
                             </div>
                         </div>
                     </transition>
                 </div>
 
-                <div class="description">
+                <div style="width:100% ;">
                     <div>Title</div>
-                    <input type="text" class="inputfield askRecommendation-name">
+                    <input type="text" v-model="title" class="inputfield askRecommendation-name">
                 </div>
                 <div class="description">
                     <div>Give a brief description</div>
@@ -61,6 +60,7 @@
 </template>
 
 <script>
+import { serverTimestamp } from '@firebase/firestore';
 import { mapGetters, mapState } from 'vuex';
 
 export default {
@@ -68,6 +68,7 @@ export default {
         return {
             recommendMeDescription: '',
             recommendMeType: 'Music',
+            title: '',
             // selectedType: '',
             Game: [
                 "Action-Adventure",
@@ -132,7 +133,21 @@ export default {
         }
     },
     methods: {
-        askRecommendation() { },
+        askRecommendation() {
+            const askRecommendationData = {
+                genre: this.selectedGenre,
+                type: this.recommendMeType,
+                title: this.title,
+                description: this.recommendMeDescription,
+                user: this.$store.state.authStore.username,
+                user_id: this.$store.state.authStore.user_id,
+                date: serverTimestamp(),
+                number_of_recommendations: 0,
+                postType: 'askedRecommendation'
+
+            }
+            this.$store.dispatch('makePostStore/askRecommendation', askRecommendationData)
+        },
         closeAskRecommendation() {
             this.$store.commit('askRecommendationStore/setShowAskRecommendationContainer', false)
         },
@@ -225,6 +240,7 @@ export default {
     left: 0;
     bottom: 0;
     height: 100%;
+    background: #00000054;
 
     @media only screen and (min-width:600px) {
         height: calc(100vh - 48px);
@@ -248,12 +264,13 @@ export default {
         margin: 10px;
         overflow-y: auto;
         gap: 3px;
-        height: 532px;
-        justify-content: space-around;
+        max-height: 488px;
+        justify-content: flex-start;
+        transition: all 0.5s ease-in-out;
 
         @media screen and (min-width:600px) {
             max-width: 330px;
-            height: 437px;
+            max-height: 460px;
         }
 
         .recommendmeimage {
@@ -283,6 +300,16 @@ export default {
             width: 100%;
             box-sizing: border-box;
             margin: 3px;
+            background: var(--secondary);
+            border-radius: 5px;
+            color: var(--textcolornotimportant);
+            font-size: var(--bodytextfs);
+            outline: none;
+            max-height: 114px;
+            border: none;
+            padding: 5px 10px;
+            box-shadow: var(--boxshadow);
+            margin-top: 6px;
         }
 
 

@@ -202,7 +202,7 @@ export default {
 
         togglelightmode() {
             this.$store.state.lightMode = !this.$store.state.lightMode
-            console.log("🚀 ~ file: appNav.vue ~ line 192 ~ togglelightmode ~ this.$store.state.lightMode", this.$store.state.lightMode)
+            localStorage.setItem('lightMode', this.$store.state.lightMode)
             if (this.$store.state.lightMode) {
                 this.lightIcon = '../assets/light-bulb.png'
             } else {
@@ -291,7 +291,8 @@ export default {
     top: env(safe-area-inset-top);
     left: 0;
     z-index: 5;
-    box-shadow: var(--boxshadow);
+    box-shadow: 1px 1px 2px darkgray;
+
 
     .recommend-me {
         width: 100%;

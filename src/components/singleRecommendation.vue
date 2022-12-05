@@ -1,9 +1,9 @@
 <template>
 
     <div ref="recommendation" class="recommendation-box-component">
-        <div  v-if="!deleted || recommendation" class="recommendationcontainer">
+        <div v-if="!deleted || recommendation" class="recommendationcontainer">
             <div class="recommendation-info">
-                <span style="margin-left: 6px;">{{ recommendation.recommender_name }}skskskl</span>
+                <span style="margin-left: 6px;">{{ recommendation.recommender_name }}</span>
                 <span @click="showOptions = !showOptions" style="position: absolute; right: 28px; top: 4px; ">
                     <i class="bi bi-three-dots"></i></span>
             </div>
@@ -101,8 +101,8 @@
         <div v-if="deleted" class="delete-message">
             <span>Recommendation has been deleted</span>
         </div>
-        <div v-if="errorOccured">
-            <span>{{errorMessage}}</span>
+        <div v-if="errorOccurred">
+            <span>{{ errorMessage }}</span>
         </div>
     </div>
 </template>
@@ -130,9 +130,9 @@ export default {
             upvoted: false,
             downvoted: false,
             saved: false,
-            deleted:false,
-            errorOccurred:false,
-            errorMessage:''
+            deleted: false,
+            errorOccurred: false,
+            errorMessage: ''
 
         }
     },
@@ -145,7 +145,7 @@ export default {
                     date: serverTimestamp(),
                     owner_id: this.user_id,
                     owner_name: this.username,
-                    post_id: this.recommendation.uid,
+                    post_id: this.recommendation.id,
                     replies: []
                 }
                 addDoc(commentCollection, commentData)
@@ -155,7 +155,7 @@ export default {
                         this.number_of_comments = 0
 
                         // increase number of comments count
-                        const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+                        const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
                         updateDoc(recommendationDoc, {
                             number_of_comments: increment(1)
                         })
@@ -165,14 +165,14 @@ export default {
         },
         async getComments() {
             const commentCollection = collection(firestore, 'comments');
-            const commentsQuery = query(commentCollection, orderBy('date', 'desc'), where('post_id', "==", this.recommendation.uid))
+            const commentsQuery = query(commentCollection, orderBy('date', 'desc'), where('post_id', "==", this.recommendation.id))
             const comments = await getDocs(commentsQuery)
             comments.forEach((snapshot) => {
                 this.comments.push({ ...snapshot.data(), comment_id: snapshot.id })
             })
         },
         async upvote() {
-            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.UPVOTEDON) {
                 this.upvoted = true
@@ -181,10 +181,10 @@ export default {
                 })
                     .then(() => {
                         this.UPVOTES = 1
-                        this.$store.dispatch('authStore/upvote', this.recommendation.uid)
+                        this.$store.dispatch('authStore/upvote', this.recommendation.id)
                         this.upvoted = true
                         updateDoc(userDoc, {
-                            upvotes: arrayUnion(this.recommendation.uid)
+                            upvotes: arrayUnion(this.recommendation.id)
                         })
                             .catch(() => {
                                 this.upvoted = false
@@ -198,9 +198,9 @@ export default {
                     })
                         .then(() => {
                             this.UPVOTES = -1
-                            this.$store.dispatch('authStore/removeUpvote', this.recommendation.uid)
+                            this.$store.dispatch('authStore/removeUpvote', this.recommendation.id)
                             updateDoc(userDoc, {
-                                upvotes: arrayRemove(this.recommendation.uid)
+                                upvotes: arrayRemove(this.recommendation.id)
                             })
 
                         })
@@ -212,7 +212,7 @@ export default {
 
         },
         async downvote() {
-            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.DOWNVOTEDON) {
                 this.downvote = true
@@ -221,10 +221,10 @@ export default {
                 })
                     .then(() => {
                         this.DOWNVOTES = 1
-                        this.$store.dispatch('authStore/downvote', this.recommendation.uid)
+                        this.$store.dispatch('authStore/downvote', this.recommendation.id)
                         this.downvoted = true
                         updateDoc(userDoc, {
-                            downvotes: arrayUnion(this.recommendation.uid)
+                            downvotes: arrayUnion(this.recommendation.id)
                         })
                     })
                     .catch(() => {
@@ -238,9 +238,9 @@ export default {
                     })
                         .then(() => {
                             this.DOWNVOTES = -1
-                            this.$store.dispatch('authStore/removeDownvote', this.recommendation.uid)
+                            this.$store.dispatch('authStore/removeDownvote', this.recommendation.id)
                             updateDoc(userDoc, {
-                                downvotes: arrayRemove(this.recommendation.uid)
+                                downvotes: arrayRemove(this.recommendation.id)
                             })
 
                         })
@@ -256,25 +256,30 @@ export default {
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.SAVED) {
                 this.SAVED = true
+                this.$store.dispatch('authStore/save', { id: this.recommendation.id, saveType: 'Recommendation' })
                 updateDoc(userDoc, {
-                    saves: arrayUnion(this.recommendation.uid)
+                    savedRecommendations: arrayUnion(this.recommendation.id)
                 })
                     .then(() => {
-                        this.$store.dispatch('authStore/save', this.recommendation.uid)
+                        this.$store.commit('showMinorAlertMessage', 'Recommendation saved', { root: true })
                     })
                     .catch(() => {
                         this.SAVED = false
+                        this.$store.dispatch('authStore/removeSave', { id: this.recommendation.id, saveType: 'Recommendation' })
+
                     })
 
             } else {
                 if (this.saved == true) {
                     this.SAVED = false
-                    this.$store.dispatch('authStore/removeSave', this.recommendation.uid)
+                    this.$store.dispatch('authStore/removeSave', { id: this.recommendation.id, saveType: 'Recommendation' })
                     updateDoc(userDoc, {
-                        saves: arrayRemove(this.recommendation.uid)
+                        savedRecommendations: arrayRemove(this.recommendation.id)
                     })
                         .catch(() => {
                             this.SAVED = true
+                            this.$store.dispatch('authStore/save', { id: this.recommendation.id, saveType: 'Recommendation' })
+
                         })
 
                 }
@@ -288,11 +293,11 @@ export default {
                 deleteObject(imageRef)
             }
 
-            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             deleteDoc(recommendationDoc)
                 .then(() => {
-                    this.deleted= true
-                    this.recommendation=null
+                    this.deleted = true
+                    this.recommendation = null
                     this.$store.commit('showMinorAlertMessage', 'You recommendation has been successfully deleted', { root: true })
                 })
         }
@@ -327,7 +332,7 @@ export default {
                 return this.recommendation.imageURL
             }
         },
-        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes', 'saves']),
+        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes', 'savedRecommendations']),
         UPVOTES: {
             get() {
                 return this.recommendation.upvotes
@@ -337,7 +342,7 @@ export default {
             }
         },
         UPVOTEDON() {
-            if (this.upvotes.includes(this.recommendation.uid)) {
+            if (this.upvotes.includes(this.recommendation.id)) {
                 this.upvoted = true
             } else {
                 this.upvoted = false
@@ -354,7 +359,7 @@ export default {
             }
         },
         DOWNVOTEDON() {
-            if (this.downvotes.includes(this.recommendation.uid)) {
+            if (this.downvotes.includes(this.recommendation.id)) {
                 this.downvoted = true
             } else {
                 this.downvoted = false
@@ -363,7 +368,7 @@ export default {
         },
         SAVED: {
             get() {
-                if (this.saves.includes(this.recommendation.uid)) {
+                if (this.savedRecommendations.includes(this.recommendation.id)) {
                     this.saved = true
                 }
                 else {
@@ -398,63 +403,24 @@ export default {
     },
     async created() {
         const recommendationId = this.$route.params.id
-        if (recommendationId.includes('MusicRecommendation')) {
-
-            try {
-                const recommendationCollection = query(collectionGroup(firestore, 'MusicRecommendations'), where('id', '==', recommendationId))
-                const recommendation = await getDocs(recommendationCollection)
-                this.recommendationType = 'MusicRecommendations'
-                this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
-                this.getComments()
-                
-            } catch (error) {
-                this.errorOccurred = true;
-                this.errorMessage = 'Could not fetch recommendation'
-                console.log('Could not fetch recommendation')
-            }
-
-        }
-        if (recommendationId.includes('MovieRecommendation')) {
-            const recommendationCollection = query(collectionGroup(firestore, 'MovieRecommendations'), where('id', '==', recommendationId))
+        try {
+            const recommendationCollection = query(collection(firestore, 'recommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
-            .catch(()=>{
-                this.errorOccurred = true;
-                this.errorMessage = 'Could not fetch recommendation'
-            })
-            this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
-            this.getComments()
-            this.recommendationType = 'MovieRecommendations'
-
-
-        }
-        if (recommendationId.includes('BookRecommendation')) {
-            const recommendationCollection = query(collectionGroup(firestore, 'BookRecommendations'), where('id', '==', recommendationId))
-            const recommendation = await getDocs(recommendationCollection)
-            .catch(()=>{
-                this.errorOccurred = true;
-                this.errorMessage = 'Could not fetch recommendation'
-            })
-            this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
-            this.recommendationType = 'BookRecommendations'
+            this.recommendationType = 'MusicRecommendations'
+            this.recommendation = { ...recommendation.docs[0].data() }
             this.getComments()
 
+        } catch (error) {
+            this.errorOccurred = true;
+            this.errorMessage = 'Could not fetch recommendation'
+            console.log('Could not fetch recommendation')
         }
-        if (recommendationId.includes('GameRecommendation')) {
-            const recommendationCollection = query(collectionGroup(firestore, 'GameRecommendations'), where('id', '==', recommendationId))
-            const recommendation = await getDocs(recommendationCollection)
-            .catch(()=>{
-                this.errorOccurred = true;
-                this.errorMessage = 'Could not fetch recommendation'
-            })
-            this.recommendation = { ...recommendation.docs[0].data(), uid: recommendation.docs[0].id }
-            this.recommendationType = 'GameRecommendations'
-            this.getComments()
 
-        }
+
 
         bus.$on('deleteComment', (commentIndex) => {
             this.comments.splice(commentIndex, 1)
-            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.id}`)
             updateDoc(recommendationDoc, {
                 number_of_comments: increment(-1)
             })
@@ -462,13 +428,14 @@ export default {
 
     },
     mounted() {
+        console.log(this.$route.params)
     }
 
 }
 
 </script>
   
-<style lang="scss" scoped>
+<style lang="scss" >
 .showReply-enter-active,
 .showReply-leave-active {
     position: absolute;
@@ -498,7 +465,6 @@ export default {
     animation: comein-data-v-0148dea0 0.5s;
     transition: 0.5s ease-out;
     max-width: 660px;
-    width: 100%;
 
     hr {
         border-top: 1px solid var(--textcolornotimportant);
@@ -513,13 +479,6 @@ export default {
 
     }
 }
-
-.recommendation-box-component {
-    width: 100%;
-    padding: 5px 19px;
-
-}
-
 
 .recommendation-content-text {
     display: flex;
@@ -724,7 +683,7 @@ hr {
     margin: 1 5 5px 1;
 }
 
-.delete-message{
+.delete-message {
     color: red;
     height: calc(100vh - 126px);
     display: flex;

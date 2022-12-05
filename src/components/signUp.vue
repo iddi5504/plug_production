@@ -71,7 +71,10 @@ export default {
                             username: this.username,
                             upvotes: [],
                             downvotes: [],
-                            saves:[]
+                            saves: [],
+                            savedAskedRecommendations: [],
+                            savedRecommendations: [],
+                            savedPosts: [],
                         })
                             .then(() => {
                                 this.$router.replace({ name: 'home' });

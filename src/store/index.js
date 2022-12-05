@@ -5,6 +5,7 @@ import { modalStore } from './modules/modalStore'
 import { makePostStore } from './modules/makePostStore'
 import { recommendationsStore } from './modules/recommendationsStore'
 import { askRecommendationStore } from './modules/askrecommendationStore'
+import { profileStore } from './modules/profileStore'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -67,6 +68,7 @@ export default new Vuex.Store({
     modalStore,
     makePostStore,
     recommendationsStore,
-    askRecommendationStore
+    askRecommendationStore,
+    profileStore
   }
 })

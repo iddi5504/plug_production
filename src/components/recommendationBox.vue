@@ -3,10 +3,10 @@
         <div v-bind:class="{ savedrecommend: false }" class="recommendationcontainer">
             <div class="recommendation-info">
                 <span style="margin-left: 6px;">{{ recommendation.recommender_name }}skskskl</span>
-                <span class="options-button" @click="showOptions = !showOptions"><i  class="bi bi-three-dots"></i></span>
+                <span class="options-button" @click="showOptions = !showOptions"><i class="bi bi-three-dots"></i></span>
             </div>
             <hr>
-            <router-link :to="`recommendation/${recommendation.id}`">
+            <div style="cursor:pointer" @click='openRecommendation()'>
                 <article>
                     <div style="display: flex; " class="media">
                         <a class="pull-left" href="#">
@@ -16,12 +16,12 @@
                             <div style="color:#818384">
                                 <small>{{ recommendation.category }}</small>
                                 <i :class="{
-                                    'bi bi-music-note-beamed': recommendation.type === 'Music',
-                                    'bi bi-film': recommendation.type === 'Movie',
-                                    'bi bi-controller': recommendation.type === 'Game',
-                                    'bi bi-book': recommendation.type === 'Book',
-                                    'bi bi-person': recommendation.type === 'Artiste',
-                                    'bi bi-person': recommendation.type === 'Actor',
+                                    'bi bi-music-note-beamed': recommendation.category === 'Music',
+                                    'bi bi-film': recommendation.category === 'Movie',
+                                    'bi bi-controller': recommendation.category === 'Game',
+                                    'bi bi-book': recommendation.category === 'Book',
+                                    'bi bi-person': recommendation.category === 'Artiste',
+                                    'bi bi-person': recommendation.category === 'Actor',
                                     'typeicon': true
                                 }">
                                 </i>
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </article>
-            </router-link>
+            </div>
 
             <!--recommend-box-bottom-->
             <div style="margin: 0px 5px;" class="recommend-box-bottom">
@@ -50,7 +50,8 @@
                         <small>{{ recommendation.downvotes }}</small>
 
                     </span>
-                    <span style="margin:5px" class="options" @click="$router.push(`recommendation/${recommendation.id}`)">
+                    <span style="margin:5px" class="options"
+                        @click="$router.push(`recommendation/${recommendation.id}`)">
                         <!--comments-->
                         <i class="bi bi-chat-dots"></i>
                         <small>{{ recommendation.number_of_comments }}</small>
@@ -61,29 +62,31 @@
                     </span>
                 </div>
                 <div>
-                    <span>{{DATE}}</span>
+                    <span>{{ DATE }}</span>
                 </div>
             </div>
             <!--options-->
             <transition name="showReply">
                 <div v-show="showOptions" id="recommendationoptions">
-                    <div v-bind:class="{ saved: SAVED, option: true }" @click="save"><i class="fa fa-bookmark"></i> Save</div>
+                    <div v-bind:class="{ saved: SAVED, option: true }" @click="save"><i class="fa fa-bookmark"></i> Save
+                    </div>
                     <div class="option"> <i class="bi bi-share"></i> Share</div>
                     <!-- <div class="option"> <i class="fa fa-edit"></i> Edit</div> -->
                     <div class="option"> <i class="bi bi-megaphone"></i> Report</div>
-                    <div v-show="BELONGSTOUSER" class="option"> <i class="bi bi-trash"></i> Delete</div>
+                    <div v-show="BELONGSTOUSER" class="option" @click="deleteRecommendation"> <i
+                            class="bi bi-trash"></i> Delete</div>
                 </div>
             </transition>
-            
         </div>
     </div>
 </template>
   
 <script>
-import {arrayUnion,arrayRemove, doc, updateDoc,increment} from '@firebase/firestore'
+import { arrayUnion, arrayRemove, doc, updateDoc, increment, deleteDoc } from '@firebase/firestore'
 import { firestore } from '@/firebase/firebase'
 import { mapState } from 'vuex'
 import moment from 'moment'
+import { deleteObject } from '@firebase/storage'
 export default {
     props: ["recommendation"],
     data() {
@@ -98,8 +101,16 @@ export default {
         }
     },
     methods: {
+        openRecommendation() {
+            this.$router.push(
+                {
+                    params: { recommendationData: this.recommendation },
+                    path: `/recommendation/${this.recommendation.id}`,
+                }
+            )
+        },
         async upvote() {
-            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.UPVOTEDON) {
                 this.upvoted = true
@@ -109,13 +120,13 @@ export default {
                     .then(() => {
                         this.UPVOTES = 1
                         this.upvoted = true
-                        this.$store.dispatch('authStore/upvote', this.recommendation.uid)
+                        this.$store.dispatch('authStore/upvote', this.recommendation.id)
                         updateDoc(userDoc, {
-                            upvotes: arrayUnion(this.recommendation.uid)
+                            upvotes: arrayUnion(this.recommendation.id)
                         })
                     })
-                    .catch(()=>{
-                this.upvoted = false
+                    .catch(() => {
+                        this.upvoted = false
 
                     })
             } else {
@@ -126,13 +137,13 @@ export default {
                     })
                         .then(() => {
                             this.UPVOTES = -1
-                            this.$store.dispatch('authStore/removeUpvote', this.recommendation.uid)
+                            this.$store.dispatch('authStore/removeUpvote', this.recommendation.id)
                             updateDoc(userDoc, {
-                                upvotes: arrayRemove(this.recommendation.uid)
+                                upvotes: arrayRemove(this.recommendation.id)
                             })
 
                         })
-                        .catch(()=>{
+                        .catch(() => {
                             this.upvoted = true
                         })
                 }
@@ -140,7 +151,7 @@ export default {
 
         },
         async downvote() {
-            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.DOWNVOTEDON) {
                 updateDoc(recommendationDoc, {
@@ -149,10 +160,10 @@ export default {
                     .then(() => {
                         this.DOWNVOTES = 1
                         this.downvote = true
-                        this.$store.dispatch('authStore/downvote', this.recommendation.uid)
+                        this.$store.dispatch('authStore/downvote', this.recommendation.id)
                         this.downvoted = true
                         updateDoc(userDoc, {
-                            downvotes: arrayUnion(this.recommendation.uid)
+                            downvotes: arrayUnion(this.recommendation.id)
                         })
                     })
             } else {
@@ -163,9 +174,9 @@ export default {
                         .then(() => {
                             this.DOWNVOTES = -1
                             this.downvoted = false
-                            this.$store.dispatch('authStore/removeDownvote', this.recommendation.uid)
+                            this.$store.dispatch('authStore/removeDownvote', this.recommendation.id)
                             updateDoc(userDoc, {
-                                downvotes: arrayRemove(this.recommendation.uid)
+                                downvotes: arrayRemove(this.recommendation.id)
                             })
 
                         })
@@ -177,30 +188,53 @@ export default {
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.SAVED) {
                 this.saved = true
+                this.$store.dispatch('authStore/save', { id: this.recommendation.id, saveType: 'Recommendation' })
                 updateDoc(userDoc, {
-                    saves: arrayUnion(this.recommendation.uid)
+                    savedRecommendations: arrayUnion(this.recommendation.id)
                 })
                     .then(() => {
-                        this.$store.dispatch('authStore/save', this.recommendation.uid)
+                        this.$store.commit('showMinorAlertMessage', 'Recommendation saved', { root: true })
+
                     })
                     .catch(() => {
                         this.saved = false
+                        this.$store.dispatch('authStore/removeSave', { id: this.recommendation.id, saveType: 'Recommendation' })
+
                     })
 
             } else {
                 if (this.saved == true) {
                     this.saved = false
-                    this.$store.dispatch('authStore/removeSave', this.recommendation.uid)
+                    this.$store.dispatch('authStore/removeSave', { id: this.recommendation.id, saveType: 'Recommendation' })
                     updateDoc(userDoc, {
-                        saves: arrayRemove(this.recommendation.uid)
+                        savedRecommendations: arrayRemove(this.recommendation.id)
                     })
                         .catch(() => {
                             this.saved = true
+                            this.$store.dispatch('authStore/save', { id: this.recommendation.id, saveType: 'Recommendation' })
+
                         })
 
                 }
             }
 
+        },
+        async deleteRecommendation() {
+            const imageURL = this.recommendation.imageURL
+            if (imageURL) {
+                const imageRef = ref(storage, imageURL)
+                deleteObject(imageRef)
+            }
+
+            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
+            deleteDoc(recommendationDoc)
+                .then(() => {
+                    // this.deleted = true
+                    // this.recommendation = null
+                    this.$store.commit('showMinorAlertMessage', 'You recommendation has been successfully deleted', { root: true })
+                    this.$store.commit('recommendationStore/deleteRecommendation', this.recommendation.id)
+
+                })
         }
 
     },
@@ -233,7 +267,7 @@ export default {
                 return this.recommendation.imageURL
             }
         },
-        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes', 'saves']),
+        ...mapState('authStore', ['user_id', 'username', 'upvotes', 'downvotes', 'savedRecommendations']),
         UPVOTES: {
             get() {
                 return this.recommendation.upvotes
@@ -243,9 +277,9 @@ export default {
             }
         },
         UPVOTEDON() {
-            if (this.upvotes.includes(this.recommendation.uid)) {
+            if (this.upvotes.includes(this.recommendation.id)) {
                 this.upvoted = true
-            }else{
+            } else {
                 this.upvoted = false
             }
             return this.upvoted
@@ -260,26 +294,26 @@ export default {
             }
         },
         DOWNVOTEDON() {
-            if (this.downvotes.includes(this.recommendation.uid)) {
+            if (this.downvotes.includes(this.recommendation.id)) {
                 this.downvoted = true
-            }else{
+            } else {
                 this.downvoted = false
             }
             return this.downvoted
         },
         SAVED() {
-            if (this.saves.includes(this.recommendation.uid)) {
+            if (this.savedRecommendations.includes(this.recommendation.id)) {
                 this.saved = true
             }
-            else{
+            else {
                 this.saved = false
             }
             return this.saved
         },
-        BELONGSTOUSER(){
-            if(this.recommendation.recommender_id == this.user_id){
+        BELONGSTOUSER() {
+            if (this.recommendation.recommender_id == this.user_id) {
                 return true
-            }else{
+            } else {
                 return false
             }
         },
@@ -294,7 +328,7 @@ export default {
         }
 
     },
-    mounted(){
+    mounted() {
         if (this.recommendation.id.includes('MusicRecommendation')) {
             this.recommendationType = 'MusicRecommendations'
         }
@@ -324,8 +358,9 @@ export default {
 .showReply-enter {
     transform: translateY(100px)
 }
-.showReply-leave-to{
-    opacity:0
+
+.showReply-leave-to {
+    opacity: 0
 }
 
 .recommendationcontainer {
@@ -355,23 +390,20 @@ export default {
         justify-items: space-between;
         position: relative;
 
-        .options-button{
+        .options-button {
             position: absolute;
             right: 7px;
             bottom: -9px;
             cursor: pointer;
 
-            i{
+            i {
                 font-size: 30px;
             }
         }
     }
 }
 
-.recommendation-box-component {
-    width: 100%;
 
-}
 
 
 .recommendation-content-text {
@@ -461,6 +493,7 @@ hr {
         span {
             transition: 0.3s all ease;
         }
+
         i {
             padding: 2px;
         }
@@ -528,17 +561,20 @@ hr {
     box-shadow: var(--boxshadow);
     align-items: flex-start;
 
-    div{
-        &:first-child{
+    div {
+        &:first-child {
             border-top-left-radius: 10px;
-            &:active{
-                color:#d847ff;
+
+            &:active {
+                color: #d847ff;
             }
         }
-        &:last-child{
+
+        &:last-child {
             border-bottom-left-radius: 10px;
         }
     }
+
     .option {
         width: 100%;
         text-align: left;
@@ -552,6 +588,7 @@ hr {
     }
 
 }
+
 .option:last-child:hover {
     color: red;
 

@@ -4,6 +4,8 @@ import homePage from '../views/homePage.vue'
 import auth from '../views/authPage.vue'
 import mainContent from '../components/mainContent.vue'
 import singleRecommendation from '../components/singleRecommendation.vue'
+import singleAskedRecommendation from '../components/singleAskedRecommendation.vue'
+import ProfilePage from '../views/profilePage.vue'
 const routes = [
   {
     path: '/',
@@ -17,8 +19,15 @@ const routes = [
       {
         path: '/recommendation/:id',
         component: singleRecommendation,
-        name:'singleRecommendation'
+        name: 'singleRecommendation',
+        props: true
       },
+      {
+        path: '/askedRecommendation/:id',
+        component: singleAskedRecommendation,
+        name: 'singleRecommendation',
+        props: true
+      }
     ]
   },
   {
@@ -37,7 +46,13 @@ const routes = [
       }
 
     ]
-  }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfilePage,
+
+  },
 
 ]
 export default routes

@@ -1,7 +1,7 @@
 <template>
     <div class="todays-recommend-body">
         <div class="todaysrecommendcontainer" v-for="(todaysrecommend, index) in todaysrecommendation" :key="index">
-            <span class="todaysrecommendtype">Todays {{ todaysrecommend.type }} recommnedation</span>
+            <span class="todaysrecommendtype">Todays {{ todaysrecommend.type }} rec</span>
             <div class="todays-recommendation-content" style=" ">
                 <div>
                     <h2 style="font-size:var(--titlesfs); color:var(--brandcolor);">
@@ -60,7 +60,7 @@ export default {
     margin: 0px 4px;
     position: relative;
     padding-top: 3px;
-    background-image: url("../assets/435.jpg");
+    background-image: url("../assets/pngwing.com (6).png");
     height: 200px;
     background-repeat: no-repeat;
     background-position: center;
@@ -73,16 +73,17 @@ export default {
     justify-content: space-between;
     align-items: flex-start;
 
-    &::after{
+    &::after {
         content: "";
         height: 100%;
         width: 100%;
         position: absolute;
         top: 0;
         left: 0;
+        border-radius: 11px;
         background: linear-gradient(183deg, transparent, #000000cf);
     }
-    
+
 }
 
 .todays-recommendation-content {
@@ -102,12 +103,12 @@ export default {
 }
 
 .todaysrecommendtype {
-    position: relative;
-    top: 0px;
-    left:0px;
-    color:white;
-    font-size:var(--detailsfs);
+    color: white;
+    font-size: var(--detailsfs);
     padding: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
 
 }
 

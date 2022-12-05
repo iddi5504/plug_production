@@ -1,34 +1,34 @@
 <template>
-         <div id="discoversection" class="container">
-            <div id="toprecommends" class="container">
-                <h5>Top Recommends</h5>
-                <div id="toprecommendimages"  class="container">
-                    <img  class="toprecommendimage" src="../assets/spiderman.jpg" alt="">
-                    <img  class="toprecommendimage" src="../assets/godofwar4.jpg" alt="">
-                    <img  class="toprecommendimage" src="../assets/EternalAtake.jpg" alt="">
-                </div>
+    <div id="discoversection" class="container">
+        <div id="toprecommends" class="container">
+            <h5>Top Recommends</h5>
+            <div id="toprecommendimages" class="container">
+                <img class="toprecommendimage" src="../assets/pngwing.com (6).png" alt="">
+                <img class="toprecommendimage" src="../assets/albumcover.png" alt="">
+                <img class="toprecommendimage" src="../assets/EternalAtake.jpg" alt="">
             </div>
-            <div class="hottest ">
-                <h5>Top Discussions</h5>
-                <div class="hotdiscussionsimages" >
-                    <img  class="hostdiscussionsimage" src="../assets/EternalAtake.jpg" alt="">
-                    <img  class="hostdiscussionsimage" src="../assets/EternalAtake.jpg" alt="">
-                    
-                </div>
-            </div>
-    
-        <!--buttons-->
-            <span>
-                <button style="border: 0px; background-color: inherit;"  id="leftbutton">
-                    <img src="../assets/back.png" alt="" class="button" type>
-    
-                </button>
-            </span>
-            <span id="rightbutton" >
-                <img src="../assets/next.png" alt="" class="button">
-            </span>
-    
         </div>
+        <div class="hottest ">
+            <h5>Top Discussions</h5>
+            <div class="hotdiscussionsimages">
+                <img class="hostdiscussionsimage" src="../assets/image.jpg" alt="">
+                <img class="hostdiscussionsimage" src="../assets/crime.jpg" alt="">
+
+            </div>
+        </div>
+
+        <!--buttons-->
+        <span>
+            <button style="border: 0px; background-color: inherit;" id="leftbutton">
+                <img src="../assets/back.png" alt="" class="button" type>
+
+            </button>
+        </span>
+        <span id="rightbutton">
+            <img src="../assets/next.png" alt="" class="button">
+        </span>
+
+    </div>
 </template>
 
 <script>
@@ -36,23 +36,22 @@ export default {
 
     data() {
         return {
-            lightmode:false
+            lightmode: false
         }
     },
     created() {
-        
+
     },
 
     watch: {
-       
+
     },
 }
 </script>
 
 <style scoped>
-    #discoversection{
+#discoversection {
     padding: 0px;
-    margin: 0px 16px;
     background-color: var(--primary);
     z-index: 0;
     display: flex;
@@ -60,7 +59,6 @@ export default {
     height: 475px;
     font-family: sans-serif;
     border-radius: 10px;
-    margin-top: 10px;
     width: 287px;
     color: var(--textcolorimportant);
     font-size: larger;
@@ -68,18 +66,18 @@ export default {
     position: relative;
 }
 
-#discoversection h3{
+#discoversection h3 {
     padding: 0;
     margin: 0;
 }
 
-#toprecommends{
+#toprecommends {
     flex: 1;
     padding: 5px 5px;
     margin: 0px;
 }
 
-#toprecommendimages{
+#toprecommendimages {
     padding: 0;
     margin: 0;
     max-width: 100%;
@@ -88,49 +86,49 @@ export default {
     display: flex;
 }
 
-#toprecommendimages::-webkit-scrollbar{
+#toprecommendimages::-webkit-scrollbar {
     display: none;
 }
 
-.toprecommendimage{
+.toprecommendimage {
     height: 184px;
     width: 142px;
     padding: 2px 5px;
+    object-fit: cover;
 }
 
-.hottest{    
+.hottest {
     flex: 1;
     padding: 5px 5px;
     margin: 0px;
 }
 
-.hotdiscussionsimages{
+.hotdiscussionsimages {
     padding: 0;
     margin: 0;
     overflow-x: hidden;
-    height: 185px;
     display: flex;
 }
 
-.hotdiscussionsimages::-webkit-scrollbar{
+.hotdiscussionsimages::-webkit-scrollbar {
     display: none;
 }
 
-.hostdiscussionsimage{
+.hostdiscussionsimage {
     height: 184px;
     width: 142px;
     padding: 2px 5px;
     border-radius: 10px;
 }
 
-.button{
+.button {
     height: 30px;
-    width: 30px;    
+    width: 30px;
     filter: invert();
 
 }
 
-#leftbutton{
+#leftbutton {
     position: absolute;
     top: 119px;
     left: -10px;
@@ -140,13 +138,11 @@ export default {
     cursor: pointer;
 }
 
-#rightbutton{
+#rightbutton {
     position: absolute;
     top: 119px;
     right: -6px;
     z-index: 0;
     cursor: pointer;
 }
-
-
 </style>

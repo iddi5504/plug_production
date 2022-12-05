@@ -19,8 +19,6 @@
 
 <script>
 
-import { getDoc, doc } from '@firebase/firestore'
-import { auth, firestore } from '../firebase/firebase.js'
 import appNav from '../components/appNav.vue'
 import modal from '../components/modal.vue'
 import makePost from '../components/makePost.vue'
@@ -50,19 +48,7 @@ export default {
     }
   },
 
-  async beforeCreate() {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        const userFirestore = doc(firestore, 'users', user.uid)
-        let userId = user.uid
-        getDoc(userFirestore)
-          .then((userData) => {
-            this.$store.dispatch('authStore/setUser', { ...userData.data(), user_id: userId }, { root: true })
-          })
-      }
-    })
 
-  }
 }
 </script>
 
@@ -77,7 +63,7 @@ export default {
   .main-content {
     width: 100%;
     justify-content: flex-start;
-    align-items: center;
+    align-items: stretch;
     display: flex;
     flex-direction: column;
     justify-items: center;
@@ -116,6 +102,7 @@ export default {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
+    padding: 0 5px;
 
     @media all and (min-width: 900px) {
       display: flex;

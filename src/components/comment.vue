@@ -29,8 +29,8 @@
         </div>
         <transition name="showReply">
             <div ref="comment" key="2" v-show="showReplyField" class="makecomment">
-                <textarea maxlength="600" draggable="false" name="comment"
-                    class="commentinput reply-input" v-model="replyText"></textarea>
+                <textarea maxlength="600" draggable="false" name="comment" class="commentinput reply-input"
+                    v-model="replyText"></textarea>
                 <button class="commentbutton" @click="makeReply(comment.comment_id)">reply</button>
             </div>
         </transition>
@@ -62,7 +62,7 @@ export default {
             this.showReplyField = !this.showReplyField
         },
         makeReply(comment_id) {
-            this.showReplyField= false
+            this.showReplyField = false
             const commentCollection = collection(firestore, 'comments');
             const comment = doc(commentCollection, comment_id)
             const replyData = {
@@ -121,7 +121,7 @@ export default {
             try {
                 var rawDate = this.comment.date.toDate()
             } catch (error) {
-                var rawDate= new Date()                
+                var rawDate = new Date()
             }
             const date = new Date()
             return `${moment(rawDate).fromNow(date)} ago`
