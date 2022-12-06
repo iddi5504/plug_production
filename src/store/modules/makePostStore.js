@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, increment, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage, firestore, auth } from '../../firebase/firebase'
 
@@ -63,6 +63,13 @@ const makePostStore = {
                     const recommendationId = recommendationDoc.id
                     const completeRecommendationData = { ...recommendData, ...extraInfo, ...userData, id: recommendationId }
                     await setDoc(recommendationDoc, completeRecommendationData)
+                    // update the recommendation count
+                    const user_id = context.rootState.authStore.user_id
+                    console.log(user_id)
+                    const userDoc = doc(firestore, `/users/${user_id}`)
+                    updateDoc(userDoc, {
+                        number_of_recommendations: increment(1)
+                    })
                     context.commit('closeMakePost')
                     context.commit('stopLoading', null, { root: true })
                     context.commit('alert', ['You have successfully made a recommendation.', 'Continue recommending to others, spread the word'], { root: true })
@@ -99,6 +106,13 @@ const makePostStore = {
                         post,
                         completePostData
                     )
+
+                    // update the posts count
+                    const user_id = context.rootState.authStore.user_id
+                    const userDoc = doc(firestore, `/users/${user_id}`)
+                    updateDoc(userDoc, {
+                        number_of_posts: increment(1)
+                    })
                     context.commit('closeMakePost')
                     context.commit('alert', ['You have successfully made a post.', 'Check your notifications for activities on your post'], { root: true })
                     context.commit('stopLoading', null, { root: true })
@@ -115,9 +129,16 @@ const makePostStore = {
             const askedRecommendationCollection = collection(firestore, 'AskedRecommendations')
             const askedRecommendation = doc(askedRecommendationCollection)
             askedRecommendationData.Id = askedRecommendation.id
-            setDoc(
+            await setDoc(
                 askedRecommendation, askedRecommendationData
             )
+            // update the recommendations asked count
+            const user_id = context.rootState.authStore.user_id
+            const userDoc = doc(firestore, `/users/${user_id}`)
+            updateDoc(userDoc, {
+                number_of_recommendationsAsked: increment(1)
+            })
+
 
         }
     }

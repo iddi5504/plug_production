@@ -196,6 +196,11 @@ export default {
                 .then(() => {
                     this.deleted = true
                     this.askedRecommendation = null
+                    // update the askedrecommendation count
+                    const userDoc = doc(firestore, `/users/${this.user_id}`)
+                    updateDoc(userDoc, {
+                        number_of_recommendationsAsked: increment(-1)
+                    })
                     this.$store.commit('showMinorAlertMessage', 'The recommendation you asked for has been successfully deleted', { root: true })
                 })
         }

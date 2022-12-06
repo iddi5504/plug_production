@@ -75,6 +75,11 @@ export default {
                             savedAskedRecommendations: [],
                             savedRecommendations: [],
                             savedPosts: [],
+                            number_of_recommendations: 0,
+                            number_of_recommendationsAsked: 0,
+                            number_of_saves: 0,
+                            number_of_posts: 0
+
                         })
                             .then(() => {
                                 this.$router.replace({ name: 'home' });

@@ -8,16 +8,18 @@
             <div class="user-feed">
                 <div class="navigator">
                     <div :class="{ 'isselected': selected === 'userRecommendations' }"
-                        @click="selected = 'userRecommendations'"><span style="font-weight:500">12</span> iRecommend
+                        @click="selected = 'userRecommendations'"><span style="font-weight:500">{{
+                                number_of_recommendations
+                        }}</span> iRecommend
                     </div>
                     <div :class="{ 'isselected': selected === 'usersAskedRecommendation' }"
                         @click="selected = 'usersAskedRecommendation'">
-                        <span style="font-weight:500">31</span> Recommendme
+                        <span style="font-weight:500">{{ number_of_recommendationsAsked }}</span> Recommendme
                     </div>
                     <div :class="{ 'isselected': selected === 'usersPosts' }" @click="selected = 'usersPosts'"><span
-                            style="font-weight:500">213</span> Post</div>
+                            style="font-weight:500">{{ number_of_posts }}</span> Post</div>
                     <div :class="{ 'isselected': selected === 'saved' }" @click="selected = 'saved'"><span
-                            style="font-weight:500">0</span> Saved
+                            style="font-weight:500">{{ NUMBER_OF_SAVES }}</span> Saved
                     </div>
 
                 </div>
@@ -43,7 +45,7 @@ import appNav from '@/components/appNav.vue';
 import askedRecommendation from '@/components/askedRecommendation.vue';
 import postBox from '@/components/postBox.vue';
 import recommendationBox from '@/components/recommendationBox.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 export default {
     components: {
         profileContainer,
@@ -68,7 +70,9 @@ export default {
         this.$store.dispatch('profileStore/selectFeed', this.selected)
     },
     computed: {
-        ...mapGetters('profileStore', ['FEED'])
+        ...mapGetters('profileStore', ['FEED', 'NUMBER_OF_SAVES']),
+        ...mapGetters('authStore', ['NUMBER_OF_SAVES']),
+        ...mapState('authStore', ['number_of_posts', 'number_of_recommendations', 'number_of_recommendationsAsked'])
     }
 }
 </script>
@@ -96,6 +100,11 @@ export default {
 
 .profile-section {
     height: 100%;
+
+    @media only screen and (min-width: 670px) {
+        position: sticky;
+        top: 46px;
+    }
 }
 
 .navigator {

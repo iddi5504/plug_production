@@ -17,12 +17,12 @@
                         <div style="color:#818384">
                             <small>{{ recommendation.category }}</small>
                             <i :class="{
-                                'bi bi-music-note-beamed': recommendation.type === 'Music',
-                                'bi bi-film': recommendation.type === 'Movie',
-                                'bi bi-controller': recommendation.type === 'Game',
-                                'bi bi-book': recommendation.type === 'Book',
-                                'bi bi-person': recommendation.type === 'Artiste',
-                                'bi bi-person': recommendation.type === 'Actor',
+                                'bi bi-music-note-beamed': recommendation.category === 'Music',
+                                'bi bi-film': recommendation.category === 'Movie',
+                                'bi bi-controller': recommendation.category === 'Game',
+                                'bi bi-book': recommendation.category === 'Book',
+                                'bi bi-person': recommendation.category === 'Artiste',
+                                'bi bi-person': recommendation.category === 'Actor',
                                 'typeicon': true
                             }">
                             </i>
@@ -298,6 +298,11 @@ export default {
                 .then(() => {
                     this.deleted = true
                     this.recommendation = null
+                    // update the recommendations asked count
+                    const userDoc = doc(firestore, `/users/${this.user_id}`)
+                    updateDoc(userDoc, {
+                        number_of_recommendationsAsked: increment(-1)
+                    })
                     this.$store.commit('showMinorAlertMessage', 'You recommendation has been successfully deleted', { root: true })
                 })
         }
