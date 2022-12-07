@@ -26,7 +26,7 @@
             <div v-if="isAuthenticated" id="navbariconslargescreens" style="flex: 1; ">
 
                 <ul ref="icons" class="nav-bar-side-buttons">
-                    <li class="nav-item">
+                    <li class="nav-item" @click="$router.push('/')">
                         <i class="bi bi-house navicon" id="homebutton"></i>
                     </li>
                     <li class="nav-item">
@@ -290,8 +290,8 @@ export default {
     position: fixed;
     top: env(safe-area-inset-top);
     left: 0;
-    z-index: 5;
-    box-shadow: 1px 1px 2px darkgray;
+    z-index: 10;
+    box-shadow: 1px 1px 2px #00000038;
 
 
     .recommend-me {
@@ -554,7 +554,7 @@ export default {
     background-color: var(--primary);
     font-size: 26px;
     border-radius: 4px;
-    z-index: 1;
+    z-index: 5;
     box-shadow: var(--boxshadow);
     height: 100%;
     max-height: 391px;

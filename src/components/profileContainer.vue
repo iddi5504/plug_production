@@ -174,13 +174,17 @@ export default {
     gap: 5px;
     height: 100%;
     padding: 10px;
-    max-width: 400px;
     width: 100%;
     box-sizing: border-box;
+    box-shadow: 0px 9px 15px 12px var(--primary);
 
     @media only screen and (min-width:700px) {
         border-radius: 20px;
         margin: 10px;
+        max-width: 400px;
+        box-shadow: none;
+
+
     }
 
 
@@ -221,6 +225,7 @@ export default {
         border-radius: 4px;
         border: none;
         outline: none;
+        padding: 4px;
     }
 
     .collections {
@@ -274,6 +279,9 @@ export default {
 
 .userinfo {
     padding: 10px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
 }
 
 .numberoffollowers {

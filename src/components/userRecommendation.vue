@@ -15,7 +15,8 @@
                     <p class="userRecommendationcontent">{{ recommendation.recommendationDescription }}</p>
                 </div>
             </div>
-            <i @click="deleteUserRecommendation(recommendation.recommendationId)" class="bi bi-trash"></i>
+            <i v-show="BELONGSTOUSER" @click="deleteUserRecommendation(recommendation.recommendationId)"
+                class="bi bi-trash"></i>
 
         </div>
         <div class="userRecommendation-interactions">
@@ -140,6 +141,7 @@ export default {
             const date = new Date()
             return `${moment(rawDate).fromNow(date)} ago`
         }
+
     },
     watch: {
 

@@ -12,8 +12,8 @@
                                 number_of_recommendations
                         }}</span> iRecommend
                     </div>
-                    <div :class="{ 'isselected': selected === 'usersAskedRecommendation' }"
-                        @click="selected = 'usersAskedRecommendation'">
+                    <div :class="{ 'isselected': selected === 'usersAskedRecommendations' }"
+                        @click="selected = 'usersAskedRecommendations'">
                         <span style="font-weight:500">{{ number_of_recommendationsAsked }}</span> Recommendme
                     </div>
                     <div :class="{ 'isselected': selected === 'usersPosts' }" @click="selected = 'usersPosts'"><span
@@ -86,7 +86,7 @@ export default {
 
     @media only screen and (min-width: 670px) {
         flex-direction: row;
-
+        justify-content: center;
     }
 }
 
@@ -113,6 +113,7 @@ export default {
     justify-content: space-around;
     align-content: center;
     gap: 10px;
+    z-index: 3;
 
     >div {
         background: var(--primary);
@@ -121,7 +122,7 @@ export default {
         border-radius: 5px;
         width: 158px;
         text-align: center;
-        box-shadow: 1px 1px 2px darkgray;
+        box-shadow: var(--mediumShadow);
 
     }
 

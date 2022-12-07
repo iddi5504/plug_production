@@ -37,7 +37,7 @@
             <div style="margin: 0px 5px;" class="recommend-box-bottom">
                 <div class="post-interactions">
                     <!--up-->
-                    <span @click="upvote">
+                    <span @click="Upvote">
                         <i ref="up" :class="['bi bi-caret-up-fill', { upvoted: UPVOTEDON }]"></i>
                         <small>{{ UPVOTES }}</small>
 
@@ -45,7 +45,7 @@
 
                     <!--down-->
 
-                    <span @click="downvote">
+                    <span @click="Downvote">
                         <i ref="down" :class="['bi bi-caret-down-fill', { downvoted: DOWNVOTEDON }]"></i>
                         <small>{{ recommendation.downvotes }}</small>
 
@@ -91,7 +91,6 @@ export default {
     props: ["recommendation"],
     data() {
         return {
-            recommendationType: '',
             showComments: true,
             showOptions: false,
             upvoted: false,
@@ -109,7 +108,7 @@ export default {
                 }
             )
         },
-        async upvote() {
+        async Upvote() {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.UPVOTEDON) {
@@ -150,10 +149,11 @@ export default {
             }
 
         },
-        async downvote() {
+        async Downvote() {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.DOWNVOTEDON) {
+                this.downvoted = true
                 updateDoc(recommendationDoc, {
                     downvotes: increment(1)
                 })
@@ -168,12 +168,12 @@ export default {
                     })
             } else {
                 if (this.downvoted == true) {
+                    this.downvoted = false
                     updateDoc(recommendationDoc, {
                         downvotes: increment(-1)
                     })
                         .then(() => {
                             this.DOWNVOTES = -1
-                            this.downvoted = false
                             this.$store.dispatch('authStore/removeDownvote', this.recommendation.id)
                             updateDoc(userDoc, {
                                 downvotes: arrayRemove(this.recommendation.id)
@@ -334,18 +334,6 @@ export default {
 
     },
     mounted() {
-        if (this.recommendation.id.includes('MusicRecommendation')) {
-            this.recommendationType = 'MusicRecommendations'
-        }
-        if (this.recommendation.id.includes('MovieRecommendation')) {
-            this.recommendationType = 'MovieRecommendations'
-        }
-        if (this.recommendation.id.includes('BookRecommendation')) {
-            this.recommendationType = 'BookRecommendations'
-        }
-        if (this.recommendation.id.includes('GameRecommendation')) {
-            this.recommendationType = 'GameRecommendations'
-        }
     }
 
 }

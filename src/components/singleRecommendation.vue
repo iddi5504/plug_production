@@ -37,14 +37,14 @@
             <div style="margin: 0px 5px;" class="recommend-box-bottom">
                 <div class="post-interactions">
                     <!--up-->
-                    <span @click="upvote">
+                    <span @click="Upvote">
                         <i ref="up" :class="['bi bi-caret-up-fill', { upvoted: UPVOTEDON }]"></i>
                         <small>{{ UPVOTES }}</small>
                     </span>
 
                     <!--down-->
 
-                    <span @click="downvote">
+                    <span @click="Downvote">
                         <i ref="down" :class="['bi bi-caret-down-fill', { downvoted: DOWNVOTEDON }]"></i>
                         <small>{{ recommendation.downvotes }}</small>
 
@@ -79,8 +79,7 @@
             <div v-show="showComments" class="commentdialogue">
                 <div class="comments">
                     <comment v-for="(comment_, commentIndex) in comments" :key="comment_.comment_id"
-                        :commentIndex="commentIndex" :comment="comment_" :recommendation="recommendation"
-                        :recommendationType="recommendationType">
+                        :commentIndex="commentIndex" :comment="comment_" :recommendation="recommendation">
 
                     </comment>
                     <div>
@@ -108,7 +107,7 @@
 </template>
   
 <script>
-import { addDoc, collection, collectionGroup, getDocs, query, serverTimestamp, where, doc, updateDoc, deleteDoc, orderBy, increment, getDoc, FieldValue, arrayUnion, arrayRemove } from '@firebase/firestore'
+import { addDoc, collection, collectionGroup, getDocs, query, serverTimestamp, where, doc, updateDoc, deleteDoc, orderBy, increment, getDoc, FieldValue, arrayUnion, arrayRemove, setDoc } from '@firebase/firestore'
 import { firestore, storage } from '@/firebase/firebase'
 import { mapState } from 'vuex'
 import comment from '@/components/comment.vue'
@@ -122,7 +121,6 @@ export default {
     data() {
         return {
             recommendation: null,
-            recommendationType: '',
             comment: null,
             showComments: true,
             showOptions: false,
@@ -140,19 +138,21 @@ export default {
         makeComment() {
             if (this.comment) {
                 const commentCollection = collection(firestore, 'comments')
+                const commentDoc = doc(commentCollection)
                 const commentData = {
                     comment_text: this.comment,
                     date: serverTimestamp(),
                     owner_id: this.user_id,
                     owner_name: this.username,
                     post_id: this.recommendation.id,
-                    replies: []
+                    replies: [],
+                    comment_id: commentDoc.id
                 }
-                addDoc(commentCollection, commentData)
+                setDoc(commentDoc, commentData)
                     .then((comment) => {
-                        this.comments.unshift({ ...commentData, comment_id: comment.id })
+                        this.comments.unshift(commentData)
                         this.comment = ''
-                        this.number_of_comments = 0
+                        this.recommendation.number_of_comments += 1
 
                         // increase number of comments count
                         const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
@@ -171,7 +171,7 @@ export default {
                 this.comments.push({ ...snapshot.data(), comment_id: snapshot.id })
             })
         },
-        async upvote() {
+        async Upvote() {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.UPVOTEDON) {
@@ -211,7 +211,7 @@ export default {
             }
 
         },
-        async downvote() {
+        async Downvote() {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
             if (!this.DOWNVOTEDON) {
@@ -411,7 +411,6 @@ export default {
         try {
             const recommendationCollection = query(collection(firestore, 'recommendations'), where('id', '==', recommendationId))
             const recommendation = await getDocs(recommendationCollection)
-            this.recommendationType = 'MusicRecommendations'
             this.recommendation = { ...recommendation.docs[0].data() }
             this.getComments()
 
@@ -425,10 +424,8 @@ export default {
 
         bus.$on('deleteComment', (commentIndex) => {
             this.comments.splice(commentIndex, 1)
-            const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.id}`)
-            updateDoc(recommendationDoc, {
-                number_of_comments: increment(-1)
-            })
+            this.recommendation.number_of_comments -= 1
+
         })
 
     },

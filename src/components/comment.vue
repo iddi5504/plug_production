@@ -8,7 +8,7 @@
                 <p class="commentcontent">{{ comment.comment_text }}</p>
                 <small class="commentusername">{{ comment.owner_name }}</small>
             </div>
-            <i @click="deleteComment(comment.comment_id)" class="bi bi-trash"></i>
+            <i v-show="BELONGSTOUSER" @click="deleteComment(comment.comment_id)" class="bi bi-trash"></i>
 
         </div>
         <div class="comment-interactions">
@@ -48,7 +48,7 @@ import { mapState } from 'vuex';
 import { bus } from '../main'
 import moment from 'moment';
 export default {
-    props: ['comment', 'recommendation', 'commentIndex', 'recommendationType'],
+    props: ['comment', 'recommendation', 'commentIndex'],
     data() {
         return {
             replyText: '',
@@ -69,14 +69,15 @@ export default {
                 reply_text: this.replyText,
                 owner_id: this.user_id,
                 owner_name: this.username,
-                post_id: this.recommendation.uid
+                post_id: this.recommendation.id
             }
+            console.log(replyData)
             updateDoc(comment, {
                 replies: arrayUnion(replyData)
             })
                 .then(() => {
                     // increase number of comments count
-                    const recommendationDoc = doc(firestore, `/recommendations/${this.recommendationType}/${this.recommendationType}/${this.recommendation.uid}`)
+                    const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
                     updateDoc(recommendationDoc, {
                         number_of_comments: increment(1)
                     })
@@ -92,8 +93,12 @@ export default {
             deleteDoc(comment)
                 .then(() => {
                     bus.$emit('deleteComment', this.commentIndex)
-                    // increase number of comments count
-
+                    // decrease number of comments count
+                    const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
+                    const numberToDecreaseBy = this.numberOfReplies + 1
+                    updateDoc(recommendationDoc, {
+                        number_of_comments: increment(-numberToDecreaseBy)
+                    })
                 })
         },
     },
@@ -125,6 +130,13 @@ export default {
             }
             const date = new Date()
             return `${moment(rawDate).fromNow(date)} ago`
+        },
+        BELONGSTOUSER() {
+            if (this.comment.owner_id == this.user_id) {
+                return true
+            } else {
+                return false
+            }
         }
     },
     watch: {

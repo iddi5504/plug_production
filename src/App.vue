@@ -102,6 +102,7 @@ export default {
   --titlesfs: 20px;
   --detailsfs: 13px;
   --boxshadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --mediumShadow: 1px 1px 2px #00000038;
 }
 
 
