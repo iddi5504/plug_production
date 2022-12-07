@@ -106,7 +106,6 @@ export default {
     color: white;
     font-size: var(--detailsfs);
     padding: 4px;
-    width: 100%;
     display: flex;
     justify-content: flex-start;
 
