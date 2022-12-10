@@ -16,7 +16,7 @@
                         @click="selected = 'usersAskedRecommendations'">
                         <span style="font-weight:500">{{ number_of_recommendationsAsked }}</span> Recommendme
                     </div>
-                    <div :class="{ 'isselected': selected === 'usersPosts' }" @click="selected = 'usersPosts'"><span
+                    <div :class="{ 'isselected': selected === 'userPosts' }" @click="selected = 'userPosts'"><span
                             style="font-weight:500">{{ number_of_posts }}</span> Post</div>
                     <div :class="{ 'isselected': selected === 'saved' }" @click="selected = 'saved'"><span
                             style="font-weight:500">{{ NUMBER_OF_SAVES }}</span> Saved
@@ -96,6 +96,14 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    gap: 3px;
+
+
+    .feed {
+        gap: 3px;
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .profile-section {

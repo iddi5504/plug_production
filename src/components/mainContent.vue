@@ -3,6 +3,10 @@
         <todaysRecommendation></todaysRecommendation>
         <sectionButton></sectionButton>
         <categoryBar class="categoryBar"></categoryBar>
+        <!-- skeleton -->
+        <template v-if="(!FEED.length > 0)">
+            <recommendationSkeleton v-for="number in 5" :key="number"></recommendationSkeleton>
+        </template>
         <template v-for="feed in FEED">
             <postBox v-if="feed.postType == 'post'" :key="feed.id" :postData="feed"></postBox>
             <recommendationBox v-if="feed.postType == 'recommendation'" :key="feed.id" :recommendation="feed">
@@ -22,6 +26,7 @@ import recommendationBox from '../components/recommendationBox.vue'
 import postBox from '../components/postBox.vue'
 import { mapGetters } from 'vuex'
 import askedRecommendation from './askedRecommendation.vue'
+import recommendationSkeleton from './skeletonRecommendation.vue'
 export default {
     components: {
         todaysRecommendation,
@@ -29,7 +34,8 @@ export default {
         sectionButton,
         recommendationBox,
         postBox,
-        askedRecommendation
+        askedRecommendation,
+        recommendationSkeleton
     },
     data() {
         return {

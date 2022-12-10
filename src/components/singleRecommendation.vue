@@ -1,107 +1,110 @@
 <template>
-
-    <div ref="recommendation" class="recommendation-box-component">
-        <div v-if="!deleted || recommendation" class="recommendationcontainer">
-            <div class="recommendation-info">
-                <span style="margin-left: 6px;">{{ recommendation.recommender_name }}</span>
-                <span @click="showOptions = !showOptions" style="position: absolute; right: 28px; top: 4px; ">
-                    <i class="bi bi-three-dots"></i></span>
-            </div>
-            <hr>
-            <article>
-                <div style="display: flex; " class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object recommendedimage" :src='imageURL' alt="Image">
-                    </a>
-                    <div class="recommendation-content-text">
-                        <div style="color:#818384">
-                            <small>{{ recommendation.category }}</small>
-                            <i :class="{
-                                'bi bi-music-note-beamed': recommendation.category === 'Music',
-                                'bi bi-film': recommendation.category === 'Movie',
-                                'bi bi-controller': recommendation.category === 'Game',
-                                'bi bi-book': recommendation.category === 'Book',
-                                'bi bi-person': recommendation.category === 'Artiste',
-                                'bi bi-person': recommendation.category === 'Actor',
-                                'typeicon': true
-                            }">
-                            </i>
+    <div>
+        <recommendationSkeleton v-if="!recommendation"></recommendationSkeleton>
+        <div v-if="recommendation" ref="recommendation" class="recommendation-box-component">
+            <div v-if="!deleted || recommendation" class="recommendationcontainer">
+                <div class="recommendation-info">
+                    <span style="margin-left: 6px;">{{ recommendation.recommender_name }}</span>
+                    <span @click="showOptions = !showOptions" style="position: absolute; right: 28px; top: 4px; ">
+                        <i class="bi bi-three-dots"></i></span>
+                </div>
+                <hr>
+                <article>
+                    <div style="display: flex; " class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object recommendedimage" :src='imageURL' alt="Image">
+                        </a>
+                        <div class="recommendation-content-text">
+                            <div style="color:#818384">
+                                <small>{{ recommendation.category }}</small>
+                                <i :class="{
+                                    'bi bi-music-note-beamed': recommendation.category === 'Music',
+                                    'bi bi-film': recommendation.category === 'Movie',
+                                    'bi bi-controller': recommendation.category === 'Game',
+                                    'bi bi-book': recommendation.category === 'Book',
+                                    'bi bi-person': recommendation.category === 'Artiste',
+                                    'bi bi-person': recommendation.category === 'Actor',
+                                    'typeicon': true
+                                }">
+                                </i>
+                            </div>
+                            <h5 class="recommendeditemname">{{ recommendation.header }}</h5>
+                            <p>{{ recommendation.content }}</p>
                         </div>
-                        <h5 class="recommendeditemname">{{ recommendation.header }}</h5>
-                        <p>{{ recommendation.content }}</p>
                     </div>
-                </div>
-            </article>
+                </article>
 
-            <!--recommend-box-bottom-->
-            <div style="margin: 0px 5px;" class="recommend-box-bottom">
-                <div class="post-interactions">
-                    <!--up-->
-                    <span @click="Upvote">
-                        <i ref="up" :class="['bi bi-caret-up-fill', { upvoted: UPVOTEDON }]"></i>
-                        <small>{{ UPVOTES }}</small>
-                    </span>
+                <!--recommend-box-bottom-->
+                <div style="margin: 0px 5px;" class="recommend-box-bottom">
+                    <div class="post-interactions">
+                        <!--up-->
+                        <span @click="Upvote">
+                            <i ref="up" :class="['bi bi-caret-up-fill', { upvoted: UPVOTEDON }]"></i>
+                            <small>{{ UPVOTES }}</small>
+                        </span>
 
-                    <!--down-->
+                        <!--down-->
 
-                    <span @click="Downvote">
-                        <i ref="down" :class="['bi bi-caret-down-fill', { downvoted: DOWNVOTEDON }]"></i>
-                        <small>{{ recommendation.downvotes }}</small>
+                        <span @click="Downvote">
+                            <i ref="down" :class="['bi bi-caret-down-fill', { downvoted: DOWNVOTEDON }]"></i>
+                            <small>{{ recommendation.downvotes }}</small>
 
-                    </span>
-                    <span style="margin:5px" class="options">
-                        <!--comments-->
-                        <i class="bi bi-chat-dots"></i>
-                        <small>{{ recommendation.number_of_comments }}</small>
-                    </span>
-                    <span @click="save" v-bind:class="{ saved: SAVED, options: true }">
-                        <i class="fa fa-bookmark"></i>
-                        <small>Save</small>
-                    </span>
-                </div>
-                <div>
-                    <span>{{ DATE }}</span>
-                </div>
-            </div>
-            <!--options-->
-            <transition name="showReply">
-                <div v-show="showOptions" id="recommendationoptions">
-                    <div v-bind:class="{ saved: SAVED, option: true }" @click="save"><i class="fa fa-bookmark"></i> Save
+                        </span>
+                        <span style="margin:5px" class="options">
+                            <!--comments-->
+                            <i class="bi bi-chat-dots"></i>
+                            <small>{{ recommendation.number_of_comments }}</small>
+                        </span>
+                        <span @click="save" v-bind:class="{ saved: SAVED, options: true }">
+                            <i class="fa fa-bookmark"></i>
+                            <small>Save</small>
+                        </span>
                     </div>
-                    <div class="option"> <i class="bi bi-share"></i> Share</div>
-                    <!-- <div class="option"> <i class="fa fa-edit"></i> Edit</div> -->
-                    <div class="option"> <i class="bi bi-megaphone"></i> Report</div>
-                    <div v-show="BELONGSTOUSER" @click="deleteRecommendation" class="option"> <i
-                            class="bi bi-trash"></i> Delete</div>
-                </div>
-            </transition>
-            <!--comments-->
-            <div v-show="showComments" class="commentdialogue">
-                <div class="comments">
-                    <comment v-for="(comment_, commentIndex) in comments" :key="comment_.comment_id"
-                        :commentIndex="commentIndex" :comment="comment_" :recommendation="recommendation">
-
-                    </comment>
                     <div>
-                        <p v-show="false"
-                            style="display: flex; justify-content: center;  align-items:center;   position: absolute; top: 50%; left: 48%;  margin-left: -60px; font-size: 1.5em; ">
-                            No comments</p>
+                        <span>{{ DATE }}</span>
+                    </div>
+                </div>
+                <!--options-->
+                <transition name="showReply">
+                    <div v-show="showOptions" id="recommendationoptions">
+                        <div v-bind:class="{ saved: SAVED, option: true }" @click="save"><i class="fa fa-bookmark"></i>
+                            Save
+                        </div>
+                        <div class="option"> <i class="bi bi-share"></i> Share</div>
+                        <!-- <div class="option"> <i class="fa fa-edit"></i> Edit</div> -->
+                        <div class="option"> <i class="bi bi-megaphone"></i> Report</div>
+                        <div v-show="BELONGSTOUSER" @click="deleteRecommendation" class="option"> <i
+                                class="bi bi-trash"></i> Delete</div>
+                    </div>
+                </transition>
+                <!--comments-->
+                <div v-show="showComments" class="commentdialogue">
+                    <div class="comments">
+                        <comment v-for="(comment_, commentIndex) in comments" :key="comment_.comment_id"
+                            :commentIndex="commentIndex" :comment="comment_" :recommendation="recommendation">
+
+                        </comment>
+                        <div>
+                            <p v-show="false"
+                                style="display: flex; justify-content: center;  align-items:center;   position: absolute; top: 50%; left: 48%;  margin-left: -60px; font-size: 1.5em; ">
+                                No comments</p>
+                        </div>
+
+                    </div>
+                    <div class="makecomment">
+                        <textarea name="comment" cols="30" rows="10" class="commentinput" v-model="comment"></textarea>
+                        <button class="commentbutton" @click="makeComment">Comment</button>
                     </div>
 
                 </div>
-                <div class="makecomment">
-                    <textarea name="comment" cols="30" rows="10" class="commentinput" v-model="comment"></textarea>
-                    <button class="commentbutton" @click="makeComment">Comment</button>
-                </div>
-
             </div>
-        </div>
 
-        <div v-if="deleted" class="delete-message">
-            <span>Recommendation has been deleted</span>
-        </div>
-        <div v-if="errorOccurred">
-            <span>{{ errorMessage }}</span>
+            <div v-if="deleted" class="delete-message">
+                <span>Recommendation has been deleted</span>
+            </div>
+            <div v-if="errorOccurred">
+                <span>{{ errorMessage }}</span>
+            </div>
         </div>
     </div>
 </template>
@@ -114,9 +117,11 @@ import comment from '@/components/comment.vue'
 import { bus } from '../main'
 import moment from 'moment'
 import { deleteObject, ref } from '@firebase/storage'
+import recommendationSkeleton from '../components/skeletonRecommendation.vue'
 export default {
     components: {
-        comment
+        comment,
+        recommendationSkeleton
     },
     data() {
         return {

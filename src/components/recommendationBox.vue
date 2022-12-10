@@ -27,7 +27,7 @@
                                 </i>
                             </div>
                             <h5 class="recommendeditemname">{{ recommendation.header }}</h5>
-                            <p>{{ recommendation.content }}</p>
+                            <p>{{ recommendation.content | snippet }}</p>
                         </div>
                     </div>
                 </article>
@@ -95,7 +95,8 @@ export default {
             showOptions: false,
             upvoted: false,
             downvoted: false,
-            saved: false
+            saved: false,
+            isReacting: false
 
         }
     },
@@ -111,35 +112,45 @@ export default {
         async Upvote() {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
+            // if the request is being made do nothing
+            if (this.isReacting) return
+            // if post not upvoted upvote 
             if (!this.UPVOTEDON) {
                 this.upvoted = true
+                this.isReacting = true
                 updateDoc(recommendationDoc, {
                     upvotes: increment(1)
                 })
-                    .then(() => {
+                    .then(async () => {
                         this.UPVOTES = 1
                         this.upvoted = true
                         this.$store.dispatch('authStore/upvote', this.recommendation.id)
-                        updateDoc(userDoc, {
+                        await updateDoc(userDoc, {
                             upvotes: arrayUnion(this.recommendation.id)
                         })
+                        this.isReacting = false
                     })
                     .catch(() => {
                         this.upvoted = false
 
                     })
-            } else {
+            }
+            // else if it has already been upvoted
+            else {
+                // if post already upvoted 
                 if (this.upvoted == true) {
                     this.upvoted = false
+                    this.isReacting = true
                     updateDoc(recommendationDoc, {
                         upvotes: increment(-1)
                     })
-                        .then(() => {
+                        .then(async () => {
                             this.UPVOTES = -1
                             this.$store.dispatch('authStore/removeUpvote', this.recommendation.id)
-                            updateDoc(userDoc, {
+                            await updateDoc(userDoc, {
                                 upvotes: arrayRemove(this.recommendation.id)
                             })
+                            this.isReacting = false
 
                         })
                         .catch(() => {
@@ -152,33 +163,39 @@ export default {
         async Downvote() {
             const recommendationDoc = doc(firestore, `/recommendations/${this.recommendation.id}`)
             const userDoc = doc(firestore, `/users/${this.user_id}`)
+            // if the request is being made do nothing
+            if (this.isReacting) return
+            // if post not downvoted downvote 
             if (!this.DOWNVOTEDON) {
                 this.downvoted = true
+                this.isReacting = true
                 updateDoc(recommendationDoc, {
                     downvotes: increment(1)
                 })
-                    .then(() => {
+                    .then(async () => {
                         this.DOWNVOTES = 1
                         this.downvote = true
                         this.$store.dispatch('authStore/downvote', this.recommendation.id)
                         this.downvoted = true
-                        updateDoc(userDoc, {
+                        await updateDoc(userDoc, {
                             downvotes: arrayUnion(this.recommendation.id)
                         })
+                        this.isReacting = false
                     })
             } else {
                 if (this.downvoted == true) {
                     this.downvoted = false
+                    this.isReacting = true
                     updateDoc(recommendationDoc, {
                         downvotes: increment(-1)
                     })
-                        .then(() => {
+                        .then(async () => {
                             this.DOWNVOTES = -1
                             this.$store.dispatch('authStore/removeDownvote', this.recommendation.id)
-                            updateDoc(userDoc, {
+                            await updateDoc(userDoc, {
                                 downvotes: arrayRemove(this.recommendation.id)
                             })
-
+                            this.isReacting = false
                         })
                 }
             }

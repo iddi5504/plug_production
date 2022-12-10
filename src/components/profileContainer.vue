@@ -234,9 +234,7 @@ export default {
         font-size: var(--detailsfs);
         color: var(--textcolorimportant);
         text-align: center;
-        padding: 5px;
         gap: 2px;
-
 
         .collection {
             display: flex;

@@ -390,7 +390,6 @@ a {
     padding: 4px 10px;
     color: var(--contenttext);
     word-break: break-word;
-    max-height: 105px;
 }
 
 .showSucess-enter-active,

@@ -9,6 +9,7 @@ const authStore = {
         downvotes: [],
         savedAskedRecommendations: [],
         savedRecommendations: [],
+        savedPosts: [],
         number_of_recommendationsAsked: null,
         number_of_recommendations: null,
         number_of_posts: null
@@ -29,7 +30,7 @@ const authStore = {
             return state.isAuthenticated;
         },
         NUMBER_OF_SAVES(state) {
-            const number_of_saves = state.savedAskedRecommendations.length + state.savedRecommendations.length
+            const number_of_saves = state.savedAskedRecommendations.length + state.savedPosts.length + state.savedRecommendations.length
             return number_of_saves
         }
     },
@@ -43,6 +44,7 @@ const authStore = {
             state.downvotes = user.downvotes;
             state.savedAskedRecommendations = user.savedAskedRecommendations;
             state.savedRecommendations = user.savedRecommendations;
+            state.savedPosts = user.savedPosts;
             state.number_of_posts = user.number_of_posts;
             state.number_of_recommendations = user.number_of_recommendations;
             state.number_of_recommendationsAsked = user.number_of_recommendationsAsked;
@@ -81,6 +83,9 @@ const authStore = {
             }
             if (item.saveType == 'Recommendation') {
                 state.savedRecommendations.push(itemId);
+            }
+            if (item.saveType == 'Post') {
+                state.savedPosts.push(itemId);
             }
 
         },

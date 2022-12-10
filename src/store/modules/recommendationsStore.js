@@ -233,7 +233,7 @@ export const recommendationsStore = {
             context.commit('setMovieFeed')
             context.commit('setBookFeed')
             context.commit('setGameFeed')
-            // context.commit('setAllFeed')
+            context.commit('setAllFeed')
 
 
 

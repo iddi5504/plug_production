@@ -7,6 +7,7 @@ export const profileStore = {
         saves: [],
         userRecommendations: [],
         usersAskedRecommendations: [],
+        userPosts: [],
         saves: []
     },
     getters: {
@@ -17,6 +18,9 @@ export const profileStore = {
             }
             if (selectFeed == 'usersAskedRecommendations') {
                 return state.usersAskedRecommendations
+            }
+            if (selectFeed == 'userPosts') {
+                return state.userPosts
             }
             if (selectFeed == 'saved') {
                 return state.saves
@@ -30,6 +34,9 @@ export const profileStore = {
         setUsersAskedRecommendations(state, usersAskedRecommendations) {
             state.usersAskedRecommendations = usersAskedRecommendations
         },
+        setUserPost(state, userPosts) {
+            state.userPosts = userPosts
+        },
         setSaves(state, saves) {
             state.saves = saves
         },
@@ -40,6 +47,7 @@ export const profileStore = {
             if (payload == 'saved') {
                 const savedRecommendationIds = context.rootState.authStore.savedRecommendations
                 const savedAskedRecommendationIds = context.rootState.authStore.savedAskedRecommendations
+                const savedPostIds = context.rootState.authStore.savedPosts
                 // check if saves already fetched if no fetch from firestore
                 if (context.state.saves.length > 0) return
                 // loop through saved recommendations
@@ -53,6 +61,11 @@ export const profileStore = {
                     const askedRecommendationDoc = doc(firestore, 'AskedRecommendations', askedRecommendationId)
                     const askedRecommendation = await getDoc(askedRecommendationDoc)
                     saves.push(askedRecommendation.data())
+                })
+                savedPostIds.forEach(async (savedPostId) => {
+                    const PostDoc = doc(firestore, 'Posts', savedPostId)
+                    const Post = await getDoc(PostDoc)
+                    saves.push(Post.data())
                 })
                 _.shuffle(saves)
                 context.commit('setSaves', saves)
@@ -78,6 +91,15 @@ export const profileStore = {
                     usersAskedRecommendations.push(userAskedRecommendation.data())
                 });
                 context.commit('setUsersAskedRecommendations', usersAskedRecommendations)
+            }
+            if (payload == 'userPosts') {
+                const userPostQuery = query(collection(firestore, 'Posts'), where('user_id', '==', user_id), orderBy('date', 'desc'), limit(3))
+                const userPostDocs = await getDocs(userPostQuery)
+                const userPosts = []
+                userPostDocs.forEach(userAskedRecommendation => {
+                    userPosts.push(userAskedRecommendation.data())
+                });
+                context.commit('setUserPost', userPosts)
             }
         },
 

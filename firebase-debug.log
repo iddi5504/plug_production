@@ -1572,3 +1572,297 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
 [debug] [2022-12-07T21:54:08.741Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"specversion":"1","id":"4bb270d7-0b44-4d10-b128-782414ba837b","type":"google.cloud.storage.object.v1.finalized","source":"//storage.googleapis.com/projects/_/buckets/plug-ce91b.appspot.com/objects/recommendationImages/Default Image","time":"2022-12-07T21:54:08.728Z","data":{"kind":"storage#object","name":"recommendationImages/Default Image","bucket":"plug-ce91b.appspot.com","generation":"1670450048728","metageneration":"1","contentType":"application/octet-stream","timeCreated":"2022-12-07T21:54:08.728Z","updated":"2022-12-07T21:54:08.728Z","storageClass":"STANDARD","size":"9","md5Hash":"XlQyVsSArFd9MPdvkSDrdA==","etag":"pxQWA34Q7zwUBTeBDkAnhVgIDaw","metadata":{"firebaseStorageDownloadTokens":"e058dcb7-f888-41ab-b5c4-67b6a67aba53"},"crc32c":"UpgklA==","timeStorageClassUpdated":"2022-12-07T21:54:08.728Z","id":"plug-ce91b.appspot.com/recommendationImages/Default Image/1670450048728","selfLink":"http://127.0.0.1:9199/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2FDefault%20Image","mediaLink":"http://127.0.0.1:9199/download/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2FDefault%20Image?generation=1670450048728&alt=media"}}
 [debug] [2022-12-07T21:54:08.745Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
 [debug] [2022-12-07T21:54:08.745Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2022-12-08T00:06:04.698Z] Received signal SIGHUP 1
+[debug] [2022-12-08T13:02:53.613Z] ----------------------------------------------------------------------
+[debug] [2022-12-08T13:02:53.619Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2022-12-08T13:02:53.620Z] CLI Version:   11.15.0
+[debug] [2022-12-08T13:02:53.620Z] Platform:      win32
+[debug] [2022-12-08T13:02:53.620Z] Node Version:  v16.15.0
+[debug] [2022-12-08T13:02:53.623Z] Time:          Thu Dec 08 2022 13:02:53 GMT+0000 (Greenwich Mean Time)
+[debug] [2022-12-08T13:02:53.624Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-12-08T13:02:53.635Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2022-12-08T13:02:53.958Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-12-08T13:02:53.959Z] > authorizing via signed-in user (iddi5504@gmail.com)
+[warn] !  Unable to fetch the CLI MOTD and remote config. 
+[debug] [2022-12-08T13:02:54.049Z] Failed to fetch MOTD FirebaseError: Failed to make request to https://firebase-public.firebaseio.com/cli.json
+[debug] [2022-12-08T13:02:54.937Z] java version "19.0.1" 2022-10-18
+
+[debug] [2022-12-08T13:02:54.938Z] Java(TM) SE Runtime Environment (build 19.0.1+10-21)
+Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)
+
+[debug] [2022-12-08T13:02:54.973Z] Parsed Java major version: 19
+[info] i  emulators: Starting emulators: auth, functions, firestore, database, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, database, storage"}}
+[debug] [2022-12-08T13:02:55.037Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-08T13:02:55.038Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-08T13:02:55.039Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-08T13:02:55.039Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-08T13:02:55.039Z] [database] Database Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-08T13:02:55.040Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-08T13:02:55.041Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8081}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project plug-ce91b. This may result in unexpected behavior. 
+[debug] [2022-12-08T13:02:55.074Z] [hub] writing locator at C:\Users\user\AppData\Local\Temp\hub-plug-ce91b.json
+[debug] [2022-12-08T13:02:55.114Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-08T13:02:55.115Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-08T13:02:55.115Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8081}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: hosting, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mhosting, pubsub\u001b[22m"}}
+[info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
+[debug] [2022-12-08T13:02:55.183Z] defaultcredentials: writing to file C:\Users\user\AppData\Roaming\firebase\iddi5504_gmail_com_application_default_credentials.json
+[debug] [2022-12-08T13:02:55.192Z] Setting GAC to C:\Users\user\AppData\Roaming\firebase\iddi5504_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\user\\AppData\\Roaming\\firebase\\iddi5504_gmail_com_application_default_credentials.json"}}
+[debug] [2022-12-08T13:02:55.196Z] > refreshing access token with scopes: []
+[debug] [2022-12-08T13:02:55.199Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-12-08T13:02:55.200Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-12-08T13:02:55.209Z] Failed to get Admin SDK config for plug-ce91b, falling back to cacheFailed to get Admin SDK for Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"exit":1,"message":"Authentication Error: Your credentials are no longer valid. Please run \u001b[1mfirebase login --reauth\u001b[22m\n\nFor CI servers and headless environments, generate a new token with \u001b[1mfirebase login:ci\u001b[22m","status":500},"status":500}
+[warn] !  functions: Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect. {"metadata":{"emulator":{"name":"functions"},"message":"Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect."}}
+[debug] [2022-12-08T13:02:55.265Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-12-08T13:02:55.266Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2022-12-08T13:02:55.266Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\user\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.15.1.jar","--host","127.0.0.1","--port",8081,"--websocket_port",9150,"--project_id","plug-ce91b","--rules","C:\\Users\\user\\Desktop\\plug_development\\firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.15.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8081,\"--websocket_port\",9150,\"--project_id\",\"plug-ce91b\",\"--rules\",\"C:\\\\Users\\\\user\\\\Desktop\\\\plug_development\\\\firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2022-12-08T13:03:03.410Z] > refreshing access token with scopes: []
+[debug] [2022-12-08T13:03:03.413Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-12-08T13:03:03.414Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-12-08T13:03:03.424Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2022-12-08T13:03:03.424Z] Failed to retrieve default database instance: {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"exit":1,"message":"Authentication Error: Your credentials are no longer valid. Please run \u001b[1mfirebase login --reauth\u001b[22m\n\nFor CI servers and headless environments, generate a new token with \u001b[1mfirebase login:ci\u001b[22m","status":500},"status":500} {"metadata":{"emulator":{"name":"database"},"message":"Failed to retrieve default database instance: {\"name\":\"FirebaseError\",\"children\":[],\"exit\":2,\"message\":\"Failed to get Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.\",\"original\":{\"name\":\"FirebaseError\",\"children\":[],\"exit\":1,\"message\":\"Authentication Error: Your credentials are no longer valid. Please run \\u001b[1mfirebase login --reauth\\u001b[22m\\n\\nFor CI servers and headless environments, generate a new token with \\u001b[1mfirebase login:ci\\u001b[22m\",\"status\":500},\"status\":500}"}}
+[debug] [2022-12-08T13:03:03.426Z] database rules config:  []
+[warn] !  database: Did not find a Realtime Database rules file specified in a firebase.json config file. The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"database"},"message":"Did not find a Realtime Database rules file specified in a firebase.json config file. The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
+[debug] [2022-12-08T13:03:03.451Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-12-08T13:03:03.452Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-12-08T13:03:03.452Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
+[debug] [2022-12-08T13:03:03.453Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","C:\\Users\\user\\.cache\\firebase\\emulators\\firebase-database-emulator-v4.10.0.jar","--host","127.0.0.1","--port",9000,"--single_project_mode","Warning","--functions_emulator_host","127.0.0.1","--functions_emulator_port",5001],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\firebase-database-emulator-v4.10.0.jar\",\"--host\",\"127.0.0.1\",\"--port\",9000,\"--single_project_mode\",\"Warning\",\"--functions_emulator_host\",\"127.0.0.1\",\"--functions_emulator_port\",5001],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
+[debug] [2022-12-08T13:03:32.682Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-12-08T13:03:38.151Z] Temp file directory for storage emulator: C:\Users\user\AppData\Local\Temp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: C:\\Users\\user\\AppData\\Local\\Temp/firebase/storage/blobs"}}
+[debug] [2022-12-08T13:03:38.205Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-12-08T13:03:38.206Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-12-08T13:03:38.206Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\user\\.cache\\firebase\\emulators\\ui-v1.11.1\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.1\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2022-12-08T13:03:38.648Z] Web / API server started at 127.0.0.1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
+[debug] [2022-12-08T13:03:38.649Z] Web / API server started at ::1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
+[info] i  functions: Watching "C:\Users\user\Desktop\plug_development\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\user\\Desktop\\plug_development\\functions\" for Cloud Functions..."}}
+[debug] [2022-12-08T13:03:38.769Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2022-12-08T13:04:54.924Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-12-08T13:04:54.925Z] Building nodejs source
+[debug] [2022-12-08T13:04:54.926Z] Analyzing nodejs backend spec
+[debug] [2022-12-08T13:04:54.935Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-12-08T13:04:55.632Z] Serving at port 9005
+
+[debug] [2022-12-08T13:04:55.870Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-12-08T13:04:55.885Z] shutdown requested via /__/quitquitquit
+
+[info] +  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬────────────────┬─────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI             │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Authentication │ 127.0.0.1:9099 │ http://127.0.0.1:4000/auth      │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Functions      │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Firestore      │ 127.0.0.1:8081 │ http://127.0.0.1:4000/firestore │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Database       │ 127.0.0.1:9000 │ http://127.0.0.1:4000/database  │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Storage        │ 127.0.0.1:9199 │ http://127.0.0.1:4000/storage   │
+└────────────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500, 9150
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2022-12-08T13:08:49.555Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-12-08T13:08:49.555Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"eventId":"5f8b15ac-37e8-411a-9c0e-48819b2c9d49","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/plug-ce91b","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2022-12-08T13:08:49.552Z","data":{"uid":"dbjuJBEPf9WJGLPq3YBoNGjevL6s","email":"cxcc@fdfd.bjgh","emailVerified":false,"metadata":{"creationTime":"2022-12-08T13:08:49.549Z","lastSignInTime":"2022-12-08T13:08:49.549Z"},"customClaims":{},"providerData":[{"providerId":"password","email":"cxcc@fdfd.bjgh","federatedId":"cxcc@fdfd.bjgh","rawId":"cxcc@fdfd.bjgh"}]}}
+[debug] [2022-12-08T13:08:49.573Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-12-08T13:08:49.573Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2022-12-08T13:09:37.231Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-12-08T13:09:37.232Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"eventId":"1670504977230","timestamp":"2022-12-08T13:09:37.230Z","eventType":"google.storage.object.finalize","resource":{"service":"storage.googleapis.com","name":"projects/_/buckets/plug-ce91b.appspot.com/objects/recommendationImages/Default Image","type":"storage#object"},"data":{"kind":"storage#object","name":"recommendationImages/Default Image","bucket":"plug-ce91b.appspot.com","generation":"1670504976817","metageneration":"1","contentType":"application/octet-stream","timeCreated":"2022-12-08T13:09:36.818Z","updated":"2022-12-08T13:09:36.818Z","storageClass":"STANDARD","size":"9","md5Hash":"XlQyVsSArFd9MPdvkSDrdA==","etag":"37fRSSlvF4nZeNTITw9GWS+ak7U","metadata":{"firebaseStorageDownloadTokens":"9f75ade1-64d7-4efa-a108-00cf8a47d591"},"crc32c":"UpgklA==","timeStorageClassUpdated":"2022-12-08T13:09:36.818Z","id":"plug-ce91b.appspot.com/recommendationImages/Default Image/1670504976817","selfLink":"http://127.0.0.1:9199/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2FDefault%20Image","mediaLink":"http://127.0.0.1:9199/download/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2FDefault%20Image?generation=1670504976817&alt=media"}}
+[debug] [2022-12-08T13:09:37.248Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-12-08T13:09:37.249Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2022-12-08T13:09:37.251Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-12-08T13:09:37.252Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"specversion":"1","id":"2c5514a5-2745-4d53-9a6c-85001f901927","type":"google.cloud.storage.object.v1.finalized","source":"//storage.googleapis.com/projects/_/buckets/plug-ce91b.appspot.com/objects/recommendationImages/Default Image","time":"2022-12-08T13:09:36.818Z","data":{"kind":"storage#object","name":"recommendationImages/Default Image","bucket":"plug-ce91b.appspot.com","generation":"1670504976817","metageneration":"1","contentType":"application/octet-stream","timeCreated":"2022-12-08T13:09:36.818Z","updated":"2022-12-08T13:09:36.818Z","storageClass":"STANDARD","size":"9","md5Hash":"XlQyVsSArFd9MPdvkSDrdA==","etag":"37fRSSlvF4nZeNTITw9GWS+ak7U","metadata":{"firebaseStorageDownloadTokens":"9f75ade1-64d7-4efa-a108-00cf8a47d591"},"crc32c":"UpgklA==","timeStorageClassUpdated":"2022-12-08T13:09:36.818Z","id":"plug-ce91b.appspot.com/recommendationImages/Default Image/1670504976817","selfLink":"http://127.0.0.1:9199/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2FDefault%20Image","mediaLink":"http://127.0.0.1:9199/download/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2FDefault%20Image?generation=1670504976817&alt=media"}}
+[debug] [2022-12-08T13:09:37.271Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-12-08T13:09:37.272Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[error] 
+[debug] [2022-12-10T18:35:36.795Z] ----------------------------------------------------------------------
+[debug] [2022-12-10T18:35:36.802Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2022-12-10T18:35:36.803Z] CLI Version:   11.15.0
+[debug] [2022-12-10T18:35:36.803Z] Platform:      win32
+[debug] [2022-12-10T18:35:36.804Z] Node Version:  v16.15.0
+[debug] [2022-12-10T18:35:36.807Z] Time:          Sat Dec 10 2022 18:35:36 GMT+0000 (Greenwich Mean Time)
+[debug] [2022-12-10T18:35:36.807Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-12-10T18:35:36.865Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2022-12-10T18:35:37.170Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-12-10T18:35:37.170Z] > authorizing via signed-in user (iddi5504@gmail.com)
+[warn] !  Unable to fetch the CLI MOTD and remote config. 
+[debug] [2022-12-10T18:35:37.251Z] Failed to fetch MOTD FirebaseError: Failed to make request to https://firebase-public.firebaseio.com/cli.json
+[debug] [2022-12-10T18:35:43.048Z] java version "19.0.1" 2022-10-18
+
+[debug] [2022-12-10T18:35:43.049Z] Java(TM) SE Runtime Environment (build 19.0.1+10-21)
+Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)
+
+[debug] [2022-12-10T18:35:43.273Z] Parsed Java major version: 19
+[info] i  emulators: Starting emulators: auth, functions, firestore, database, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, database, storage"}}
+[debug] [2022-12-10T18:35:43.345Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-10T18:35:43.346Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-10T18:35:43.346Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-10T18:35:43.347Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-10T18:35:43.347Z] [database] Database Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-10T18:35:43.347Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-10T18:35:43.348Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8081}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project plug-ce91b. This may result in unexpected behavior. 
+[debug] [2022-12-10T18:35:43.380Z] [hub] writing locator at C:\Users\user\AppData\Local\Temp\hub-plug-ce91b.json
+[debug] [2022-12-10T18:35:43.420Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-10T18:35:43.422Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-12-10T18:35:43.422Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8081}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: hosting, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mhosting, pubsub\u001b[22m"}}
+[info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
+[debug] [2022-12-10T18:35:43.532Z] defaultcredentials: writing to file C:\Users\user\AppData\Roaming\firebase\iddi5504_gmail_com_application_default_credentials.json
+[debug] [2022-12-10T18:35:43.538Z] Setting GAC to C:\Users\user\AppData\Roaming\firebase\iddi5504_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\user\\AppData\\Roaming\\firebase\\iddi5504_gmail_com_application_default_credentials.json"}}
+[debug] [2022-12-10T18:35:43.540Z] > refreshing access token with scopes: []
+[debug] [2022-12-10T18:35:43.542Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-12-10T18:35:43.542Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-12-10T18:35:43.546Z] Failed to get Admin SDK config for plug-ce91b, falling back to cacheFailed to get Admin SDK for Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"exit":1,"message":"Authentication Error: Your credentials are no longer valid. Please run \u001b[1mfirebase login --reauth\u001b[22m\n\nFor CI servers and headless environments, generate a new token with \u001b[1mfirebase login:ci\u001b[22m","status":500},"status":500}
+[warn] !  functions: Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect. {"metadata":{"emulator":{"name":"functions"},"message":"Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect."}}
+[debug] [2022-12-10T18:35:43.601Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-12-10T18:35:43.602Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2022-12-10T18:35:43.602Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\user\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.15.1.jar","--host","127.0.0.1","--port",8081,"--websocket_port",9150,"--project_id","plug-ce91b","--rules","C:\\Users\\user\\Desktop\\plug_development\\firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.15.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8081,\"--websocket_port\",9150,\"--project_id\",\"plug-ce91b\",\"--rules\",\"C:\\\\Users\\\\user\\\\Desktop\\\\plug_development\\\\firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2022-12-10T18:35:59.993Z] > refreshing access token with scopes: []
+[debug] [2022-12-10T18:35:59.994Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-12-10T18:35:59.994Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-12-10T18:35:59.997Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2022-12-10T18:35:59.997Z] Failed to retrieve default database instance: {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"exit":1,"message":"Authentication Error: Your credentials are no longer valid. Please run \u001b[1mfirebase login --reauth\u001b[22m\n\nFor CI servers and headless environments, generate a new token with \u001b[1mfirebase login:ci\u001b[22m","status":500},"status":500} {"metadata":{"emulator":{"name":"database"},"message":"Failed to retrieve default database instance: {\"name\":\"FirebaseError\",\"children\":[],\"exit\":2,\"message\":\"Failed to get Firebase project plug-ce91b. Please make sure the project exists and your account has permission to access it.\",\"original\":{\"name\":\"FirebaseError\",\"children\":[],\"exit\":1,\"message\":\"Authentication Error: Your credentials are no longer valid. Please run \\u001b[1mfirebase login --reauth\\u001b[22m\\n\\nFor CI servers and headless environments, generate a new token with \\u001b[1mfirebase login:ci\\u001b[22m\",\"status\":500},\"status\":500}"}}
+[debug] [2022-12-10T18:35:59.998Z] database rules config:  []
+[warn] !  database: Did not find a Realtime Database rules file specified in a firebase.json config file. The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"database"},"message":"Did not find a Realtime Database rules file specified in a firebase.json config file. The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
+[debug] [2022-12-10T18:36:00.006Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-12-10T18:36:00.007Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-12-10T18:36:00.007Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
+[debug] [2022-12-10T18:36:00.007Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","C:\\Users\\user\\.cache\\firebase\\emulators\\firebase-database-emulator-v4.10.0.jar","--host","127.0.0.1","--port",9000,"--single_project_mode","Warning","--functions_emulator_host","127.0.0.1","--functions_emulator_port",5001],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\firebase-database-emulator-v4.10.0.jar\",\"--host\",\"127.0.0.1\",\"--port\",9000,\"--single_project_mode\",\"Warning\",\"--functions_emulator_host\",\"127.0.0.1\",\"--functions_emulator_port\",5001],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
+[debug] [2022-12-10T18:36:31.500Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-12-10T18:36:35.792Z] Temp file directory for storage emulator: C:\Users\user\AppData\Local\Temp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: C:\\Users\\user\\AppData\\Local\\Temp/firebase/storage/blobs"}}
+[debug] [2022-12-10T18:36:35.824Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-12-10T18:36:35.824Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-12-10T18:36:35.825Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\user\\.cache\\firebase\\emulators\\ui-v1.11.1\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\user\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.1\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2022-12-10T18:36:36.134Z] Web / API server started at 127.0.0.1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
+[debug] [2022-12-10T18:36:36.135Z] Web / API server started at ::1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
+[info] i  functions: Watching "C:\Users\user\Desktop\plug_development\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\user\\Desktop\\plug_development\\functions\" for Cloud Functions..."}}
+[debug] [2022-12-10T18:36:36.381Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2022-12-10T18:37:52.983Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-12-10T18:37:52.984Z] Building nodejs source
+[debug] [2022-12-10T18:37:52.984Z] Analyzing nodejs backend spec
+[debug] [2022-12-10T18:37:52.996Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-12-10T18:37:55.079Z] Serving at port 9005
+
+[debug] [2022-12-10T18:37:55.595Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-12-10T18:37:55.625Z] shutdown requested via /__/quitquitquit
+
+[info] +  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬────────────────┬─────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI             │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Authentication │ 127.0.0.1:9099 │ http://127.0.0.1:4000/auth      │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Functions      │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Firestore      │ 127.0.0.1:8081 │ http://127.0.0.1:4000/firestore │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Database       │ 127.0.0.1:9000 │ http://127.0.0.1:4000/database  │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Storage        │ 127.0.0.1:9199 │ http://127.0.0.1:4000/storage   │
+└────────────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500, 9150
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2022-12-10T18:38:46.477Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-12-10T18:38:46.478Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"eventId":"43830d1e-1266-4a88-a54d-27d6283e70bb","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/plug-ce91b","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2022-12-10T18:38:46.473Z","data":{"uid":"1c879iD8BE1mwWa314XSvoCusqoj","email":"ffdf@hjjh.co","emailVerified":false,"metadata":{"creationTime":"2022-12-10T18:38:46.468Z","lastSignInTime":"2022-12-10T18:38:46.468Z"},"customClaims":{},"providerData":[{"providerId":"password","email":"ffdf@hjjh.co","federatedId":"ffdf@hjjh.co","rawId":"ffdf@hjjh.co"}]}}
+[debug] [2022-12-10T18:38:46.507Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-12-10T18:38:46.508Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2022-12-10T18:40:43.564Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-12-10T18:40:43.565Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"eventId":"1670697643563","timestamp":"2022-12-10T18:40:43.563Z","eventType":"google.storage.object.finalize","resource":{"service":"storage.googleapis.com","name":"projects/_/buckets/plug-ce91b.appspot.com/objects/recommendationImages/pngwing.com (6).png","type":"storage#object"},"data":{"kind":"storage#object","name":"recommendationImages/pngwing.com (6).png","bucket":"plug-ce91b.appspot.com","generation":"1670697642674","metageneration":"1","contentType":"image/png","timeCreated":"2022-12-10T18:40:42.675Z","updated":"2022-12-10T18:40:42.675Z","storageClass":"STANDARD","size":"600989","md5Hash":"Ki3qncZyq4T0X/UCOzGM0w==","etag":"6wDapQ2wlW3yeFTN0L35EMHEznU","metadata":{"firebaseStorageDownloadTokens":"baf20e5d-1187-4a4c-a902-d6dad324a842"},"crc32c":"p1QMdw==","timeStorageClassUpdated":"2022-12-10T18:40:42.675Z","id":"plug-ce91b.appspot.com/recommendationImages/pngwing.com (6).png/1670697642674","selfLink":"http://127.0.0.1:9199/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2Fpngwing.com%20(6).png","mediaLink":"http://127.0.0.1:9199/download/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2Fpngwing.com%20(6).png?generation=1670697642674&alt=media"}}
+[debug] [2022-12-10T18:40:43.584Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-12-10T18:40:43.584Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2022-12-10T18:40:43.586Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-12-10T18:40:43.587Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"specversion":"1","id":"25d0e5c2-e3cc-4153-ac66-ebcb20ec281b","type":"google.cloud.storage.object.v1.finalized","source":"//storage.googleapis.com/projects/_/buckets/plug-ce91b.appspot.com/objects/recommendationImages/pngwing.com (6).png","time":"2022-12-10T18:40:42.675Z","data":{"kind":"storage#object","name":"recommendationImages/pngwing.com (6).png","bucket":"plug-ce91b.appspot.com","generation":"1670697642674","metageneration":"1","contentType":"image/png","timeCreated":"2022-12-10T18:40:42.675Z","updated":"2022-12-10T18:40:42.675Z","storageClass":"STANDARD","size":"600989","md5Hash":"Ki3qncZyq4T0X/UCOzGM0w==","etag":"6wDapQ2wlW3yeFTN0L35EMHEznU","metadata":{"firebaseStorageDownloadTokens":"baf20e5d-1187-4a4c-a902-d6dad324a842"},"crc32c":"p1QMdw==","timeStorageClassUpdated":"2022-12-10T18:40:42.675Z","id":"plug-ce91b.appspot.com/recommendationImages/pngwing.com (6).png/1670697642674","selfLink":"http://127.0.0.1:9199/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2Fpngwing.com%20(6).png","mediaLink":"http://127.0.0.1:9199/download/storage/v1/b/plug-ce91b.appspot.com/o/recommendationImages%2Fpngwing.com%20(6).png?generation=1670697642674&alt=media"}}
+[debug] [2022-12-10T18:40:43.600Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-12-10T18:40:43.600Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2022-12-10T18:46:32.344Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-12-10T18:46:32.345Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"eventId":"1670697992343","timestamp":"2022-12-10T18:46:32.343Z","eventType":"google.storage.object.finalize","resource":{"service":"storage.googleapis.com","name":"projects/_/buckets/plug-ce91b.appspot.com/objects/postMedia/Blue Modern Technology Business Presentation.png","type":"storage#object"},"data":{"kind":"storage#object","name":"postMedia/Blue Modern Technology Business Presentation.png","bucket":"plug-ce91b.appspot.com","generation":"1670697992287","metageneration":"1","contentType":"image/png","timeCreated":"2022-12-10T18:46:32.288Z","updated":"2022-12-10T18:46:32.288Z","storageClass":"STANDARD","size":"1040526","md5Hash":"ulhFdxkMS78s6T3cawUVTQ==","etag":"a99cPkUuPAngReQ/Cjjj3VVbzbw","metadata":{"firebaseStorageDownloadTokens":"68e91015-8d35-4cee-b67a-c0787431b41b"},"crc32c":"kluWIA==","timeStorageClassUpdated":"2022-12-10T18:46:32.288Z","id":"plug-ce91b.appspot.com/postMedia/Blue Modern Technology Business Presentation.png/1670697992287","selfLink":"http://127.0.0.1:9199/storage/v1/b/plug-ce91b.appspot.com/o/postMedia%2FBlue%20Modern%20Technology%20Business%20Presentation.png","mediaLink":"http://127.0.0.1:9199/download/storage/v1/b/plug-ce91b.appspot.com/o/postMedia%2FBlue%20Modern%20Technology%20Business%20Presentation.png?generation=1670697992287&alt=media"}}
+[debug] [2022-12-10T18:46:32.418Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-12-10T18:46:32.419Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2022-12-10T18:46:32.420Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast [none]
+[debug] [2022-12-10T18:46:32.421Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"specversion":"1","id":"c0d4b2e3-536a-4e6f-9af2-d001a6f9070b","type":"google.cloud.storage.object.v1.finalized","source":"//storage.googleapis.com/projects/_/buckets/plug-ce91b.appspot.com/objects/postMedia/Blue Modern Technology Business Presentation.png","time":"2022-12-10T18:46:32.288Z","data":{"kind":"storage#object","name":"postMedia/Blue Modern Technology Business Presentation.png","bucket":"plug-ce91b.appspot.com","generation":"1670697992287","metageneration":"1","contentType":"image/png","timeCreated":"2022-12-10T18:46:32.288Z","updated":"2022-12-10T18:46:32.288Z","storageClass":"STANDARD","size":"1040526","md5Hash":"ulhFdxkMS78s6T3cawUVTQ==","etag":"a99cPkUuPAngReQ/Cjjj3VVbzbw","metadata":{"firebaseStorageDownloadTokens":"68e91015-8d35-4cee-b67a-c0787431b41b"},"crc32c":"kluWIA==","timeStorageClassUpdated":"2022-12-10T18:46:32.288Z","id":"plug-ce91b.appspot.com/postMedia/Blue Modern Technology Business Presentation.png/1670697992287","selfLink":"http://127.0.0.1:9199/storage/v1/b/plug-ce91b.appspot.com/o/postMedia%2FBlue%20Modern%20Technology%20Business%20Presentation.png","mediaLink":"http://127.0.0.1:9199/download/storage/v1/b/plug-ce91b.appspot.com/o/postMedia%2FBlue%20Modern%20Technology%20Business%20Presentation.png?generation=1670697992287&alt=media"}}
+[debug] [2022-12-10T18:46:32.438Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast 200
+[debug] [2022-12-10T18:46:32.439Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/plug-ce91b/trigger_multicast {"status":"multicast_acknowledged"}
