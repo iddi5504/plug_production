@@ -27,15 +27,15 @@ export default {
             todaysrecommendation: [
                 {
                     type: 'Anime',
-                    recommendeditem: 'God of War',
-                    recommender: 'Iddi Yakubu',
-                    snippet: 'THis sisf sdfisdjfsd sdfifs sdoifs sdoifs fsdoifsd sdiofsd fsodifnsdf sdfoifsdnsd '
+                    recommendeditem: 'Demon slayer',
+                    recommender: 'Jeffery Dahmer',
+                    snippet: 'Best anime I have seen in a while. Totally recommended '
                 },
                 {
                     type: 'Anime',
-                    recommendeditem: 'God of War',
-                    recommender: 'Iddi Yakubu',
-                    snippet: 'THis sisf sdfisdjfsd sdfifs sdoifs sdoifs fsdoifsd sdiofsd fsodifnsdf sdfoifsdnsd '
+                    recommendeditem: 'One Peach',
+                    recommender: 'Iddi',
+                    snippet: 'If you are looking for a long interesting anime this your pic. It is amazing'
 
                 }
             ]
